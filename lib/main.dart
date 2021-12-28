@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Test branch Nam',
+      title: 'Test branch Nam 2',
       theme: ThemeData(backgroundColor: Colors.white),
       home: const LoginPage(),
     );

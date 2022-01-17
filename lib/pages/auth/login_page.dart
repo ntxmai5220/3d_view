@@ -30,8 +30,9 @@ class LoginPage extends StatelessWidget {
 
     _toMainPage() {
       debugPrint('to main');
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const MainPage()));
+      Navigator.pushNamed(context, 'main');
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (_) => const MainPage()));
     }
 
     String? validEmail(String? email) {
@@ -65,7 +66,7 @@ class LoginPage extends StatelessWidget {
       if (validation()) {
         //login success
         debugPrint('login');
-        // toMainPage();
+        _toMainPage();
       } else {
         debugPrint('error');
       }
@@ -73,7 +74,8 @@ class LoginPage extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-      child: Scaffold(backgroundColor: Colors.white,
+      child: Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [

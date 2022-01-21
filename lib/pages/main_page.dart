@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/blocs/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,13 +14,13 @@ class MainPage extends StatelessWidget {
       const HomePage(),
       const SearchPage(),
       const FollowedPage(),
-      const MorePage()
+      const MyPage()
     ];
     const List<Map<String, dynamic>> tabs = [
       {'icon': Icons.home_rounded, 'name': 'Trang chủ'},
       {'icon': Icons.search_rounded, 'name': 'Tìm kiếm'},
       {'icon': Icons.star_border_rounded, 'name': 'Theo dõi'},
-      {'icon': Icons.more_horiz_rounded, 'name': 'Thêm'}
+      {'icon': Icons.person_outline_rounded, 'name': 'Tôi'}
     ];
     List<BottomNavigationBarItem> items = tabs
         .map((tab) => BottomNavigationBarItem(
@@ -38,6 +39,8 @@ class MainPage extends StatelessWidget {
               selectedItemColor: AppColors.darkPrimary,
               unselectedItemColor: AppColors.secondary,
               selectedLabelStyle: AppStyles.selectedTab,
+              unselectedLabelStyle: AppStyles.unselectedTab,
+              showUnselectedLabels: true,
               currentIndex: state,
               onTap: (int index) {
                 BlocProvider.of<MainPageBloc>(context).add(OnChangePage(index));

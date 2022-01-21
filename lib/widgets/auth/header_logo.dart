@@ -36,8 +36,8 @@ class HeaderLogo extends StatelessWidget {
         ),
         Image.asset(
           AppAssets.appLogo,
-          height: 75,
-          width: 75,
+          height: AppConstants.logoSize,
+          width: AppConstants.logoSize,
         )
       ],
     );

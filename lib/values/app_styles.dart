@@ -48,6 +48,12 @@ class AppStyles {
       fontWeight: FontWeight.w500,
       fontSize: 12);
 
+  static const unselectedTab = TextStyle(
+      fontFamily: AppFonts.primary,
+      color: AppColors.secondary,
+      fontWeight: FontWeight.w500,
+      fontSize: 11);
+
   static const labelTopic = TextStyle(
       fontFamily: AppFonts.secondary,
       color: AppColors.darkPrimary,

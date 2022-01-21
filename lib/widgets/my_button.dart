@@ -19,7 +19,7 @@ class MyButton extends StatelessWidget {
           Text(
             label,
             style: AppStyles.buttonText.copyWith(
-              color: bgColor == AppColors.primary
+              color: bgColor == AppColors.primary || bgColor == AppColors.red
                   ? Colors.white
                   : AppColors.primary,
             ),

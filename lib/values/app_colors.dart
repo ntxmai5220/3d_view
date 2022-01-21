@@ -10,6 +10,9 @@ class AppColors {
 
   static const yellow = Color(0xFFFFC800);
   static const white80 = Color(0xE0FFFFFF);
+  static const red = Color(0xFFB40101);
 
   static const textfieldBg = Color(0x66DEDEDE);
+
+  static const background = Color(0xFFF4F4F4);
 }

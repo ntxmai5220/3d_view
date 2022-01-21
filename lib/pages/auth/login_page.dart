@@ -77,76 +77,79 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            const BgOpacity(),
-            Form(
-              key: globalKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 70,
-                      width: double.infinity,
-                    ),
-                    const HeaderLogo('Đăng nhập'),
-                    const SizedBox(height: 70),
-                    MyInputText(
-                      hint: 'Email',
-                      controller: _emailController,
-                      validator: validEmail,
-                    ),
-                    const SizedBox(height: 25),
-                    MyInputText(
-                      hint: 'Mật khẩu',
-                      controller: _pwController,
-                      validator: validPw,
-                      pw: true,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 20, bottom: 35),
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: _toForgotPassword,
-                        child: const Text(
-                          'Quên mật khẩu?',
-                          style: AppStyles.tinyLabel,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              const BgOpacity(),
+              Form(
+                key: globalKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppConstants.pageMarginHorizontal),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 60,
+                        width: double.infinity,
+                      ),
+                      const HeaderLogo('Đăng nhập'),
+                      const SizedBox(height: 80),
+                      MyInputText(
+                        hint: 'Email',
+                        controller: _emailController,
+                        validator: validEmail,
+                      ),
+                      const SizedBox(height: 25),
+                      MyInputText(
+                        hint: 'Mật khẩu',
+                        controller: _pwController,
+                        validator: validPw,
+                        pw: true,
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20, bottom: 35),
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: _toForgotPassword,
+                          child: const Text(
+                            'Quên mật khẩu?',
+                            style: AppStyles.tinyLabel,
+                          ),
                         ),
                       ),
-                    ),
-                    MyButton(
-                      'Đăng nhập',
-                      bgColor: AppColors.primary,
-                      onClick: _login,
-                    ),
-                    const SizedBox(height: 20),
-                    const MyDivider(),
-                    const SizedBox(height: 20),
-                    GuestContinue(_toMainPage),
-                    const Expanded(child: SizedBox(height: 100)),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Chưa có tài khoản? ',
-                        style: AppStyles.tinyContent,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Đăng ký',
-                            style: AppStyles.normalLabel
-                                .copyWith(color: AppColors.primary),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = _toRegister,
-                          ),
-                          const TextSpan(text: ' ngay')
-                        ],
+                      MyButton(
+                        'Đăng nhập',
+                        bgColor: AppColors.primary,
+                        onClick: _login,
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                  ],
+                      const SizedBox(height: 20),
+                      const MyDivider(),
+                      const SizedBox(height: 20),
+                      GuestContinue(_toMainPage),
+                      const Expanded(child: SizedBox(height: 100)),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Chưa có tài khoản? ',
+                          style: AppStyles.tinyContent,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Đăng ký',
+                              style: AppStyles.normalLabel
+                                  .copyWith(color: AppColors.primary),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = _toRegister,
+                            ),
+                            const TextSpan(text: ' ngay')
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

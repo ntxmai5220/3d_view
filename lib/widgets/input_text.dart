@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
@@ -53,9 +54,10 @@ class _MyInputTextState extends State<MyInputText> {
               )
             : null,
         border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(7)),
+            borderRadius:
+                BorderRadius.all(Radius.circular(AppConstants.borderRadis)),
             borderSide: BorderSide.none),
-        errorStyle: AppStyles.tinyContent.copyWith(color: Colors.red),
+        errorStyle: AppStyles.tinyContent.copyWith(color: AppColors.red),
         // errorBorder: const OutlineInputBorder(
         //     borderRadius: BorderRadius.all(Radius.circular(5)),
         //     borderSide: BorderSide(color: AppColor.iconColor)),

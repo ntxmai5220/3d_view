@@ -15,5 +15,5 @@ export './search/search_page.dart';
 //followed
 export './followed/followed_page.dart';
 
-//more
-export './more/more_page.dart';
+//user
+export './user/my_page.dart';

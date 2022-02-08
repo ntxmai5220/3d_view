@@ -1,4 +1,4 @@
-import 'package:bk_3d_view/values/app_styles.dart';
+import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,8 @@ class MyPage extends StatelessWidget {
 
     void toPostManagement() {
       debugPrint('Management');
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const ManagePost()));
     }
 
     List<Map<String, dynamic>> items = [

@@ -17,3 +17,4 @@ export './followed/followed_page.dart';
 
 //user
 export './user/my_page.dart';
+export 'user/manage_post/manage_post.dart';

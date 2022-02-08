@@ -59,4 +59,20 @@ class AppStyles {
       color: AppColors.darkPrimary,
       fontWeight: FontWeight.w500,
       fontSize: 20);
+
+  //box decoration
+  static const borderSide = BorderSide(color: AppColors.lightPrimary, width: 2);
+  // static final border = Border.all(color: AppColors.lightPrimary, width: 1);
+  //(left: borderSide, top: borderSide, right: borderSide)
+  static const managePostIndicator = BoxDecoration(
+    // gradient: LinearGradient(colors: [
+    //   // AppColors.darkPrimary,
+    //   AppColors.primary,
+    //   Colors.blue.shade700
+    // ]),
+    borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(AppConstants.borderRadius),
+        topRight: Radius.circular(AppConstants.borderRadius)),
+    color: AppColors.background,
+  );
 }

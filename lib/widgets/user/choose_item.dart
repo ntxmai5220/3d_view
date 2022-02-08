@@ -11,13 +11,13 @@ class ChooseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppConstants.borderRadis),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
       ),
       // margin: const EdgeInsets.symmetric(
       //     horizontal: AppConstants.pageMarginHorizontal),
       elevation: AppConstants.cardElevation,
       child: InkWell(
-        borderRadius: BorderRadius.circular(AppConstants.borderRadis),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius),
         onTap: onClick,
         child: Container(
           margin: const EdgeInsets.only(left: 20, right: 10),

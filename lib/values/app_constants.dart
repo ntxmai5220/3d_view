@@ -5,7 +5,7 @@ class AppConstants {
 
   static const cardElevation = 0.4;
 
-  static const borderRadis = 7.0;
+  static const borderRadius = 7.0;
 
   static const logoSize = 75.0;
 }

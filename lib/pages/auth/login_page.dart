@@ -1,5 +1,4 @@
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';

@@ -1,6 +1,5 @@
 import 'package:bk_3d_view/blocs/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

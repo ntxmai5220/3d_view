@@ -5,7 +5,12 @@ class AppConstants {
 
   static const cardElevation = 0.4;
 
-  static const borderRadis = 7.0;
+  static const borderRadius = 7.0;
 
   static const logoSize = 75.0;
+
+  static const noImage =
+      'https://www.eoeliteclub.com/assets/img/property-img-default.png';
+  static const imgTemp =
+      'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg';
 }

@@ -14,13 +14,13 @@ class AppStyles {
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 14);
+      fontSize: 14.5);
 
   static const tinyContent = TextStyle(
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w500,
-      fontSize: 14);
+      fontSize: 14.5);
 
   static const buttonText = TextStyle(
     fontFamily: AppFonts.primary,
@@ -34,13 +34,13 @@ class AppStyles {
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w500,
-      fontSize: 16);
+      fontSize: 16.5);
 
   static const normalLabel = TextStyle(
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 16);
+      fontSize: 16.5);
 
   static const selectedTab = TextStyle(
       fontFamily: AppFonts.primary,
@@ -59,4 +59,20 @@ class AppStyles {
       color: AppColors.darkPrimary,
       fontWeight: FontWeight.w500,
       fontSize: 20);
+
+  //box decoration
+  static const borderSide = BorderSide(color: AppColors.lightPrimary, width: 2);
+  // static final border = Border.all(color: AppColors.lightPrimary, width: 1);
+  //(left: borderSide, top: borderSide, right: borderSide)
+  static const managePostIndicator = BoxDecoration(
+    // gradient: LinearGradient(colors: [
+    //   // AppColors.darkPrimary,
+    //   AppColors.primary,
+    //   Colors.blue.shade700
+    // ]),
+    borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(AppConstants.borderRadius),
+        topRight: Radius.circular(AppConstants.borderRadius)),
+    color: AppColors.background,
+  );
 }

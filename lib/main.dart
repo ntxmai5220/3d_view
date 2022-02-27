@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/blocs/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,8 +16,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: '3D VIEW',
-        theme: ThemeData(backgroundColor: Colors.white),
-        home: const LoginPage(),
+        theme: ThemeData(
+            iconTheme: const IconThemeData(color: AppColors.primary),
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                backgroundColor: AppColors.primary)),
+        home: const ManagePost(),
         routes: {
           'main': (_) => BlocProvider(
                 create: (context) => MainPageBloc(),

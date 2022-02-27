@@ -9,3 +9,7 @@ export './input_text.dart';
 
 //user
 export './user/choose_item.dart';
+
+export './post_item.dart';
+
+export './follow_icon.dart';

@@ -1,3 +1,3 @@
 //export all blocs
 
-export './main_page_bloc/main_page_bloc.dart';
+export './main_page/main_page_bloc.dart';

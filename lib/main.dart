@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
             iconTheme: const IconThemeData(color: AppColors.primary),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 backgroundColor: AppColors.primary)),
-        home: const LoginPage(),
+        home: const ManagePost(),
         routes: {
           'main': (_) => BlocProvider(
                 create: (context) => MainPageBloc(),

@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
@@ -61,10 +62,11 @@ class LoginPage extends StatelessWidget {
     }
 
     _login() {
-      debugPrint('login');
+      // debugPrint('login');
+      testAPI();
       if (validation()) {
         //login success
-        debugPrint('login');
+        // debugPrint('login');
         _toMainPage();
       } else {
         debugPrint('error');

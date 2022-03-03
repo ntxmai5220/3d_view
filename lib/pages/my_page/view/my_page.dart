@@ -22,10 +22,10 @@ class MyPage extends StatelessWidget {
       {'label': 'Thông tin cá nhân', 'funct': toProfile},
       {'label': 'Quản lý bài đăng', 'funct': toPostManagement},
     ];
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
           children: [
             Container(height: 10, color: Colors.white),
             Stack(

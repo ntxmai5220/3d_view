@@ -1,8 +1,6 @@
-import 'package:bk_3d_view/blocs/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,12 +18,7 @@ class MyApp extends StatelessWidget {
             iconTheme: const IconThemeData(color: AppColors.primary),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 backgroundColor: AppColors.primary)),
-        home: const ManagePost(),
-        routes: {
-          'main': (_) => BlocProvider(
-                create: (context) => MainPageBloc(),
-                child: const MainPage(),
-              )
-        });
+        home: const MainPage(),
+        routes: {'main': (_) => const MainPage()});
   }
 }

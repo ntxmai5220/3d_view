@@ -4,7 +4,7 @@
 import 'package:bk_3d_view/apis/apis.dart';
 import 'package:flutter/material.dart';
 
-final ApiExecute apiExecute = ApiExecute(baseURL: BaseURLs.address);
+final ApiExecute apiExecute = ApiExecute.address();
 
 void testAPI() {
   debugPrint('test api');

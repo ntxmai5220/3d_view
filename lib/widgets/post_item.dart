@@ -84,24 +84,7 @@ class PostItem extends StatelessWidget {
                           style: AppStyles.normalLabel
                               .copyWith(color: AppColors.black),
                         ),
-                        RichText(
-                          text: TextSpan(
-                              style: AppStyles.normalLabel
-                                  .copyWith(color: AppColors.black),
-                              children: [
-                                TextSpan(text: '${post.area} m'),
-                                WidgetSpan(
-                                  child: Transform.translate(
-                                    offset: const Offset(2, -8),
-                                    child: const Text(
-                                      '2',
-                                      textScaleFactor:
-                                          0.75, //superscript is usually smaller in size
-                                    ),
-                                  ),
-                                )
-                              ]),
-                        ),
+                        MSquare(content: post.area.toString()),
                       ],
                     ),
                     RichText(
@@ -117,7 +100,7 @@ class PostItem extends StatelessWidget {
                           text:
                               '${post.address}, ${post.ward?.name ?? ''}, ${post.district?.name ?? ''}, ${post.province?.name ?? ''}',
                           style: AppStyles.tinyContent
-                              .copyWith(color: AppColors.black),
+                              .copyWith(color: AppColors.darkSecondary),
                         ),
                       ]),
                     ),
@@ -133,7 +116,7 @@ class PostItem extends StatelessWidget {
                         TextSpan(
                           text: '${post.desc} ' * 10,
                           style: AppStyles.tinyContent
-                              .copyWith(color: AppColors.black),
+                              .copyWith(color: AppColors.darkSecondary),
                         ),
                       ]),
                     ),

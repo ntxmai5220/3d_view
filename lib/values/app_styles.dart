@@ -31,10 +31,11 @@ class AppStyles {
   );
 
   static const normalContent = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.darkSecondary,
-      fontWeight: FontWeight.w500,
-      fontSize: 16.5);
+    fontFamily: AppFonts.primary,
+    color: AppColors.darkSecondary,
+    fontWeight: FontWeight.w500,
+    fontSize: 16.5,
+  );
 
   static const normalLabel = TextStyle(
       fontFamily: AppFonts.primary,

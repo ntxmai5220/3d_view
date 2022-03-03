@@ -11,8 +11,8 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePage(),
-      const SearchPage(),
-      const FollowedPage(),
+      const NewPost(),
+      const ManagePost(),
       const MyPage()
     ];
     const List<Map<String, dynamic>> tabs = [
@@ -28,24 +28,28 @@ class MainPage extends StatelessWidget {
             ))
         .toList();
 
-    return Scaffold(
-      body: BlocBuilder<MainPageBloc, int>(
-        builder: (context, state) => Center(child: pages[state]),
-      ),
-      bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
-        builder: (context, state) {
-          return BottomNavigationBar(
-              selectedItemColor: AppColors.darkPrimary,
-              unselectedItemColor: AppColors.secondary,
-              selectedLabelStyle: AppStyles.selectedTab,
-              unselectedLabelStyle: AppStyles.unselectedTab,
-              showUnselectedLabels: true,
-              currentIndex: state,
-              onTap: (int index) {
-                BlocProvider.of<MainPageBloc>(context).add(OnChangePage(index));
-              },
-              items: items);
-        },
+    return BlocProvider(
+      create: (context) => MainPageBloc(),
+      child: Scaffold(
+        body: BlocBuilder<MainPageBloc, int>(
+          builder: (context, state) => Center(child: pages[state]),
+        ),
+        bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
+          builder: (context, state) {
+            return BottomNavigationBar(
+                selectedItemColor: AppColors.darkPrimary,
+                unselectedItemColor: AppColors.secondary,
+                selectedLabelStyle: AppStyles.selectedTab,
+                unselectedLabelStyle: AppStyles.unselectedTab,
+                showUnselectedLabels: true,
+                currentIndex: state,
+                onTap: (int index) {
+                  BlocProvider.of<MainPageBloc>(context)
+                      .add(OnChangePage(index));
+                },
+                items: items);
+          },
+        ),
       ),
     );
   }

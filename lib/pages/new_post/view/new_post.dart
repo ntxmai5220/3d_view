@@ -1,3 +1,5 @@
+import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class NewPost extends StatelessWidget {
@@ -5,8 +7,33 @@ class NewPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Text('new post')),
+    String label = 'Địa chỉ';
+    TextEditingController controller = TextEditingController();
+    return SafeArea(
+      child: Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.all(10),
+          children: [
+            InputNewPost(
+              controller: controller,
+              label: label,
+            ),
+            const SizedBox(height: 15),
+            InputNewPost(
+              controller: controller,
+              label: label,
+              isRequired: true,
+              suffixText: 'triệu',
+            ),
+            const SizedBox(height: 15),
+            InputNewPost(
+              controller: controller,
+              label: label,
+              suffixText: 'm2',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -5,11 +5,16 @@ import 'package:dio/dio.dart';
 
 class ApiExecute {
   final Dio _dio;
-  BaseURL baseURL;
 
-  ApiExecute({required this.baseURL})
-      : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
-
+  ApiExecute.address({
+    BaseURL baseURL = BaseURLs.address,
+  }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
+  ApiExecute.app({
+    BaseURL baseURL = BaseURLs.address,
+  }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
+  ApiExecute({
+    required BaseURL baseURL,
+  }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
   Future<APIResponse> execute({required APIRequest request}) async {
     Options options = Options(
       contentType: Headers.jsonContentType,

@@ -81,7 +81,7 @@ class ManagePost extends StatelessWidget {
   newPost(BuildContext context) {
     debugPrint('new post');
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const NewPost()),
+      MaterialPageRoute(builder: (_) => const NewPostPage()),
     );
   }
 

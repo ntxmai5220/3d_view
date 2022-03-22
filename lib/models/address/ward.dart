@@ -1,12 +1,13 @@
-class Ward {
+import 'package:bk_3d_view/models/address/address.dart';
+
+class Ward extends Address {
   Ward({
     this.code,
     this.districtId,
-    this.name,
-  });
+    String? name,
+  }) : super(name: name);
   String? code;
   int? districtId;
-  String? name;
 
   Map<String, dynamic> toJson() {
     return {

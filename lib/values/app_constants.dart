@@ -1,3 +1,5 @@
+import 'package:bk_3d_view/values/values.dart';
+
 class AppConstants {
   static const pageMarginHorizontal = 25.0;
 
@@ -13,4 +15,10 @@ class AppConstants {
       'https://www.eoeliteclub.com/assets/img/property-img-default.png';
   static const imgTemp =
       'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg';
+
+  static const List<NewPostStep> newPostSteps = [
+    NewPostStep.data,
+    NewPostStep.image,
+    NewPostStep.image
+  ];
 }

@@ -16,6 +16,9 @@ class AppColors {
   static const white70 = Color(0xB3FFFFFF);
 
   static const black = Color(0xFF000000);
+
+  static const green = Color(0xFF16B201);
+
   static const red = Color(0xFFB40101);
 
   static const textfieldBg = Color(0x66DEDEDE);

@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.0.1
   dio: ^4.0.4
+  auto_route: ^3.2.4
 
 dev_dependencies:
   flutter_test:
@@ -24,10 +25,9 @@ dev_dependencies:
 
   flutter_lints: ^1.0.0
 
-
 flutter:
   uses-material-design: true
-  
+
   assets:
     - assets/icons/
     - assets/images/
@@ -35,7 +35,6 @@ flutter:
     - assets/fonts/Lora/
     - assets/fonts/Quicksand/
 
- 
   fonts:
     - family: Lora
       fonts:

@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/text/input_label.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class InputNewPost extends StatelessWidget {
         cursorColor: AppColors.primary,
         decoration: InputDecoration(
           // labelText: label,
-          label: buildTextFieldLabel(label: label, isRequired: isRequired),
+          label: InputLabel(label: label, isRequired: isRequired),
           labelStyle: AppStyles.normalLabel,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           floatingLabelStyle: AppStyles.normalLabel,
@@ -48,8 +49,7 @@ class InputNewPost extends StatelessWidget {
                     ),
             ),
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+          contentPadding: const EdgeInsets.fromLTRB(15, 0, 5, 1.5),
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.secondary),
               borderRadius:
@@ -62,18 +62,4 @@ class InputNewPost extends StatelessWidget {
       ),
     );
   }
-
-  buildTextFieldLabel({required String label, bool isRequired = false}) =>
-      RichText(
-        text: TextSpan(
-            style:
-                AppStyles.buttonText.copyWith(color: AppColors.darkSecondary),
-            children: [
-              TextSpan(text: label),
-              TextSpan(
-                  text: isRequired ? ' *' : '',
-                  style: AppStyles.buttonText
-                      .copyWith(color: AppColors.red, fontSize: 24))
-            ]),
-      );
 }

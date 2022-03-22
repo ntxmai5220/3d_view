@@ -1,0 +1,4 @@
+enum NewPostStep {
+  data,
+  image,
+}

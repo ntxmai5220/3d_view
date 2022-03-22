@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePage(),
-      const NewPost(),
+      const NewPostPage(),
       const ManagePost(),
       const MyPage()
     ];

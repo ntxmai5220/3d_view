@@ -1,8 +1,10 @@
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/pages/new_post/view/data_view/bloc/data_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/data_view/data_view.dart';
+import 'package:bk_3d_view/pages/new_post/view/image_view/bloc/image_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/image_view/image_view.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
+import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +36,10 @@ class NewPostPage extends StatelessWidget {
             create: (context) => DataViewBloc(
                 repository: RepositoryProvider.of<NewPostRepository>(context))
               ..add(DataViewInitEvent()),
+          ),
+          BlocProvider(
+            create: (context) => ImageViewBloc(
+                repository: RepositoryProvider.of<NewPostRepository>(context)),
           )
         ],
         child: BlocBuilder<NewPostBloc, NewPostState>(
@@ -72,6 +78,7 @@ class NewPostPage extends StatelessWidget {
               backgroundColor: AppColors.lightPrimary,
               child: const Icon(
                 Icons.chevron_left_rounded,
+                color: AppColors.darkPrimary,
                 size: 28,
               ),
               onPressed: () => bloc.add(NewPostBackEvent()),
@@ -90,7 +97,8 @@ class NewPostPage extends StatelessWidget {
                   backgroundColor: AppColors.lightPrimary,
                   child: const Icon(
                     Icons.chevron_right_rounded,
-                    size: 30,
+                    color: AppColors.darkPrimary,
+                    size: 28,
                   ),
                   onPressed: () => bloc.add(NewPostNextEvent()),
                 ),

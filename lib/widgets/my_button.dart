@@ -2,13 +2,16 @@ import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
+  const MyButton(this.label,
+      {Key? key,
+      required this.bgColor,
+      required this.onClick,
+      this.textColor = Colors.white})
+      : super(key: key);
   final Color bgColor;
+  final Color? textColor;
   final Function()? onClick;
   final String label;
-  const MyButton(this.label,
-      {Key? key, required this.bgColor, required this.onClick})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -19,9 +22,7 @@ class MyButton extends StatelessWidget {
           Text(
             label,
             style: AppStyles.buttonText.copyWith(
-              color: bgColor == AppColors.primary || bgColor == AppColors.red
-                  ? Colors.white
-                  : AppColors.primary,
+              color: textColor,
             ),
           ),
         ],

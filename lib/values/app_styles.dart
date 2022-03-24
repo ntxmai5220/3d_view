@@ -27,7 +27,7 @@ class AppStyles {
     color: Colors.white,
     fontWeight: FontWeight.w600,
     fontSize: 20,
-    letterSpacing: 0.02,
+    letterSpacing: 0.2,
   );
 
   static const normalContent = TextStyle(

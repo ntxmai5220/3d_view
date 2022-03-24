@@ -17,10 +17,13 @@ export './post_item.dart';
 
 export './follow_icon.dart';
 
-
 //text
 export './text/m_square.dart';
 export './text/input_label.dart';
 
 //dropdown
 export './dropdown/drop_down_address.dart';
+
+//bottom sheet
+export './bottom_sheet/bottom_sheet_bar.dart';
+export './bottom_sheet/bottom_sheet_wrap.dart';

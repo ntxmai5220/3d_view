@@ -18,6 +18,10 @@ dependencies:
   flutter_bloc: ^8.0.1
   dio: ^4.0.4
   auto_route: ^3.2.4
+  dotted_border: ^2.0.0+2
+  image_picker: ^0.8.4+11
+  path: ^1.8.1
+
 
 dev_dependencies:
   flutter_test:

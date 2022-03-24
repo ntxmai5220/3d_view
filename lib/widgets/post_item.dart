@@ -53,7 +53,7 @@ class PostItem extends StatelessWidget {
                               height: 60,
                               width: 51,
                               decoration: const BoxDecoration(
-                                  color: AppColors.lightSecondary80,
+                                  color: AppColors.lightSecondary88,
                                   borderRadius: BorderRadius.vertical(
                                       bottom: Radius.circular(
                                           AppConstants.borderRadius))),

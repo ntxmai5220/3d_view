@@ -1,5 +1,5 @@
 //export all files
-export './main_page.dart';
+export 'main_page/main_page.dart';
 
 //login
 export 'login/view/login_page.dart';

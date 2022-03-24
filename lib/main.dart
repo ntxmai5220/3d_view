@@ -15,10 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: '3D VIEW',
         theme: ThemeData(
-            iconTheme: const IconThemeData(color: AppColors.primary),
+            iconTheme: const IconThemeData(
+              color: AppColors.darkPrimary,
+              size: 24,
+            ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: AppColors.primary)),
-        home: const MainPage(),
+                backgroundColor: AppColors.darkPrimary)),
+        home: const NewPostPage(),
         routes: {'main': (_) => const MainPage()});
   }
 }

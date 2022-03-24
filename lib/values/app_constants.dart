@@ -17,8 +17,8 @@ class AppConstants {
       'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg';
 
   static const List<NewPostStep> newPostSteps = [
-    NewPostStep.data,
     NewPostStep.image,
+    NewPostStep.data,
     NewPostStep.image
   ];
 }

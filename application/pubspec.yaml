@@ -1,0 +1,66 @@
+name: bk_3d_view
+description: A new Flutter project.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  panorama:
+    path: ../panorama
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  flutter_bloc: ^8.0.1
+  dio: ^4.0.4
+  auto_route: ^3.2.4
+  shared_preferences: ^2.0.13
+
+  dotted_border: ^2.0.0+2
+
+  external_app_launcher: ^2.0.2
+  open_file: ^3.2.1
+  path_provider: ^2.0.9
+  permission_handler: ^9.2.0
+
+  image_picker: ^0.8.4+11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+
+    - assets/fonts/Baloo2/
+    - assets/fonts/Quicksand/
+
+  fonts:
+    - family: Baloo2
+      fonts:
+        - asset: assets/fonts/Baloo2/Baloo2-Regular.ttf
+        - asset: assets/fonts/Baloo2/Baloo2-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Baloo2/Baloo2-Bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand/Quicksand-Regular.ttf
+        - asset: assets/fonts/Quicksand/Quicksand-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Quicksand/Quicksand-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Quicksand/Quicksand-Bold.ttf
+          weight: 700

@@ -1,0 +1,6 @@
+com/geekyants/launch_vpn/LaunchVpnPlugin.java
+ com.geekyants.launch_vpn.LaunchVpnPlugin
+com/example/launchexternalapp/BuildConfig.java
+ com.example.launchexternalapp.BuildConfig
+com/example/launchexternalapp/LaunchexternalappPlugin.java
+ com.example.launchexternalapp.LaunchexternalappPlugin

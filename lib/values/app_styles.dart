@@ -14,13 +14,13 @@ class TextStyles {
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 14);
+      fontSize: 14.5);
 
   static const tinyContent = TextStyle(
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w500,
-      fontSize: 14);
+      fontSize: 14.5);
 
   static const buttonText = TextStyle(
     fontFamily: AppFonts.primary,
@@ -41,7 +41,7 @@ class TextStyles {
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 16);
+      fontSize: 16.5);
 
   static const selectedTab = TextStyle(
       fontFamily: AppFonts.primary,

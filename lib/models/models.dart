@@ -7,6 +7,6 @@ export 'hotspot.dart';
 
 //address
 export './address/address.dart';
-export './address/ward.dart';
 export './address/district.dart';
 export './address/province.dart';
+export './address/ward.dart';

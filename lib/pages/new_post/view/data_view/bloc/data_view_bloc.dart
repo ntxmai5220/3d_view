@@ -1,7 +1,5 @@
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/pages/new_post/bloc/new_post_bloc.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
-import 'package:bk_3d_view/values/values.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +66,9 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       var result = await _repository.getProvince();
       emit(DataViewInitial(provinces: result.list));
       // return result.list;
-    } catch (e) {}
+    } catch (e) {
+      emit(const DataViewInitial(provinces:[]));
+    }
   }
 
   onLoadDistricts(

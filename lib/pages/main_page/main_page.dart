@@ -11,43 +11,56 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       const HomePage(),
-      const NewPostPage(),
-      const ManagePost(),
+      const SearchPage(),
+      const FollowedPage(),
       const MyPage()
     ];
     const List<Map<String, dynamic>> tabs = [
       {'icon': Icons.home_rounded, 'name': 'Trang chủ'},
       {'icon': Icons.search_rounded, 'name': 'Tìm kiếm'},
-      {'icon': Icons.star_border_rounded, 'name': 'Theo dõi'},
+      {'icon': Icons.star_rounded, 'name': 'Theo dõi'},
       {'icon': Icons.person_outline_rounded, 'name': 'Tôi'}
     ];
-    List<BottomNavigationBarItem> items = tabs
-        .map((tab) => BottomNavigationBarItem(
-              icon: Icon(tab['icon'], size: 30),
-              label: tab['name'],
+    List<Tab> items = tabs
+        .map((tab) => Tab(
+              icon: Icon(tab['icon'], size: 25),
+              iconMargin: const EdgeInsets.only(bottom: 1, top: 1),
+              text: tab['name'],
             ))
         .toList();
 
     return BlocProvider(
       create: (context) => MainPageBloc(),
       child: Scaffold(
+        backgroundColor: AppColors.lightPrimary,
         body: BlocBuilder<MainPageBloc, int>(
           builder: (context, state) => Center(child: pages[state]),
         ),
         bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
           builder: (context, state) {
-            return BottomNavigationBar(
-                selectedItemColor: AppColors.darkPrimary,
-                unselectedItemColor: AppColors.secondary,
-                selectedLabelStyle: AppStyles.selectedTab,
-                unselectedLabelStyle: AppStyles.unselectedTab,
-                showUnselectedLabels: true,
-                currentIndex: state,
-                onTap: (int index) {
-                  BlocProvider.of<MainPageBloc>(context)
-                      .add(OnChangePage(index));
-                },
-                items: items);
+            return DefaultTabController(
+              length: pages.length,
+              child: Container(
+                height: 52,
+                decoration: const BoxDecoration(
+                    color: AppColors.black,
+                    boxShadow: [
+                      BoxShadow(offset: Offset(0, 0), blurRadius: 3)
+                    ]),
+                child: TabBar(
+                    labelStyle: TextStyles.selectedTab,
+                    unselectedLabelStyle: TextStyles.unselectedTab,
+                    labelColor: AppColors.white,
+                    unselectedLabelColor: AppColors.darkSecondary,
+                    indicatorWeight: 1,
+                    indicatorColor: AppColors.white70,
+                    onTap: (int index) {
+                      BlocProvider.of<MainPageBloc>(context)
+                          .add(OnChangePage(index));
+                    },
+                    tabs: items),
+              ),
+            );
           },
         ),
       ),

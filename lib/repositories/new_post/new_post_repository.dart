@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/apis/apis.dart';
 import 'package:bk_3d_view/models/models.dart';
+import 'package:dio/dio.dart';
 
 class NewPostRepository {
   NewPostRepository({ApiExecute? apiExecute})
@@ -15,4 +16,6 @@ class NewPostRepository {
 
   Future<ListResponse<Ward>> getWard({required int districtId}) =>
       AddressService(apiExecute: _apiExecute).getWards(districtId: districtId);
+
+  Future<Response<dynamic>> downloadCamera({required String urlPath, required String savePath, ProgressCallback? onReceivedData}) => Dio().download(urlPath, savePath, onReceiveProgress: onReceivedData);
 }

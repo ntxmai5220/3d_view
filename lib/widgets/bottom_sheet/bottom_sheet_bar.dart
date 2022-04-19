@@ -20,12 +20,12 @@ class BottomSheetBar extends StatelessWidget {
     return CupertinoNavigationBar(
       middle: Text(
         title,
-        style: AppStyles.buttonText.copyWith(color: AppColors.darkSecondary),
+        style: TextStyles.buttonText.copyWith(color: AppColors.darkSecondary),
         // style: TextStyles.pangram.boldTitle.copyWith(
         //   color: AppColors.charcoal,
         // ),
       ),
-      // backgroundColor: AppColors.babyPowder,
+      backgroundColor: Colors.white,
       border: null,
       leading: leading ??
           InkWell(
@@ -33,6 +33,7 @@ class BottomSheetBar extends StatelessWidget {
             child: const Icon(
               Icons.close_rounded,
               color: AppColors.secondary,
+              size: 24,
             ),
           ),
       trailing: trailing,

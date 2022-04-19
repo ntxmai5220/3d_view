@@ -31,7 +31,7 @@ class DropDownAddress<T> extends StatelessWidget {
           isExpanded: true,
           value: display != null ? list?.elementAt(display!) : null,
           underline: const SizedBox(),
-          style: AppStyles.normalContent,
+          style: TextStyles.normalContent,
           menuMaxHeight: kMinInteractiveDimension * 10.5,
           borderRadius: const BorderRadius.all(
               Radius.circular(AppConstants.borderRadius)),
@@ -40,7 +40,7 @@ class DropDownAddress<T> extends StatelessWidget {
               value: e,
               child: Text(
                 '${(e as Address).name}',
-                style: AppStyles.normalLabel,
+                style: TextStyles.normalLabel,
               ),
             );
           }).toList(),

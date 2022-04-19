@@ -7,27 +7,39 @@ class PostItem extends StatelessWidget {
   const PostItem({
     Key? key,
     required this.post,
-    this.onClick,
+    this.onTapPost,
     this.onToggleFavorite,
+    this.mini = false,
   }) : super(key: key);
 
   final Post post;
-  final VoidCallback? onClick;
-  final VoidCallback? onToggleFavorite;
+  final Function(String)? onTapPost;
+  final Function(String)? onToggleFavorite;
+  final bool mini;
 
   @override
   Widget build(BuildContext context) {
+    var id = post.id;
     return GestureDetector(
-      onTap: onClick,
+      onTap: () {
+        if (id != null) {
+          onTapPost?.call(id);
+        }
+      },
       child: Container(
-        margin: const EdgeInsets.symmetric(
-            horizontal: AppConstants.pageMarginHorizontal,
-            vertical: AppConstants.pageMarginHorizontal / 2),
         height: 380,
+        width: 380,
         decoration: BoxDecoration(
+            // boxShadow: const [
+            //   BoxShadow(
+            //       offset: Offset(0, 0),
+            //       blurRadius: 5,
+            //       spreadRadius: 1,
+            //       color: AppColors.lightSecondary45)
+            // ],
             border: Border.all(color: AppColors.lightSecondary),
             borderRadius: const BorderRadius.all(
-                Radius.circular(AppConstants.borderRadius))),
+                Radius.circular(AppConstants.borderRadius + 1))),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(
               Radius.circular(AppConstants.borderRadius)),
@@ -35,39 +47,48 @@ class PostItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //stack for image & follow
-              Stack(
-                children: [
-                  Container(
-                    height: 267,
-                    // color: AppColors.lightPrimary,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(post.rooms?[0].img ?? ''),
-                            fit: BoxFit.cover)),
-                  ),
-                  onToggleFavorite != null
-                      ? Positioned(
-                          right: 20,
-                          child: Container(
+              Expanded(
+                child: Stack(
+                  children: [
+                    Container(
+                      // height: mini ? 225 : 260,
+                      // color: AppColors.lightPrimary,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(post.rooms?[0].imgUrl ?? ''),
+                              fit: BoxFit.cover)),
+                    ),
+                    onToggleFavorite != null
+                        ? Positioned(
+                            right: 20,
+                            child: Container(
                               padding: const EdgeInsets.only(top: 5),
-                              height: 60,
-                              width: 51,
+                              height: mini ? 55 : 59,
+                              width: mini ? 45 : 49,
                               decoration: const BoxDecoration(
                                   color: AppColors.lightSecondary88,
                                   borderRadius: BorderRadius.vertical(
                                       bottom: Radius.circular(
                                           AppConstants.borderRadius))),
                               child: GestureDetector(
-                                  onTap: onToggleFavorite,
-                                  child: FollowIcon(
-                                    isFollowed: post.isFavorite ?? false,
-                                  ))))
-                      : Container(),
-                ],
+                                onTap: () {
+                                  if (id != null) {
+                                    onToggleFavorite?.call(id);
+                                  }
+                                },
+                                child: FollowIcon(
+                                  mini: mini,
+                                  isFollowed: post.isFavorite ?? false,
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
               //column for detail
-              Expanded(
-                  child: Container(
+              Container(
                 // alignment: Alignment.center,
                 color: Colors.white,
                 padding:
@@ -81,7 +102,7 @@ class PostItem extends StatelessWidget {
                       children: [
                         Text(
                           '\$ ' + checkPrice(post.price ?? 0),
-                          style: AppStyles.normalLabel
+                          style: TextStyles.normalLabel
                               .copyWith(color: AppColors.black),
                         ),
                         MSquare(content: post.area.toString()),
@@ -93,13 +114,13 @@ class PostItem extends StatelessWidget {
                       text: TextSpan(children: [
                         TextSpan(
                           text: 'Địa chỉ: ',
-                          style: AppStyles.tinyLabel
+                          style: TextStyles.tinyLabel
                               .copyWith(color: AppColors.black),
                         ),
                         TextSpan(
                           text:
                               '${post.address}, ${post.ward?.name ?? ''}, ${post.district?.name ?? ''}, ${post.province?.name ?? ''}',
-                          style: AppStyles.tinyContent
+                          style: TextStyles.tinyContent
                               .copyWith(color: AppColors.darkSecondary),
                         ),
                       ]),
@@ -110,19 +131,19 @@ class PostItem extends StatelessWidget {
                       text: TextSpan(children: [
                         TextSpan(
                           text: 'Mô tả: ',
-                          style: AppStyles.tinyLabel
+                          style: TextStyles.tinyLabel
                               .copyWith(color: AppColors.black),
                         ),
                         TextSpan(
                           text: '${post.desc} ' * 10,
-                          style: AppStyles.tinyContent
+                          style: TextStyles.tinyContent
                               .copyWith(color: AppColors.darkSecondary),
                         ),
                       ]),
                     ),
                   ],
                 ),
-              ))
+              )
             ],
           ),
         ),

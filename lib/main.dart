@@ -1,5 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/values/app_colors.dart';
+import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,15 +13,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: '3D VIEW',
         theme: ThemeData(
+            tabBarTheme: const TabBarTheme(
+              labelColor: AppColors.white,
+              unselectedLabelColor: AppColors.darkSecondary,
+            ),
+            appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
+            dialogTheme: const DialogTheme(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(AppConstants.borderRadius))),
+                backgroundColor: Colors.white,
+                titleTextStyle: TextStyles.normalContent,
+                contentTextStyle: TextStyles.tinyContent),
+            progressIndicatorTheme: const ProgressIndicatorThemeData(
+                color: AppColors.primary,
+                linearTrackColor: AppColors.lightPrimary),
+            bottomSheetTheme: const BottomSheetThemeData(
+              backgroundColor: Colors.transparent,
+            ),
             iconTheme: const IconThemeData(
               color: AppColors.darkPrimary,
               size: 24,
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                sizeConstraints: BoxConstraints(
+                  maxHeight: 47,
+                  minHeight: 47,
+                  maxWidth: 47,
+                  minWidth: 47,
+                ),
                 backgroundColor: AppColors.darkPrimary)),
-        home: const NewPostPage(),
+        home: const MainPage(),
         routes: {'main': (_) => const MainPage()});
   }
 }

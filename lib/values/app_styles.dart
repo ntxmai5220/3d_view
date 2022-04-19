@@ -1,12 +1,12 @@
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 
-class AppStyles {
+class TextStyles {
   static const screenTitle = TextStyle(
     fontFamily: AppFonts.secondary,
     color: AppColors.darkSecondary,
     fontWeight: FontWeight.w700,
-    fontSize: 27,
+    fontSize: 24,
     letterSpacing: 0.02,
   );
 
@@ -14,34 +14,34 @@ class AppStyles {
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 14.5);
+      fontSize: 14);
 
   static const tinyContent = TextStyle(
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w500,
-      fontSize: 14.5);
+      fontSize: 14);
 
   static const buttonText = TextStyle(
     fontFamily: AppFonts.primary,
     color: Colors.white,
     fontWeight: FontWeight.w600,
-    fontSize: 20,
-    letterSpacing: 0.2,
+    fontSize: 17.5,
+    letterSpacing: 0.3,
   );
 
   static const normalContent = TextStyle(
-    fontFamily: AppFonts.primary,
-    color: AppColors.darkSecondary,
-    fontWeight: FontWeight.w500,
-    fontSize: 16.5,
-  );
+      fontFamily: AppFonts.primary,
+      color: AppColors.darkSecondary,
+      fontWeight: FontWeight.w500,
+      fontSize: 16,
+      letterSpacing: 0.2);
 
   static const normalLabel = TextStyle(
       fontFamily: AppFonts.primary,
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w600,
-      fontSize: 16.5);
+      fontSize: 16);
 
   static const selectedTab = TextStyle(
       fontFamily: AppFonts.primary,
@@ -59,8 +59,11 @@ class AppStyles {
       fontFamily: AppFonts.secondary,
       color: AppColors.darkPrimary,
       fontWeight: FontWeight.w500,
-      fontSize: 20);
+      fontSize: 20,
+      letterSpacing: 0.3);
+}
 
+class AppStyles {
   //box decoration
   static const borderSide = BorderSide(color: AppColors.lightPrimary, width: 2);
   // static final border = Border.all(color: AppColors.lightPrimary, width: 1);
@@ -74,6 +77,6 @@ class AppStyles {
     borderRadius: BorderRadius.only(
         topLeft: Radius.circular(AppConstants.borderRadius),
         topRight: Radius.circular(AppConstants.borderRadius)),
-    color: AppColors.background,
+    color: AppColors.white,
   );
 }

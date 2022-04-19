@@ -12,13 +12,13 @@ class InputLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-          style: AppStyles.buttonText
+          style: TextStyles.buttonText
               .copyWith(color: AppColors.darkSecondary, fontSize: fontSize),
           children: [
             TextSpan(text: label),
             TextSpan(
                 text: isRequired ? ' *' : '',
-                style: AppStyles.buttonText
+                style: TextStyles.buttonText
                     .copyWith(color: AppColors.red, fontSize: 24))
           ]),
     );

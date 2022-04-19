@@ -10,7 +10,7 @@ class MSquare extends StatelessWidget {
     return RichText(
       text: TextSpan(
           style:
-              style ?? AppStyles.normalLabel.copyWith(color: AppColors.black),
+              style ?? TextStyles.normalLabel.copyWith(color: AppColors.black),
           children: [
             TextSpan(text: '${content ?? ''} m'),
             WidgetSpan(
@@ -19,7 +19,7 @@ class MSquare extends StatelessWidget {
                 child: Text(
                   '2',
                   style: style ??
-                      AppStyles.normalLabel.copyWith(color: AppColors.black),
+                      TextStyles.normalLabel.copyWith(color: AppColors.black),
                   textScaleFactor:
                       0.75, //superscript is usually smaller in size
                 ),

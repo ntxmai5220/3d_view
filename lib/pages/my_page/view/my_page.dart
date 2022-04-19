@@ -53,7 +53,7 @@ class MyPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Text(AppConstants.appName,
-                          style: AppStyles.screenTitle
+                          style: TextStyles.screenTitle
                               .copyWith(color: AppColors.primary))
                     ],
                   ),

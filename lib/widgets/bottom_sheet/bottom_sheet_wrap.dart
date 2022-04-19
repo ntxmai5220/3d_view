@@ -1,4 +1,4 @@
-import 'package:bk_3d_view/values/app_colors.dart';
+import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
 
 class BottomSheetWrap extends StatelessWidget {
@@ -8,28 +8,36 @@ class BottomSheetWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Wrap(
-        children: [
-          SizedBox(
-            height: 24,
-            child: Center(
-              child: Container(
-                height: 4,
-                width: 96,
-                decoration: const BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(2.0),
+    return Container(
+      margin: const EdgeInsets.all(12),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius:
+            BorderRadius.all(Radius.circular(AppConstants.borderRadius * 2)),
+      ),
+      child: SafeArea(
+        child: Wrap(
+          children: [
+            SizedBox(
+              height: 24,
+              child: Center(
+                child: Container(
+                  height: 2.5,
+                  width: 70,
+                  decoration: const BoxDecoration(
+                    color: AppColors.secondary,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(2.0),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            child: child,
-          ),
-        ],
+            Container(
+              child: child,
+            ),
+          ],
+        ),
       ),
     );
   }

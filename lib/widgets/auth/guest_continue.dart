@@ -16,7 +16,7 @@ class GuestContinue extends StatelessWidget {
           children: const [
             Text(
               'Tiếp tục với tư cách khách',
-              style: AppStyles.normalLabel,
+              style: TextStyles.normalLabel,
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,

@@ -24,27 +24,27 @@ class InputNewPost extends StatelessWidget {
       child: TextFormField(
         keyboardType: inputNumber ? TextInputType.number : TextInputType.text,
         controller: controller,
-        style: AppStyles.normalContent,
-        cursorColor: AppColors.primary,
+        style: TextStyles.normalContent,
+        cursorColor: AppColors.darkSecondary,
         decoration: InputDecoration(
           // labelText: label,
           label: InputLabel(label: label, isRequired: isRequired),
-          labelStyle: AppStyles.normalLabel,
+          labelStyle: TextStyles.normalLabel,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          floatingLabelStyle: AppStyles.normalLabel,
+          floatingLabelStyle: TextStyles.normalLabel,
           // suffixText: 'triệu',
-          suffixStyle: AppStyles.normalContent,
+          suffixStyle: TextStyles.normalContent,
           suffixIcon: SizedBox(
             child: Center(
               widthFactor: 0.0,
               child: suffixText == 'm2'
                   ? MSquare(
-                      style: AppStyles.tinyContent
+                      style: TextStyles.tinyContent
                           .copyWith(color: AppColors.secondary),
                     )
                   : Text(
                       suffixText ?? '',
-                      style: AppStyles.tinyContent
+                      style: TextStyles.tinyContent
                           .copyWith(color: AppColors.secondary),
                     ),
             ),

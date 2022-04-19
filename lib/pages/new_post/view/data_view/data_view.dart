@@ -1,8 +1,6 @@
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/pages/new_post/bloc/new_post_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/data_view/bloc/data_view_bloc.dart';
-import 'package:bk_3d_view/values/app_constants.dart';
-import 'package:bk_3d_view/values/app_styles.dart';
+import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +17,6 @@ class DataView extends StatelessWidget {
         return ListView(
           padding: const EdgeInsets.all(AppConstants.pageMarginHorizontal),
           children: [
-            const Text(
-              'Step 1',
-              style: AppStyles.screenTitle,
-            ),
-            const SizedBox(height: 25),
             InputNewPost(
               controller: bloc.price,
               label: 'Giá',
@@ -52,7 +45,7 @@ class DataView extends StatelessWidget {
               display: bloc.state.province,
               onChange: (p) {
                 bloc.add(DataViewChangeAddressEvent<Province>(address: p!));
-                debugPrint('aaaaaa');
+                debugPrint(p.toJson().toString());
               },
             ),
             const SizedBox(height: 15),
@@ -72,7 +65,35 @@ class DataView extends StatelessWidget {
               onChange: (w) {
                 bloc.add(DataViewChangeAddressEvent<Ward>(address: w!));
               },
-            )
+            ),
+            const SizedBox(height: 15),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              controller: bloc.desc,
+              style: TextStyles.normalContent,
+              cursorColor: AppColors.primary,
+              minLines: 4,
+              maxLines: null,
+              decoration: const InputDecoration(
+                // labelText: label,
+                label: InputLabel(label: 'Mô tả', isRequired: false),
+                labelStyle: TextStyles.normalLabel,
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                floatingLabelStyle: TextStyles.normalLabel,
+                // suffixText: 'triệu',
+                suffixStyle: TextStyles.normalContent,
+
+                contentPadding: EdgeInsets.fromLTRB(15, 30, 5, 0),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.secondary),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(AppConstants.borderRadius))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.secondary),
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(AppConstants.borderRadius))),
+              ),
+            ),
           ],
         );
       },

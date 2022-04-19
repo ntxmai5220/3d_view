@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                           onTap: _toForgotPassword,
                           child: const Text(
                             'Quên mật khẩu?',
-                            style: AppStyles.tinyLabel,
+                            style: TextStyles.tinyLabel,
                           ),
                         ),
                       ),
@@ -131,11 +131,11 @@ class LoginPage extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                           text: 'Chưa có tài khoản? ',
-                          style: AppStyles.tinyContent,
+                          style: TextStyles.tinyContent,
                           children: <TextSpan>[
                             TextSpan(
                               text: 'Đăng ký',
-                              style: AppStyles.normalLabel
+                              style: TextStyles.normalLabel
                                   .copyWith(color: AppColors.primary),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = _toRegister,

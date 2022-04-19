@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static const primary = Color(0xFF00088B);
   static const darkPrimary = Color(0xFF00046C);
-  static const lightPrimary = Color(0xFFe6f7ff);
+  static const lightPrimary = Color(0xFFeffbff);
 
   static const secondary = Color(0xFFB4B4B4);
   static const darkSecondary = Color(0xFF646464);
@@ -13,6 +13,7 @@ class AppColors {
 
   static const yellow = Color(0xFFFFC800);
 
+  static const white = Color(0xFFFEFEFF);
   static const white80 = Color(0xE0FFFFFF);
   static const white70 = Color(0xB3FFFFFF);
 
@@ -24,5 +25,5 @@ class AppColors {
 
   static const textfieldBg = Color(0x66DEDEDE);
 
-  static const background = Color(0xFFF8F8F8);
+  static const background = Color(0x80DEDEDE);
 }

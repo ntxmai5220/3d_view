@@ -17,7 +17,7 @@ class MyDivider extends StatelessWidget {
         ),
         Text(
           'hoặc',
-          style: AppStyles.normalContent,
+          style: TextStyles.normalContent,
         ),
         Expanded(
           child: Divider(

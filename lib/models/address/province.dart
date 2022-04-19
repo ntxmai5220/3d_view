@@ -1,10 +1,11 @@
-class Province {
+import 'package:bk_3d_view/models/address/address.dart';
+
+class Province extends Address {
   Province({
     this.id,
-    this.name,
-  });
+    String? name,
+  }) : super(name: name);
   int? id;
-  String? name;
 
   Map<String, dynamic> toJson() {
     return {

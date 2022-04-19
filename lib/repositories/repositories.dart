@@ -1,10 +1,10 @@
 //export all files
-
+export 'new_post/new_post_repository.dart';
 //test api
 import 'package:bk_3d_view/apis/apis.dart';
 import 'package:flutter/material.dart';
 
-final ApiExecute apiExecute = ApiExecute(baseURL: BaseURLs.address);
+final ApiExecute apiExecute = ApiExecute.address();
 
 void testAPI() {
   debugPrint('test api');

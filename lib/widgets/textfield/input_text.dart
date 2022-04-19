@@ -26,13 +26,14 @@ class _MyInputTextState extends State<MyInputText> {
       textInputAction: widget.pw ? TextInputAction.done : TextInputAction.next,
       validator: widget.validator,
       controller: widget.controller,
-      style: AppStyles.normalContent,
+      style: TextStyles.normalContent,
       obscureText: widget.pw && !isVisible,
+      cursorColor: AppColors.darkSecondary,
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.textfieldBg,
         hintText: widget.hint,
-        hintStyle: AppStyles.normalContent
+        hintStyle: TextStyles.normalContent
             .copyWith(color: AppColors.darkSecondary.withOpacity(0.7)),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12, horizontal: 25),
@@ -55,7 +56,7 @@ class _MyInputTextState extends State<MyInputText> {
             borderRadius:
                 BorderRadius.all(Radius.circular(AppConstants.borderRadius)),
             borderSide: BorderSide.none),
-        errorStyle: AppStyles.tinyContent.copyWith(color: AppColors.red),
+        errorStyle: TextStyles.tinyContent.copyWith(color: AppColors.red),
         // errorBorder: const OutlineInputBorder(
         //     borderRadius: BorderRadius.all(Radius.circular(5)),
         //     borderSide: BorderSide(color: AppColor.iconColor)),

@@ -17,6 +17,17 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.0.1
   dio: ^4.0.4
+  auto_route: ^3.2.4
+  shared_preferences: ^2.0.13
+
+  dotted_border: ^2.0.0+2
+
+  external_app_launcher: ^2.0.2
+  open_file: ^3.2.1
+  path_provider:
+  permission_handler: ^9.2.0
+
+  image_picker: ^0.8.4+11
 
 dev_dependencies:
   flutter_test:
@@ -24,25 +35,23 @@ dev_dependencies:
 
   flutter_lints: ^1.0.0
 
-
 flutter:
   uses-material-design: true
-  
+
   assets:
     - assets/icons/
     - assets/images/
 
-    - assets/fonts/Lora/
+    - assets/fonts/Baloo2/
     - assets/fonts/Quicksand/
 
- 
   fonts:
-    - family: Lora
+    - family: Baloo2
       fonts:
-        - asset: assets/fonts/Lora/Lora-Regular.ttf
-        - asset: assets/fonts/Lora/Lora-Medium.ttf
+        - asset: assets/fonts/Baloo2/Baloo2-Regular.ttf
+        - asset: assets/fonts/Baloo2/Baloo2-Medium.ttf
           weight: 500
-        - asset: assets/fonts/Lora/Lora-Bold.ttf
+        - asset: assets/fonts/Baloo2/Baloo2-Bold.ttf
           weight: 700
     - family: Quicksand
       fonts:

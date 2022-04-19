@@ -1,5 +1,5 @@
 //export all files
-export './main_page.dart';
+export 'main_page/main_page.dart';
 
 //login
 export 'login/view/login_page.dart';
@@ -29,4 +29,4 @@ export 'manage_post/view/manage_post.dart';
 export 'post_detail/view/post_detail.dart';
 
 //new post
-export 'new_post/view/new_post.dart';
+export 'new_post/new_post_page.dart';

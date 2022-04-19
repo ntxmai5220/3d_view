@@ -15,16 +15,16 @@ class HeaderLogo extends StatelessWidget {
             children: [
               Text(
                 screen,
-                style: AppStyles.screenTitle,
+                style: TextStyles.screenTitle,
               ),
               RichText(
                 text: TextSpan(
                   text: 'Chào mừng đến với ',
-                  style: AppStyles.tinyLabel,
+                  style: TextStyles.tinyLabel,
                   children: <TextSpan>[
                     TextSpan(
                       text: '3D VIEW',
-                      style: AppStyles.buttonText
+                      style: TextStyles.buttonText
                           .copyWith(color: AppColors.primary),
                       // recognizer: TapGestureRecognizer()..onTap = () {},
                     ),

@@ -7,5 +7,4 @@ class OnChangePage extends MainPageEvent {
   final int index;
 
   OnChangePage(this.index);
-
 }

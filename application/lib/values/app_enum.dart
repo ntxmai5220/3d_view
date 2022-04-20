@@ -3,6 +3,7 @@ enum NewPostStep {
   image,
   thumbnail,
   hotspot,
+  remove,
 }
 
 enum HomeSection {
@@ -22,6 +23,8 @@ extension NewPostStepExtension on NewPostStep {
         return 'Chọn thumbnail';
       case NewPostStep.hotspot:
         return 'Tạo chuyển cảnh và chú thích';
+      case NewPostStep.remove:
+        return 'Xóa vật thể';
     }
   }
 }

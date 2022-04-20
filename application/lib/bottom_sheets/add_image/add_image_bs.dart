@@ -87,7 +87,8 @@ class AddImageBS extends StatelessWidget {
 
   pickImage(BuildContext context, {required ImageSource source}) async {
     try {
-      var image = await ImagePicker().pickImage(source: source);
+      var image =
+          await ImagePicker().pickImage(source: source, imageQuality: 100);
       if (image != null) {
         Navigator.pop(context, image.path);
       } else {
@@ -166,8 +167,8 @@ class AddImageBS extends StatelessWidget {
   Future confirmToDownload(BuildContext context) =>
       showDialog(context: context, builder: (context) => const CameraDialog());
 
-  uploadImage(BuildContext context) =>
-      showDialog(context: context, builder: (context) =>const  PickImageDialog());
+  uploadImage(BuildContext context) => showDialog(
+      context: context, builder: (context) => const PickImageDialog());
 
   Future downloading(BuildContext context, AddImageBSBloc bloc) => showDialog(
       context: context,

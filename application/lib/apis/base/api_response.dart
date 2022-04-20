@@ -2,12 +2,18 @@ class APIResponse {
   int? code;
   String? message;
   dynamic data;
+
   APIResponse.address({
     this.code,
     this.message,
     required this.data,
   });
 
+
+
+  // APIResponse.app({
+
+  // });
 
   factory APIResponse.fromJson(Map<String, dynamic> json) => APIResponse.address(
       code: json['code'],
@@ -23,3 +29,16 @@ class APIResponse {
     return List<Map<String, dynamic>>.from(data);
   }
 }
+// //list
+// {
+//   "result":{
+//     "list":[...]
+//     "count":list length
+//   }
+// }
+// //obj
+// {
+//   "result":{
+//     "object":{}
+//   }
+// }

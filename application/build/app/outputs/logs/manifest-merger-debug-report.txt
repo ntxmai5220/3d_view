@@ -7,11 +7,12 @@ INJECTED from D:\3d_view\application\android\app\src\main\AndroidManifest.xml:1:
 MERGED from D:\3d_view\application\android\app\src\main\AndroidManifest.xml:1:1-43:12
 MERGED from [:shared_preferences_android] D:\3d_view\application\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:permission_handler_android] D:\3d_view\application\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:image_picker] D:\3d_view\application\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-19:12
 MERGED from [:flutter_plugin_android_lifecycle] D:\3d_view\application\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:motion_sensors] D:\3d_view\application\build\motion_sensors\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:open_file] D:\3d_view\application\build\open_file\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-24:12
+MERGED from [:sqflite] D:\3d_view\application\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:path_provider_android] D:\3d_view\application\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.exifinterface:exifinterface:1.3.0] C:\Users\xuanm\.gradle\caches\transforms-2\files-2.1\aca0fa93cba0abc9c595c5a8fa109243\exifinterface-1.3.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\xuanm\.gradle\caches\transforms-2\files-2.1\a3a4d0b0c55dbcd1b794d7328b4f33a9\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -140,16 +141,18 @@ MERGED from [:shared_preferences_android] D:\3d_view\application\build\shared_pr
 MERGED from [:shared_preferences_android] D:\3d_view\application\build\shared_preferences_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] D:\3d_view\application\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] D:\3d_view\application\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] D:\3d_view\application\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] D:\3d_view\application\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] D:\3d_view\application\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] D:\3d_view\application\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:external_app_launcher] D:\3d_view\application\build\external_app_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:motion_sensors] D:\3d_view\application\build\motion_sensors\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:motion_sensors] D:\3d_view\application\build\motion_sensors\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:open_file] D:\3d_view\application\build\open_file\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-44
 MERGED from [:open_file] D:\3d_view\application\build\open_file\intermediates\library_manifest\debug\AndroidManifest.xml:6:5-44
+MERGED from [:sqflite] D:\3d_view\application\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:sqflite] D:\3d_view\application\build\sqflite\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_android] D:\3d_view\application\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider_android] D:\3d_view\application\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.3.0] C:\Users\xuanm\.gradle\caches\transforms-2\files-2.1\aca0fa93cba0abc9c595c5a8fa109243\exifinterface-1.3.0\AndroidManifest.xml:20:5-22:41

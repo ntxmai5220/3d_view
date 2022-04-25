@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var section = HomeSection.values;
-
+testAPI();
     // Size size = MediaQuery.of(context).size;
 
     bannerSection(BuildContext context) {

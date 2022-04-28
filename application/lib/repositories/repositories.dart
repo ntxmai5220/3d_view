@@ -5,10 +5,11 @@ import 'package:bk_3d_view/apis/apis.dart';
 import 'package:flutter/material.dart';
 
 final ApiExecute apiExecute = ApiExecute.address();
-
+final ApiExecute postApiExecute = ApiExecute.app();
 void testAPI() {
   debugPrint('test api');
-  testAddress();
+  // testAddress();
+  testPost();
 }
 
 testAddress() async {
@@ -21,4 +22,11 @@ testAddress() async {
 
   debugPrint(result.list.length.toString());
   result.list.forEach((element) => debugPrint(element.toJson().toString()));
+}
+
+testPost( )async{ var result;
+result= await PostService(apiExecute: postApiExecute).getPostDetail('625bd215fa9050c1dc04fdb4');
+
+debugPrint(result.toString());
+
 }

@@ -9,13 +9,16 @@ class ApiExecute {
   ApiExecute.address({
     BaseURL baseURL = BaseURLs.address,
   }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
+
   ApiExecute.app({
-    BaseURL baseURL = BaseURLs.address,
+    BaseURL baseURL = BaseURLs.app,
   }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
+
   ApiExecute({
     required BaseURL baseURL,
   }) : _dio = Dio(BaseOptions(baseUrl: baseURL.url));
-  Future<APIResponse> execute({required APIRequest request}) async {
+
+  Future<APIResponse> execute({required APIRequest request, ApiRequestType type = ApiRequestType.address}) async {
     Options options = Options(
       contentType: Headers.jsonContentType,
       method: request.method.value,
@@ -29,8 +32,8 @@ class ApiExecute {
         data: request.body,
         options: options,
       );
-
-      return APIResponse.fromJson(response.data);
+      
+      return type == ApiRequestType.address?APIResponse.fromJson(response.data):APIResponse.fromAppJson(response.data);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??
           APIResponse.fromJson(e.response?.data).message ??

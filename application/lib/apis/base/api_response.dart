@@ -9,36 +9,26 @@ class APIResponse {
     required this.data,
   });
 
+  APIResponse.app({required this.data});
 
-
-  // APIResponse.app({
-
-  // });
-
-  factory APIResponse.fromJson(Map<String, dynamic> json) => APIResponse.address(
-      code: json['code'],
-      message: json['message'],
-      data: json['data']
+  factory APIResponse.fromJson(Map<String, dynamic> json) =>
+      APIResponse.address(
+        code: json['code'],
+        message: json['message'],
+        data: json['data'],
       );
-
-  // Map<String, dynamic> toObject() {
-  //   return Map<String, dynamic>.from(data);
-  // }
+  factory APIResponse.fromAppJson(Map<String, dynamic> json) =>
+      APIResponse.app(data: json['result']);
 
   List<Map<String, dynamic>> toListAddress() {
     return List<Map<String, dynamic>>.from(data);
   }
+
+  Map<String, dynamic> toObject() {
+    return Map<String, dynamic>.from(data['object']);
+  }
+
+  List<Map<String, dynamic>> toList() {
+    return List<Map<String, dynamic>>.from(data['list']);
+  }
 }
-// //list
-// {
-//   "result":{
-//     "list":[...]
-//     "count":list length
-//   }
-// }
-// //obj
-// {
-//   "result":{
-//     "object":{}
-//   }
-// }

@@ -5,7 +5,7 @@ class Post {
     this.id,
     this.area,
     this.price,
-    this.isNew,
+    this.isUsed,
     this.isFavorite,
     this.isHidden,
     this.desc,
@@ -21,7 +21,7 @@ class Post {
   String? id;
   double? area;
   double? price;
-  bool? isNew;
+  bool? isUsed;
   bool? isFavorite;
   bool? isHidden;
   String? desc;
@@ -37,10 +37,10 @@ class Post {
   DateTime? creationTime;
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
-        id: json['id'],
+        id: json['_id'],
         area: json['area']?.toDouble(),
         price: json['price']?.toDouble(),
-        isNew: json['isNew'],
+        isUsed: json['isUsed'],
         isFavorite: json['isFavorite'],
         isHidden: json['isHidden'],
         desc: json['desc'],
@@ -67,7 +67,7 @@ class Post {
         'id': id,
         'area': area,
         'price': price,
-        'isNew': isNew,
+        'isNew': isUsed,
         'isFavorite':isFavorite,
         'isHidden':isHidden,
         'desc': desc,

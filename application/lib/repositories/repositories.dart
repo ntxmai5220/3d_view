@@ -25,8 +25,6 @@ testAddress() async {
 }
 
 testPost( )async{ var result;
-result= await PostService(apiExecute: postApiExecute).getPostDetail('625bd215fa9050c1dc04fdb4');
-
-debugPrint(result.toString());
+ PostService(apiExecute: postApiExecute).getPostDetail('625bd215fa9050c1dc04fdb4');
 
 }

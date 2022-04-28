@@ -1,2 +1,0 @@
-finaldev/motion_sensors/BuildConfig.java
- finaldev.motion_sensors.BuildConfig

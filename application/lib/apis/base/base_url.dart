@@ -19,7 +19,7 @@ class BaseURLs {
   );
   static const BaseURL app = BaseURL._(
     schemes: 'https://',
-    host: 'online-gateway.ghn.vn',
-    basePath: '/shiip/public-api/master-data/',
+    host: 'thesis-api.onrender.com',
+    basePath: '/v1/3dview/',
   );
 }

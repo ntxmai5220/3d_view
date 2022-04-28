@@ -72,7 +72,7 @@ class MyPage extends StatelessWidget {
                         onClick: items[index]['funct']);
                   },
                   separatorBuilder: (context, index) =>
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                   itemCount: items.length),
             ),
             Container(

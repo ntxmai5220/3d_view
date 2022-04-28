@@ -8,6 +8,12 @@ class ImageViewAddImageEvent extends ImageViewEvent {
   ImageViewAddImageEvent({required this.path});
 }
 
+class ImageViewAddMultipleImagesEvent extends ImageViewEvent {
+  final List<XFile> images;
+
+  ImageViewAddMultipleImagesEvent({required this.images});
+}
+
 class ImageViewDeleteImageEvent extends ImageViewEvent {
   final String? id;
 

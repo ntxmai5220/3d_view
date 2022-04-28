@@ -2,6 +2,7 @@ import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'image_view_event.dart';
 part 'image_view_state.dart';
@@ -12,6 +13,7 @@ class ImageViewBloc extends Bloc<ImageViewEvent, ImageViewState> {
       : _repository = repository,
         super(ImageViewInitial(rooms: [])) {
     on<ImageViewAddImageEvent>(addNewRoom);
+    on<ImageViewAddMultipleImagesEvent>(addMultiRooms);
     on<ImageViewDeleteImageEvent>(deleteRoom);
     on<ImageViewRenameImageEvent>(renameRoom);
   }
@@ -49,5 +51,26 @@ class ImageViewBloc extends Bloc<ImageViewEvent, ImageViewState> {
     // renameRoom.name = event.name;
     // currentState.rooms.elementAt(index).name = event.name;
     emit(ImageViewInitial(rooms: currentState.rooms));
+  }
+
+  addMultiRooms(
+      ImageViewAddMultipleImagesEvent event, Emitter<ImageViewState> emit) {
+    var currentState = state;
+    currentState.rooms;
+
+    for (XFile img in event.images) {
+      state.rooms.add(createRoom(img.path));
+    }
+    emit(ImageViewInitial(rooms: state.rooms));
+  }
+
+  Room createRoom(String path) {
+    String id;
+    if (state.rooms.isEmpty) {
+      id = '0';
+    } else {
+      id = (int.parse(state.rooms.last.id!) + 1).toString();
+    }
+    return Room(imgUrl: path, id: id, name: id);
   }
 }

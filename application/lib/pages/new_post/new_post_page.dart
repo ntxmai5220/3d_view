@@ -5,6 +5,7 @@ import 'package:bk_3d_view/pages/new_post/view/hotspot_view/hotspot_view.dart';
 import 'package:bk_3d_view/pages/new_post/view/image_view/bloc/image_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/image_view/image_view.dart';
 import 'package:bk_3d_view/pages/new_post/view/remove_view/remove_view.dart';
+import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/bloc/thumbnail_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
@@ -28,70 +29,80 @@ class NewPostPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var steps = NewPostStep.values;
     // Size size = MediaQuery.of(context).size;
-    return RepositoryProvider(
-      create: (context) => NewPostRepository(),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => NewPostBloc(
-                repository: RepositoryProvider.of<NewPostRepository>(context)),
-          ),
-          BlocProvider(
-            create: (context) => DataViewBloc(
-                repository: RepositoryProvider.of<NewPostRepository>(context))
-              ..add(DataViewInitEvent()),
-          ),
-          BlocProvider(
-            create: (context) => ImageViewBloc(
-                repository: RepositoryProvider.of<NewPostRepository>(context)),
-          )
-        ],
-        child: BlocBuilder<NewPostBloc, NewPostState>(
-          builder: (context, state) {
-            NewPostBloc bloc = context.read<NewPostBloc>();
-            debugPrint(bloc.state.currentStep.toString());
-            return Scaffold(
-              backgroundColor: AppColors.white,
-              appBar: AppBar(
-                elevation: 0,
-                automaticallyImplyLeading: false,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: RepositoryProvider(
+        create: (context) => NewPostRepository(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => NewPostBloc(
+                  repository:
+                      RepositoryProvider.of<NewPostRepository>(context)),
+            ),
+            BlocProvider(
+              create: (context) => DataViewBloc(
+                  repository: RepositoryProvider.of<NewPostRepository>(context))
+                ..add(DataViewInitEvent()),
+            ),
+            BlocProvider(
+              create: (context) => ImageViewBloc(
+                  repository:
+                      RepositoryProvider.of<NewPostRepository>(context)),
+            ),
+            BlocProvider(
+              create: (context) => ThumbnailViewBloc(
+                  repository:
+                      RepositoryProvider.of<NewPostRepository>(context)),
+            ),
+          ],
+          child: BlocBuilder<NewPostBloc, NewPostState>(
+            builder: (context, state) {
+              NewPostBloc bloc = context.read<NewPostBloc>();
+              debugPrint(bloc.state.currentStep.toString());
+              return Scaffold(
                 backgroundColor: AppColors.white,
-                centerTitle: true,
-                title: AppBarTextTitle(
-                  title: 'Bước ${(state.currentStep + 1).toString()}',
-                  color: AppColors.darkPrimary,
-                ),
-                leading: Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: ActionButton(
-                    label: 'Hủy',
-                    labelColor: AppColors.red,
-                    onTap: () {},
+                appBar: AppBar(
+                  elevation: 0,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: AppColors.white,
+                  centerTitle: true,
+                  title: AppBarTextTitle(
+                    title: 'Bước ${(state.currentStep + 1).toString()}',
+                    color: AppColors.darkPrimary,
+                  ),
+                  leading: Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: ActionButton(
+                      label: 'Hủy',
+                      labelColor: AppColors.red,
+                      onTap: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  actions: bloc.state.currentStep == steps.length - 1
+                      ? [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: ActionButton(
+                              label: 'Xong',
+                              labelColor: AppColors.green,
+                              onTap: () {},
+                            ),
+                          )
+                        ]
+                      : null,
+                  bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(35),
+                    child: buildStepControl(context, steps: steps),
                   ),
                 ),
-                actions: bloc.state.currentStep == steps.length - 1
-                    ? [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5),
-                          child: ActionButton(
-                            label: 'Xong',
-                            labelColor: AppColors.green,
-                            onTap: () {},
-                          ),
-                        )
-                      ]
-                    : null,
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(35),
-                  child: buildStepControl(context, steps: steps),
+                body: IndexedStack(
+                  index: bloc.state.currentStep,
+                  children: steps.map((step) => getStepView(step)).toList(),
                 ),
-              ),
-              body: IndexedStack(
-                index: bloc.state.currentStep,
-                children: steps.map((step) => getStepView(step)).toList(),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

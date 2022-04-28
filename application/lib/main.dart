@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
               labelColor: AppColors.white,
               unselectedLabelColor: AppColors.darkSecondary,
             ),
+            textTheme: const TextTheme(bodyMedium: TextStyles.normalContent),
             appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
             dialogTheme: const DialogTheme(
                 shape: RoundedRectangleBorder(
@@ -49,10 +50,10 @@ class MyApp extends StatelessWidget {
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 sizeConstraints: BoxConstraints(
-                  maxHeight: 47,
-                  minHeight: 47,
-                  maxWidth: 47,
-                  minWidth: 47,
+                  maxHeight: 46,
+                  minHeight: 46,
+                  maxWidth: 46,
+                  minWidth: 46,
                 ),
                 backgroundColor: AppColors.darkPrimary)),
         home: const MainPage(),

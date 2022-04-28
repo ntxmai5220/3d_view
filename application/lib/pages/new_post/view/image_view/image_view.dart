@@ -8,6 +8,7 @@ import 'package:bk_3d_view/values/values.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageView extends StatelessWidget {
   const ImageView({Key? key}) : super(key: key);
@@ -15,12 +16,12 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-    ImageViewBloc bloc = context.read<ImageViewBloc>();
+    ImageViewBloc imageViewBloc = context.read<ImageViewBloc>();
     Widget itemBuilder(BuildContext context, int index) => ImageItem(
-          room: bloc.state.rooms.elementAt(index),
-          onDeleteImage: (id) => bloc.add(ImageViewDeleteImageEvent(id: id)),
+          room: imageViewBloc.state.rooms.elementAt(index),
+          onDeleteImage: (id) => imageViewBloc.add(ImageViewDeleteImageEvent(id: id)),
           onRenameImage: (id) => showRenameDialog(context,
-              room: bloc.state.rooms.elementAt(index)),
+              room: imageViewBloc.state.rooms.elementAt(index)),
         );
     return BlocBuilder<ImageViewBloc, ImageViewState>(
       builder: (context, state) {
@@ -37,9 +38,16 @@ class ImageView extends StatelessWidget {
                       height: 48,
                       child: GestureDetector(
                         onTap: () async {
-                          String? path = await showAddImageOptionsBS(context);
-                          if (path != null) {
-                            bloc.add(ImageViewAddImageEvent(path: path));
+                          List<XFile>? images =
+                              await showAddImageOptionsBS(context);
+                          // String? path = await showAddImageOptionsBS(context);
+                          // if (path != null) {
+                          // bloc.add(ImageViewAddImageEvent(path: path));
+
+                          // }
+                          if (images != null) {
+                            imageViewBloc.add(ImageViewAddMultipleImagesEvent(
+                                images: images));
                           }
                         },
                         child: DottedBorder(
@@ -97,7 +105,7 @@ class ImageView extends StatelessWidget {
     );
   }
 
-  Future<String?> showAddImageOptionsBS(BuildContext context) =>
+  Future showAddImageOptionsBS(BuildContext context) =>
       ShowBottomSheet.showBS(context);
 
   showRenameDialog(BuildContext context, {required Room room}) async {

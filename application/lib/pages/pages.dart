@@ -30,3 +30,6 @@ export 'post_detail/view/post_detail.dart';
 
 //new post
 export 'new_post/new_post_page.dart';
+
+//remove object
+export 'remove_object/remove_object_page.dart';

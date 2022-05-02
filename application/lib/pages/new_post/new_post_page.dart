@@ -27,7 +27,13 @@ class NewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var steps = NewPostStep.values;
+    // var steps = NewPostStep.values;
+    List<NewPostStep> steps = [
+      NewPostStep.data,
+      NewPostStep.image,
+      NewPostStep.thumbnail,
+      NewPostStep.hotspot,
+    ];
     // Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,

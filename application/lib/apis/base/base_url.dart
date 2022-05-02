@@ -22,4 +22,10 @@ class BaseURLs {
     host: 'thesis-api.onrender.com',
     basePath: '/v1/3dview/',
   );
+
+  static const BaseURL inpainting = BaseURL._(
+    schemes: 'https://',
+    host: 'master-generative-inpainting-woomurf.endpoint.ainize.ai',
+    basePath: '/inpainting',
+  );
 }

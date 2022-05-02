@@ -2,6 +2,7 @@
 export './response/response.dart';
 
 export './post.dart';
+export './postImage.dart';
 export './room.dart';
 export 'hotspot.dart';
 

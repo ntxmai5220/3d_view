@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/models/MapUtility.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class Post {
@@ -63,11 +64,11 @@ class Post {
             : null,
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => MapUtility.getNonNull({
         'id': id,
         'area': area,
         'price': price,
-        'isNew': isUsed,
+        'isUsed': isUsed,
         'isFavorite':isFavorite,
         'isHidden':isHidden,
         'desc': desc,
@@ -78,5 +79,5 @@ class Post {
         'rooms': rooms,
         'creatorId': creatorId,
         'creationTime': creationTime?.toIso8601String(),
-      };
+      });
 }

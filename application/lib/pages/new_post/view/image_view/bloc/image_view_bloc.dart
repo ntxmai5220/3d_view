@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';

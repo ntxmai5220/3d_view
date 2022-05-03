@@ -9,3 +9,7 @@ export './base/api_execute.dart';
 //address
 export './address/address_request.dart';
 export './address/address_service.dart';
+
+//post
+export './post/post_request.dart';
+export './post/post_service.dart';

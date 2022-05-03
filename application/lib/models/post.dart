@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/models/MapUtility.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class Post {
@@ -5,7 +6,7 @@ class Post {
     this.id,
     this.area,
     this.price,
-    this.isNew,
+    this.isUsed,
     this.isFavorite,
     this.isHidden,
     this.desc,
@@ -21,7 +22,7 @@ class Post {
   String? id;
   double? area;
   double? price;
-  bool? isNew;
+  bool? isUsed;
   bool? isFavorite;
   bool? isHidden;
   String? desc;
@@ -37,10 +38,10 @@ class Post {
   DateTime? creationTime;
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
-        id: json['id'],
+        id: json['_id'],
         area: json['area']?.toDouble(),
         price: json['price']?.toDouble(),
-        isNew: json['isNew'],
+        isUsed: json['isUsed'],
         isFavorite: json['isFavorite'],
         isHidden: json['isHidden'],
         desc: json['desc'],
@@ -63,11 +64,11 @@ class Post {
             : null,
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() => MapUtility.getNonNull({
         'id': id,
         'area': area,
         'price': price,
-        'isNew': isNew,
+        'isUsed': isUsed,
         'isFavorite':isFavorite,
         'isHidden':isHidden,
         'desc': desc,
@@ -78,5 +79,5 @@ class Post {
         'rooms': rooms,
         'creatorId': creatorId,
         'creationTime': creationTime?.toIso8601String(),
-      };
+      });
 }

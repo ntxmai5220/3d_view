@@ -1,2 +1,0 @@
-net/zonble/flutterinstallappplugin/BuildConfig.java
- net.zonble.flutterinstallappplugin.BuildConfig

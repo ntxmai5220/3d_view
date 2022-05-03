@@ -6,22 +6,22 @@ class Ward extends Address {
     this.districtId,
     String? name,
   }) : super(name: name);
-  String? code;
+  int? code;
   int? districtId;
 
   Map<String, dynamic> toJson() {
     return {
-      'WardCode': code,
-      'DistrictID': districtId,
-      'WardName': name,
+      'code': code,
+      'districtId': districtId,
+      'name': name,
     };
   }
 
   factory Ward.fromJson(Map<String, dynamic> map) {
     return Ward(
-      code: map['WardCode'],
-      districtId: map['DistrictID']?.toInt(),
-      name: map['WardName'],
+      code: map['code'],
+      districtId: map['districtId']?.toInt(),
+      name: map['name'],
     );
   }
 }

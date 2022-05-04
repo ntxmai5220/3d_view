@@ -65,7 +65,7 @@ class CaptureThumbnail extends StatelessWidget {
           ),
         ),
       );
-      final ui.Image image = await boundary.toImage(pixelRatio: 5);
+      final ui.Image image = await boundary.toImage(pixelRatio: 4);
 
       final ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
@@ -76,68 +76,66 @@ class CaptureThumbnail extends StatelessWidget {
       print(image.width);
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Stack(
-                children: [
-                  Positioned.fill(
-                    // key: globalKey,
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      color: Colors.white12,
-                      child: RawImage(
-                        image: image,
-                      ),
+          builder: (context) => Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                Positioned.fill(
+                  // key: globalKey,
+                  child: Container(
+                    // padding: const EdgeInsets.all(15),
+                    color: Colors.white12,
+                    child: RawImage(
+                      image: image,
                     ),
                   ),
-                  Positioned(
-                    top: 20,
-                    left: 20,
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          FloatingActionButton(
-                              heroTag: 'back',
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Icon(Icons.arrow_back_ios_rounded)),
-                          const SizedBox(height: 15),
-                          FloatingActionButton(
-                              heroTag: 'capture',
-                              onPressed: () {
-                                {
-                                  capture.add(image);
-                                  Navigator.of(context).pop();
-                                }
-                              },
-                              child: const Icon(Icons.save)),
-                        ],
-                      ),
+                ),
+                Positioned(
+                  top: 20,
+                  left: 20,
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        FloatingActionButton(
+                            heroTag: 'back',
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Icon(Icons.arrow_back_ios_rounded)),
+                        const SizedBox(height: 15),
+                        FloatingActionButton(
+                            heroTag: 'capture',
+                            onPressed: () {
+                              {
+                                capture.add(image);
+                                Navigator.of(context).pop();
+                              }
+                            },
+                            child: const Icon(Icons.save)),
+                      ],
                     ),
-                  )
-                ],
-              ),
-              // Row(
-              //   children: [
-              //     Container(
-              //         color: Colors.black,
-              //         child: FloatingActionButton(
-              //             onPressed: () {
-              //               capture.add(image);
-              //               debugPrint(capture.length.toString());
-              //             },
-              //             child: const Icon(
-              //               Icons.save_rounded,
-              //               color: Colors.white,
-              //             ))),
-              //     Expanded(
-              //       child: RawImage(
-              //         image: image,
-              //       ),
-              //     ),
-              //   ],
-              // ),
+                  ),
+                )
+              ],
             ),
+            // Row(
+            //   children: [
+            //     Container(
+            //         color: Colors.black,
+            //         child: FloatingActionButton(
+            //             onPressed: () {
+            //               capture.add(image);
+            //               debugPrint(capture.length.toString());
+            //             },
+            //             child: const Icon(
+            //               Icons.save_rounded,
+            //               color: Colors.white,
+            //             ))),
+            //     Expanded(
+            //       child: RawImage(
+            //         image: image,
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
           fullscreenDialog: false,
         ),

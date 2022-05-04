@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:bk_3d_view/minhApis/base/DioRequest.dart';
-import 'package:bk_3d_view/minhApis/base/OptionBuilder.dart';
+import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:dio/dio.dart';
 
 class InPaintingRequest {

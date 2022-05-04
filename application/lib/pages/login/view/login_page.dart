@@ -63,7 +63,6 @@ class LoginPage extends StatelessWidget {
 
     _login() {
       // debugPrint('login');
-      testAPI();
       if (validation()) {
         //login success
         // debugPrint('login');

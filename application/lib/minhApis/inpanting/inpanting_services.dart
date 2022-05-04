@@ -1,7 +1,4 @@
-import 'package:bk_3d_view/minhApis/base/DioRequest.dart';
-import 'package:bk_3d_view/minhApis/base/InPantingClient.dart';
-import 'package:bk_3d_view/minhApis/inpanting/inpantingRequest.dart';
-import 'package:dio/dio.dart';
+import 'package:bk_3d_view/minhApis/apis.dart';
 
 class InPaintingServies {
   String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2tleV9pZCI6NDcsImV4cCI6MTY1NDEwMTQwMywiaWF0IjoxNjUxNTA5NDAzfQ.AXP-Mkdf4qhuV78uah0MllfWBk4WnmejdOHZ_NyyH2M";

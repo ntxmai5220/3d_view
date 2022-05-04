@@ -16,6 +16,13 @@ class Province extends Address {
 
   factory Province.fromJson(Map<String, dynamic> map) {
     return Province(
+      id: map['ProvinceID']?.toInt(),
+      name: map['ProvinceName'],
+    );
+  }
+
+  factory Province.fromApp(Map<String, dynamic> map) {
+    return Province(
       id: map['id']?.toInt(),
       name: map['name'],
     );

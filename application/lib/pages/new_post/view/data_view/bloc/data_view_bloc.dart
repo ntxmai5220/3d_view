@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 part 'data_view_event.dart';
 part 'data_view_state.dart';
 
-
 class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   TextEditingController area = TextEditingController();
   TextEditingController price = TextEditingController();
@@ -48,8 +47,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     }
   }
 
-  onChangeWard(
-      DataViewChangeAddressEvent<Ward> event, Emitter<DataViewState> emit) async {
+  onChangeWard(DataViewChangeAddressEvent<Ward> event,
+      Emitter<DataViewState> emit) async {
     var currentState = state;
     if (currentState is DataViewInitial) {
       emit(currentState.update(ward: state.wards?.indexOf(event.address) ?? 0));
@@ -68,7 +67,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       emit(DataViewInitial(provinces: result.list));
       // return result.list;
     } catch (e) {
-      emit(const DataViewInitial(provinces:[]));
+      emit(const DataViewInitial(provinces: []));
     }
   }
 
@@ -86,7 +85,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     } catch (e) {}
   }
 
-  onLoadWards(DataViewLoadEvent<Ward> event, Emitter<DataViewState> emit) async {
+  onLoadWards(
+      DataViewLoadEvent<Ward> event, Emitter<DataViewState> emit) async {
     try {
       var result = await _repository.getWard(
           districtId: state.districts?.elementAt(state.district ?? 0).id ?? 0);
@@ -94,6 +94,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       if (currentState is DataViewInitial) {
         emit(currentState.update(wards: result.list));
         // emit(DataViewInitial(districts: result.list));
+      } else {
+        print('abc');
       }
       // return result.list;
     } catch (e) {}

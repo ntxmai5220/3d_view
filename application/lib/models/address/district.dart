@@ -20,6 +20,13 @@ class District extends Address {
 
   factory District.fromJson(Map<String, dynamic> map) {
     return District(
+      id: map['DistrictID']?.toInt(),
+      name: map['DistrictName'],
+      provinceId: map['ProvinceID']?.toInt(),
+    );
+  }
+  factory District.fromApp(Map<String, dynamic> map) {
+    return District(
       id: map['id']?.toInt(),
       name: map['name'],
       provinceId: map['provinceId']?.toInt(),

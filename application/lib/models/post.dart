@@ -1,4 +1,4 @@
-import 'package:bk_3d_view/models/MapUtility.dart';
+import 'package:bk_3d_view/models/map_utility.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class Post {
@@ -33,7 +33,8 @@ class Post {
   District? district;
   Ward? ward;
 
-  List<Room>? rooms;
+  List<String>? rooms;
+  // List<Room>? rooms;
   String? creatorId;
   DateTime? creationTime;
 
@@ -47,37 +48,48 @@ class Post {
         desc: json['desc'],
         address: json['address'],
         province: json['province'] != null
-            ? Province.fromJson(json['province'])
+            ? Province.fromApp(json['province'])
             : null,
         district: json['province'] != null
-            ? District.fromJson(json['district'])
+            ? District.fromApp(json['district'])
             : null,
-        ward: json['ward'] != null ? Ward.fromJson(json['ward']) : null,
+        ward: json['ward'] != null ? Ward.fromApp(json['ward']) : null,
         rooms: json['rooms'] != null
-            ? List<Map<String, dynamic>>.from(json['rooms'])
-                .map((e) => Room.fromJson(e))
-                .toList()
+            ? List<String>.from(json['rooms']).toList()
             : null,
+        // rooms: json['rooms'] != null
+        //     ? List<Map<String, dynamic>>.from(json['rooms'])
+        //         .map((e) => Room.fromJson(e))
+        //         .toList()
+        //     : null,
         creatorId: json['creatorId'],
         creationTime: json['creationTime'] != null
             ? DateTime.parse(json['creationTime']).toLocal()
             : null,
       );
 
-  Map<String, dynamic> toMap() => MapUtility.getNonNull({
-        'id': id,
-        'area': area,
-        'price': price,
-        'isUsed': isUsed,
-        'isFavorite':isFavorite,
-        'isHidden':isHidden,
-        'desc': desc,
-        'address': address,
-        'province': province,
-        'district': district,
-        'ward': ward,
-        'rooms': rooms,
-        'creatorId': creatorId,
-        'creationTime': creationTime?.toIso8601String(),
-      });
+  Map<String, String> toFormData() => {
+        // 'id': id ?? '',
+        'area': area?.toString() ?? '',
+        'price': price?.toString() ?? '',
+        // 'isUsed': isUsed?.toString()??'false',
+        // 'isFavorite':isFavorite?.toString() ?? 'false',
+        // 'isHidden':isHidden?.toString() ?? 'false',
+        'province[id]': province?.id.toString() ?? '',
+        'province[name]': province?.name ?? '',
+        'district[id]': district?.id.toString() ?? '',
+        'district[name]': district?.name ?? '',
+        'district[provinceId]': district?.provinceId.toString() ?? '',
+        'ward[code]': ward?.code.toString() ?? '',
+        'ward[name]': ward?.name ?? '',
+        'ward[districtId]': ward?.districtId.toString() ?? '',
+        'desc': desc ?? '',
+        'address': address ?? '',
+        // 'province': province?.toJson().toString() ?? '',
+        // 'district': district?.toJson().toString() ?? '',
+        // 'ward': ward?.toJson().toString() ?? '',
+        // 'rooms': rooms,
+        // 'creatorId': creatorId ?? '',
+        // 'creationTime': creationTime?.toIso8601String() ?? '',
+      };
 }

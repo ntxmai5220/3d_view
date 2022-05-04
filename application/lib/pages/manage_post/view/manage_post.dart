@@ -49,27 +49,25 @@ class ManagePost extends StatelessWidget {
         ),
         body: SafeArea(
             child: SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppConstants.pageMarginHorizontal / 1.5,
-                      vertical: AppConstants.pageMarginHorizontal / 1.5),
-                  child: Wrap(
-                      // alignment: WrapAlignment.center,
-                      runSpacing: 15,
-                      spacing: 15,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: List.filled(10, 0)
-                          .map((e) => PostItem(
-                                post: post,
-                                onTapPost: (id) => onClickPost(context, 0),
-                                onToggleFavorite: (id) =>
-                                    onToggleFavorite(context, 0),
-                              ))
-                          .toList()),
-                ),
-              ),
-            )),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.pageMarginHorizontal / 1.5,
+                vertical: AppConstants.pageMarginHorizontal / 1.5),
+            child: Wrap(
+                // alignment: WrapAlignment.center,
+                runSpacing: 15,
+                spacing: 15,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: List.filled(10, 0)
+                    .map((e) => PostItem(
+                          post: post,
+                          onTapPost: (id) => onClickPost(context, 0),
+                          onToggleFavorite: (id) =>
+                              onToggleFavorite(context, 0),
+                        ))
+                    .toList()),
+          ),
+        )),
         floatingActionButton: Container(
           margin: const EdgeInsets.all(AppConstants.pageMarginHorizontal / 4),
           child: FloatingActionButton(

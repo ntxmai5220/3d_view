@@ -10,6 +10,8 @@ import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dar
 import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/dialog/loading_dialog.dart';
+import 'package:bk_3d_view/widgets/dialog/my_dialog.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +31,12 @@ class NewPostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var steps = NewPostStep.values;
+    // List<NewPostStep> steps = [
+    //   NewPostStep.data,
+    //   NewPostStep.image,
+    //   NewPostStep.thumbnail,
+    //   NewPostStep.hotspot,
+    // ];
     // Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async => false,
@@ -57,7 +65,19 @@ class NewPostPage extends StatelessWidget {
                       RepositoryProvider.of<NewPostRepository>(context)),
             ),
           ],
-          child: BlocBuilder<NewPostBloc, NewPostState>(
+          child: BlocConsumer<NewPostBloc, NewPostState>(
+            listenWhen: (previous, current) {
+              return (previous is NewPostLoading &&
+                      current is NewPostInitial) ||
+                  (previous is NewPostInitial && current is NewPostLoading);
+            },
+            listener: (context, state) {
+              if (state is NewPostLoading) {
+                ShowMyDialog.show(context, dialog: const LoadingDialog());
+              } else {
+                Navigator.pop(context);
+              }
+            },
             builder: (context, state) {
               NewPostBloc bloc = context.read<NewPostBloc>();
               debugPrint(bloc.state.currentStep.toString());
@@ -145,7 +165,8 @@ class NewPostPage extends StatelessWidget {
           ),
           bloc.state.currentStep != steps.length - 1
               ? GestureDetector(
-                  onTap: () => bloc.add(NewPostNextEvent()),
+                  onTap: () => nextStep(context,
+                      currentStep: steps[bloc.state.currentStep]),
                   child: const Icon(
                     Icons.arrow_right_rounded,
                     size: 39,
@@ -170,6 +191,37 @@ class NewPostPage extends StatelessWidget {
         return const HotSpotView();
       case NewPostStep.remove:
         return const RemoveView();
+    }
+  }
+
+  nextStep(BuildContext context, {required NewPostStep currentStep}) {
+    NewPostBloc bloc = context.read<NewPostBloc>();
+    DataViewBloc dataViewBloc = context.read<DataViewBloc>();
+    switch (currentStep) {
+      case NewPostStep.image:
+        //call api create post
+
+        Post post = Post(
+          area: double.tryParse(dataViewBloc.area.text),
+          price: double.tryParse(dataViewBloc.price.text),
+          isUsed: false,
+          isHidden: false,
+          isFavorite: false,
+          desc: dataViewBloc.desc.text,
+          address: dataViewBloc.address.text,
+          ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!],
+          district: dataViewBloc.state.districts?[dataViewBloc.state.district!],
+          province: dataViewBloc.state.provinces?[dataViewBloc.state.province!],
+          // rooms: ,
+          // creatorId: '625bd0648e18145a85211945'
+        );
+        bloc.add(NewPostCreateEvent(
+          post: post,
+          rooms: context.read<ImageViewBloc>().state.rooms,
+        ));
+        break;
+      default:
+        bloc.add(NewPostNextEvent());
     }
   }
 }

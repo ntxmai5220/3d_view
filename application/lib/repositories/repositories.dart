@@ -1,13 +1,1 @@
-
-import 'package:bk_3d_view/minhApis/post/postServices.dart';
-
-void testAPI() {
-  print("Debug");
-
-  testPost();
-}
-
-testPost( )async{ 
-
-
-}
+export './new_post/new_post_repository.dart';

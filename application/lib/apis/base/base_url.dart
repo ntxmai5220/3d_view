@@ -15,7 +15,7 @@ class BaseURLs {
   static const BaseURL address = BaseURL._(
     schemes: 'https://',
     host: 'online-gateway.ghn.vn',
-    basePath: '/shiip/public-api/master-data/',
+    basePath: '/shiip/public-api/master-data',
   );
   static const BaseURL app = BaseURL._(
     schemes: 'https://',

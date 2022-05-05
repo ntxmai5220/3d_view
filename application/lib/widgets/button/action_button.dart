@@ -7,19 +7,21 @@ class ActionButton extends StatelessWidget {
     required this.label,
     this.labelStyle = TextStyles.tinyLabel,
     this.labelColor,
+    this.background,
     this.padding = 0,
     this.onTap,
   }) : super(key: key);
   final String label;
   final TextStyle labelStyle;
   final Color? labelColor;
+  final Color? background;
   final double padding;
 
   final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-        // color: Colors.amber,
+        color: background,
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8 + padding),
         minSize: 25 + padding,
         child: Text(

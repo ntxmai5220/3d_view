@@ -55,6 +55,7 @@ class DataView extends StatelessWidget {
               display: bloc.state.district,
               onChange: (d) {
                 bloc.add(DataViewChangeAddressEvent<District>(address: d!));
+                debugPrint(d.toJson().toString());
               },
             ),
             const SizedBox(height: 15),

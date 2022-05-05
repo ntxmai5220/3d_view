@@ -1,5 +1,5 @@
 class MapUtility {
-  static Map<String, dynamic> getNonNull(Map<String, dynamic> map){
+  static Map<String, String?> getNonNull(Map<String, String?> map){
     return map..removeWhere((key, value) => value == null);
   }
 }

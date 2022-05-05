@@ -8,6 +8,7 @@ import 'package:bk_3d_view/values/values.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImageView extends StatelessWidget {
   const ImageView({Key? key}) : super(key: key);
@@ -15,70 +16,65 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
-    ImageViewBloc bloc = context.read<ImageViewBloc>();
+    ImageViewBloc imageViewBloc = context.read<ImageViewBloc>();
     Widget itemBuilder(BuildContext context, int index) => ImageItem(
-          room: bloc.state.rooms.elementAt(index),
-          onDeleteImage: (id) => bloc.add(ImageViewDeleteImageEvent(id: id)),
+          room: imageViewBloc.state.rooms.elementAt(index),
+          onDeleteImage: (id) =>
+              imageViewBloc.add(ImageViewDeleteImageEvent(id: id)),
           onRenameImage: (id) => showRenameDialog(context,
-              room: bloc.state.rooms.elementAt(index)),
+              room: imageViewBloc.state.rooms.elementAt(index)),
         );
     return BlocBuilder<ImageViewBloc, ImageViewState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding:
-                const EdgeInsets.all(AppConstants.pageMarginHorizontal / 1.5),
-            child: Wrap(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      height: 48,
-                      child: GestureDetector(
-                        onTap: () async {
-                          String? path = await showAddImageOptionsBS(context);
-                          if (path != null) {
-                            bloc.add(ImageViewAddImageEvent(path: path));
-                          }
-                        },
-                        child: DottedBorder(
-                          color: AppColors.secondary,
-                          dashPattern: const [5, 2],
-                          strokeWidth: 0.9,
-                          borderType: BorderType.RRect,
-                          radius:
-                              const Radius.circular(AppConstants.borderRadius),
-                          child: Center(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(
-                                Icons.add_circle_rounded,
-                                color: AppColors.darkSecondary,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Thêm',
-                                style: TextStyles.normalContent,
-                              )
-                            ],
-                          )),
-                        ),
-                      ),
-                    ),
+        return Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.all(AppConstants.pageMarginHorizontal / 1.5),
+              child: SizedBox(
+                height: 48,
+                child: GestureDetector(
+                  onTap: () async {
+                    List<XFile>? images = await showAddImageOptionsBS(context);
+                    // String? path = await showAddImageOptionsBS(context);
+                    // if (path != null) {
+                    // bloc.add(ImageViewAddImageEvent(path: path));
 
-                    // ListView.separated(
-                    //   shrinkWrap: true,
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   itemCount: state.rooms.length,
-                    //   itemBuilder: itemBuilder,
-                    //   separatorBuilder: (context, index) => const SizedBox(height: 15),
-                    // ),
-                  ],
+                    // }
+                    if (images != null) {
+                      imageViewBloc
+                          .add(ImageViewAddMultipleImagesEvent(images: images));
+                    }
+                  },
+                  child: DottedBorder(
+                    color: AppColors.secondary,
+                    dashPattern: const [5, 2],
+                    strokeWidth: 0.9,
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(AppConstants.borderRadius),
+                    child: Center(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.add_circle_rounded,
+                          color: AppColors.darkSecondary,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          'Thêm',
+                          style: TextStyles.normalContent,
+                        )
+                      ],
+                    )),
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 75),
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 3, bottom: 75),
                   child: Wrap(
                       // alignment: WrapAlignment.center,
                       runSpacing: 15,
@@ -88,16 +84,16 @@ class ImageView extends StatelessWidget {
                           .map((e) =>
                               itemBuilder(context, state.rooms.indexOf(e)))
                           .toList()),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
+          ],
         );
       },
     );
   }
 
-  Future<String?> showAddImageOptionsBS(BuildContext context) =>
+  Future showAddImageOptionsBS(BuildContext context) =>
       ShowBottomSheet.showBS(context);
 
   showRenameDialog(BuildContext context, {required Room room}) async {

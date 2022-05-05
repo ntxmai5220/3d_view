@@ -2,10 +2,10 @@ part of 'image_view_bloc.dart';
 
 abstract class ImageViewEvent {}
 
-class ImageViewAddImageEvent extends ImageViewEvent {
-  final String path;
+class ImageViewAddMultipleImagesEvent extends ImageViewEvent {
+  final List<XFile> images;
 
-  ImageViewAddImageEvent({required this.path});
+  ImageViewAddMultipleImagesEvent({required this.images});
 }
 
 class ImageViewDeleteImageEvent extends ImageViewEvent {

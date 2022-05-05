@@ -48,10 +48,12 @@ class EditImageDialog extends StatelessWidget {
             style: TextStyles.normalContent
                 .copyWith(color: AppColors.darkSecondary),
             cursorColor: AppColors.darkSecondary,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
                 prefixText: 'Phòng ',
+                prefixStyle: TextStyles.normalContent
+                    .copyWith(color: AppColors.darkSecondary),
                 isDense: true,
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 border: InputBorder.none
                 // filled: true,
                 // fillColor: AppColors.lightSecondary45,

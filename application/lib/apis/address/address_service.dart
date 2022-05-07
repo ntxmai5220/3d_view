@@ -30,7 +30,6 @@ class AddressService {
   //get wards
   Future<ListResponse<Ward>> getWards({required int districtId}) async {
     final request = AddressRequest.getWards(districtId: districtId);
-
     APIResponse response = await apiExecute.execute(request: request);
 
     List<Ward> list =

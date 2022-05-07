@@ -12,27 +12,12 @@ class ImageViewBloc extends Bloc<ImageViewEvent, ImageViewState> {
   ImageViewBloc({required NewPostRepository repository})
       : _repository = repository,
         super(ImageViewInitial(rooms: [])) {
-    on<ImageViewAddImageEvent>(addNewRoom);
     on<ImageViewAddMultipleImagesEvent>(addMultiRooms);
     on<ImageViewDeleteImageEvent>(deleteRoom);
     on<ImageViewRenameImageEvent>(renameRoom);
   }
 
-  addNewRoom(ImageViewAddImageEvent event, Emitter<ImageViewState> emit) {
-    String id;
-    if (state.rooms.isEmpty) {
-      id = '0';
-    } else {
-      id = (int.parse(state.rooms.last.id!) + 1).toString();
-    }
-    Room newRoom = Room(imgUrl: event.path, id: id, name: id);
-    var currentState = state;
-    currentState.rooms.add(newRoom);
-    debugPrint('rooms   ${state.rooms.length}');
-
-    // debugPrint('rooms   ${list.length}');
-    emit(ImageViewInitial(rooms: currentState.rooms));
-  }
+ 
 
   deleteRoom(ImageViewDeleteImageEvent event, Emitter<ImageViewState> emit) {
     var currentState = state;

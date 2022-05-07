@@ -10,10 +10,8 @@ export './base/api_execute.dart';
 export './address/address_request.dart';
 export './address/address_service.dart';
 
-//post
-export './post/post_request.dart';
-export './post/post_service.dart';
-
 //remove
 export './remove_object/remove_object_request.dart';
 export './remove_object/remove_object_service.dart';
+// export './post/post_request.dart';
+// export './post/post_service.dart';

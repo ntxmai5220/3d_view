@@ -12,9 +12,9 @@ class District extends Address {
 
   Map<String, dynamic> toJson() {
     return {
-      'DistrictID': id,
-      'DistrictName': name,
-      'ProvinceID': provinceId,
+      'id': id,
+      'name': name,
+      'provinceId': provinceId,
     };
   }
 
@@ -23,6 +23,13 @@ class District extends Address {
       id: map['DistrictID']?.toInt(),
       name: map['DistrictName'],
       provinceId: map['ProvinceID']?.toInt(),
+    );
+  }
+  factory District.fromApp(Map<String, dynamic> map) {
+    return District(
+      id: map['id']?.toInt(),
+      name: map['name'],
+      provinceId: map['provinceId']?.toInt(),
     );
   }
 }

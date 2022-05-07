@@ -1,2 +1,0 @@
-icons here
-use vector format only

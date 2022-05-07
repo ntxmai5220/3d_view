@@ -33,3 +33,6 @@ export 'new_post/new_post_page.dart';
 
 //remove object
 export 'remove_object/remove_object_page.dart';
+
+//
+export 'list_thumbnail/list_thumbnail.dart';

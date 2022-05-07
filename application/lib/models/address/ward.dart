@@ -11,9 +11,9 @@ class Ward extends Address {
 
   Map<String, dynamic> toJson() {
     return {
-      'WardCode': code,
-      'DistrictID': districtId,
-      'WardName': name,
+      'code': code,
+      'districtId': districtId,
+      'name': name,
     };
   }
 
@@ -22,6 +22,13 @@ class Ward extends Address {
       code: map['WardCode'],
       districtId: map['DistrictID']?.toInt(),
       name: map['WardName'],
+    );
+  }
+  factory Ward.fromApp(Map<String, dynamic> map) {
+    return Ward(
+      code: map['code'].toString(),
+      districtId: map['districtId']?.toInt(),
+      name: map['name'],
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 part 'data_view_event.dart';
 part 'data_view_state.dart';
-
 
 class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   TextEditingController area = TextEditingController();
@@ -15,7 +15,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   final NewPostRepository _repository;
   DataViewBloc({required NewPostRepository repository})
       : _repository = repository,
-        super(const DataViewInitial()) {
+        super(DataViewInitial()) {
     on<DataViewInitEvent>(onInit);
 
     on<DataViewLoadEvent<Province>>(onLoadProvinces);
@@ -25,6 +25,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     on<DataViewChangeAddressEvent<Province>>(onChangeProvince);
     on<DataViewChangeAddressEvent<District>>(onChangeDistrict);
     on<DataViewChangeAddressEvent<Ward>>(onChangeWard);
+
+    on<DataViewCheckDataEvent>(validation);
   }
 
   onChangeProvince(
@@ -47,8 +49,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     }
   }
 
-  onChangeWard(
-      DataViewChangeAddressEvent<Ward> event, Emitter<DataViewState> emit) async {
+  onChangeWard(DataViewChangeAddressEvent<Ward> event,
+      Emitter<DataViewState> emit) async {
     var currentState = state;
     if (currentState is DataViewInitial) {
       emit(currentState.update(ward: state.wards?.indexOf(event.address) ?? 0));
@@ -67,7 +69,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       emit(DataViewInitial(provinces: result.list));
       // return result.list;
     } catch (e) {
-      emit(const DataViewInitial(provinces:[]));
+      emit(DataViewInitial(provinces: []));
     }
   }
 
@@ -85,7 +87,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     } catch (e) {}
   }
 
-  onLoadWards(DataViewLoadEvent<Ward> event, Emitter<DataViewState> emit) async {
+  onLoadWards(
+      DataViewLoadEvent<Ward> event, Emitter<DataViewState> emit) async {
     try {
       var result = await _repository.getWard(
           districtId: state.districts?.elementAt(state.district ?? 0).id ?? 0);
@@ -93,8 +96,26 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       if (currentState is DataViewInitial) {
         emit(currentState.update(wards: result.list));
         // emit(DataViewInitial(districts: result.list));
+      } else {
+        print('abc');
       }
       // return result.list;
     } catch (e) {}
+  }
+
+  validation(DataViewCheckDataEvent event, Emitter<DataViewState> emit) {
+    var currentState = state;
+    bool valid = area.text.isNotEmpty &&
+        address.text.isNotEmpty &&
+        price.text.isNotEmpty &&
+        desc.text.isNotEmpty &&
+        currentState.ward != null &&
+        currentState.district != null &&
+        currentState.province != null;
+
+    print(currentState.ward != null);
+    if (currentState is DataViewInitial) {
+      emit(currentState.valid(valid: valid));
+    }
   }
 }

@@ -9,8 +9,8 @@ class Province extends Address {
 
   Map<String, dynamic> toJson() {
     return {
-      'ProvinceID': id,
-      'ProvinceName': name,
+      'id': id,
+      'name': name,
     };
   }
 
@@ -18,6 +18,13 @@ class Province extends Address {
     return Province(
       id: map['ProvinceID']?.toInt(),
       name: map['ProvinceName'],
+    );
+  }
+
+  factory Province.fromApp(Map<String, dynamic> map) {
+    return Province(
+      id: map['id']?.toInt(),
+      name: map['name'],
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -50,14 +51,19 @@ class PostItem extends StatelessWidget {
               Expanded(
                 child: Stack(
                   children: [
-                    Container(
-                      // height: mini ? 225 : 260,
-                      // color: AppColors.lightPrimary,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(post.rooms?[0].imgUrl ?? ''),
-                              fit: BoxFit.cover)),
+                    NetImage(
+                      imageUrl: room.imgUrl ?? '',
+                      height: mini ? 225 : 260,
+                      width: 380,
                     ),
+                    // Container(
+                    //   // height: mini ? 225 : 260,
+                    //   // color: AppColors.lightPrimary,
+                    //   decoration: BoxDecoration(
+                    //       image: DecorationImage(
+                    //           image: NetworkImage(post.rooms?[0].imgUrl ?? ''),
+                    //           fit: BoxFit.cover)),
+                    // ),
                     onToggleFavorite != null
                         ? Positioned(
                             right: 20,

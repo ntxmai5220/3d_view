@@ -2,8 +2,10 @@
 export './response/response.dart';
 
 export './post.dart';
+export './postImage.dart';
 export './room.dart';
-export 'hotspot.dart';
+export './hotspot.dart';
+export './thumbnail.dart';
 
 //address
 export './address/address.dart';

@@ -14,3 +14,5 @@ class DataViewLoadEvent<T> extends DataViewEvent {
   final int? id;
   DataViewLoadEvent({this.id});
 }
+
+class DataViewCheckDataEvent extends DataViewEvent {}

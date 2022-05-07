@@ -1,5 +1,5 @@
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/pages/new_post/view/data_view/bloc/data_view_bloc.dart';
+import 'package:bk_3d_view/pages/new_post/blocs.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +11,29 @@ class DataView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // NewPostBloc bloc = context.read<NewPostBloc>();
-    return BlocBuilder<DataViewBloc, DataViewState>(
+    return BlocConsumer<DataViewBloc, DataViewState>(
+      listener: (context, state) {
+        bool? isValid = state.isValid;
+        if (isValid != null) {
+          if (isValid) {
+            context.read<NewPostBloc>().add(NewPostNextEvent());
+          } else {
+            ShowMyDialog.show(context,
+                dialog: const NotificationDialog(
+                    type: DialogType.warning,
+                    content: 'Bạn phải điền đầy đủ thông tin'));
+          }
+        }
+      },
       builder: (context, state) {
         DataViewBloc bloc = context.read<DataViewBloc>();
         return ListView(
           padding: const EdgeInsets.all(AppConstants.pageMarginHorizontal),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           children: [
             InputNewPost(
               controller: bloc.price,
               label: 'Giá',
-              isRequired: true,
               inputNumber: true,
               suffixText: 'triệu',
             ),
@@ -28,7 +41,6 @@ class DataView extends StatelessWidget {
             InputNewPost(
               controller: bloc.area,
               label: 'Diện tích',
-              isRequired: true,
               inputNumber: true,
               suffixText: 'm2',
             ),
@@ -55,6 +67,7 @@ class DataView extends StatelessWidget {
               display: bloc.state.district,
               onChange: (d) {
                 bloc.add(DataViewChangeAddressEvent<District>(address: d!));
+                debugPrint(d.toJson().toString());
               },
             ),
             const SizedBox(height: 15),

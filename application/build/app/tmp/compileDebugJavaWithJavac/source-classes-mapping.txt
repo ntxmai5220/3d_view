@@ -1,6 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/example/bk_3d_view/MainActivity.java
- com.example.bk_3d_view.MainActivity
-com/example/bk_3d_view/BuildConfig.java
- com.example.bk_3d_view.BuildConfig

@@ -33,8 +33,8 @@ class Post {
   District? district;
   Ward? ward;
 
-  List<String>? rooms;
-  // List<Room>? rooms;
+  // List<String>? rooms;
+  List<Room>? rooms;
   String? creatorId;
   DateTime? creationTime;
 
@@ -54,14 +54,14 @@ class Post {
             ? District.fromApp(json['district'])
             : null,
         ward: json['ward'] != null ? Ward.fromApp(json['ward']) : null,
-        rooms: json['rooms'] != null
-            ? List<String>.from(json['rooms']).toList()
-            : null,
         // rooms: json['rooms'] != null
-        //     ? List<Map<String, dynamic>>.from(json['rooms'])
-        //         .map((e) => Room.fromJson(e))
-        //         .toList()
+        //     ? List<String>.from(json['rooms']).toList()
         //     : null,
+        rooms: json['rooms'] != null
+            ? List<Map<String, dynamic>>.from(json['rooms'])
+                .map((e) => Room.fromJson(e))
+                .toList()
+            : null,
         creatorId: json['creatorId'],
         creationTime: json['creationTime'] != null
             ? DateTime.parse(json['creationTime']).toLocal()

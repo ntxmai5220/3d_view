@@ -15,7 +15,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   final NewPostRepository _repository;
   DataViewBloc({required NewPostRepository repository})
       : _repository = repository,
-        super(const DataViewInitial()) {
+        super(DataViewInitial()) {
     on<DataViewInitEvent>(onInit);
 
     on<DataViewLoadEvent<Province>>(onLoadProvinces);
@@ -25,6 +25,8 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     on<DataViewChangeAddressEvent<Province>>(onChangeProvince);
     on<DataViewChangeAddressEvent<District>>(onChangeDistrict);
     on<DataViewChangeAddressEvent<Ward>>(onChangeWard);
+
+    on<DataViewCheckDataEvent>(validation);
   }
 
   onChangeProvince(
@@ -67,7 +69,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       emit(DataViewInitial(provinces: result.list));
       // return result.list;
     } catch (e) {
-      emit(const DataViewInitial(provinces: []));
+      emit(DataViewInitial(provinces: []));
     }
   }
 
@@ -99,5 +101,21 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       }
       // return result.list;
     } catch (e) {}
+  }
+
+  validation(DataViewCheckDataEvent event, Emitter<DataViewState> emit) {
+    var currentState = state;
+    bool valid = area.text.isNotEmpty &&
+        address.text.isNotEmpty &&
+        price.text.isNotEmpty &&
+        desc.text.isNotEmpty &&
+        currentState.ward != null &&
+        currentState.district != null &&
+        currentState.province != null;
+
+    print(currentState.ward != null);
+    if (currentState is DataViewInitial) {
+      emit(currentState.valid(valid: valid));
+    }
   }
 }

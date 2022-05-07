@@ -11,16 +11,20 @@ class TextStyles {
   );
 
   static const tinyLabel = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.darkSecondary,
-      fontWeight: FontWeight.w600,
-      fontSize: 14.5);
+    fontFamily: AppFonts.primary,
+    color: AppColors.darkSecondary,
+    fontWeight: FontWeight.w600,
+    fontSize: 14.5,
+    letterSpacing: 0.15,
+  );
 
   static const tinyContent = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.darkSecondary,
-      fontWeight: FontWeight.w500,
-      fontSize: 14.5);
+    fontFamily: AppFonts.primary,
+    color: AppColors.darkSecondary,
+    fontWeight: FontWeight.w500,
+    fontSize: 14.5,
+    letterSpacing: 0.15,
+  );
 
   static const buttonText = TextStyle(
     fontFamily: AppFonts.primary,
@@ -38,22 +42,28 @@ class TextStyles {
       letterSpacing: 0.2);
 
   static const normalLabel = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.darkSecondary,
-      fontWeight: FontWeight.w600,
-      fontSize: 16.5);
+    fontFamily: AppFonts.primary,
+    color: AppColors.darkSecondary,
+    fontWeight: FontWeight.w600,
+    fontSize: 16.5,
+    letterSpacing: 0.15,
+  );
 
   static const selectedTab = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.darkPrimary,
-      fontWeight: FontWeight.w500,
-      fontSize: 12);
+    fontFamily: AppFonts.primary,
+    color: AppColors.darkPrimary,
+    fontWeight: FontWeight.w500,
+    fontSize: 12,
+    letterSpacing: 0.15,
+  );
 
   static const unselectedTab = TextStyle(
-      fontFamily: AppFonts.primary,
-      color: AppColors.secondary,
-      fontWeight: FontWeight.w500,
-      fontSize: 11);
+    fontFamily: AppFonts.primary,
+    color: AppColors.secondary,
+    fontWeight: FontWeight.w500,
+    fontSize: 11,
+    letterSpacing: 0.15,
+  );
 
   static const labelTopic = TextStyle(
       fontFamily: AppFonts.secondary,

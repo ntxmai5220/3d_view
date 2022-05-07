@@ -80,11 +80,14 @@ void main() {
   test("upload thubmnail", () async {
     final images = await getImage();
     PostServices services = PostServices();
-    await services.uploadThumbnail(
-        roomId: "625be882ba0392826c179527",
-        images: images,
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw");
+    var result = await services.uploadThumbnail(
+      roomId:
+          "6275c370117a505b026e719b", //6275c370117a505b026e719b-6275c370117a505b026e719d
+      images: images,
+      // token:
+      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
+    );
+    print(result);
   });
 
   test("upload mainThumbnail", () async {

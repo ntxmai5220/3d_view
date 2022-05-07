@@ -47,8 +47,7 @@ class DropDownAddress<T> extends StatelessWidget {
           onChanged: onChange,
           hint: Container(
               padding: const EdgeInsets.only(bottom: 5),
-              child:
-                  InputLabel(label: '$hint', isRequired: true, fontSize: 16)),
+              child: InputLabel(label: '$hint', fontSize: 16)),
         ));
   }
 }

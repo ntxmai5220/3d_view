@@ -1,6 +1,5 @@
 part of 'data_view_bloc.dart';
 
-@immutable
 abstract class DataViewState {
   final int? province;
   final int? district;
@@ -10,30 +9,35 @@ abstract class DataViewState {
   final List<District>? districts;
   final List<Ward>? wards;
 
-  const DataViewState(
+  bool? isValid;
+
+  DataViewState(
       {this.province,
       this.district,
       this.ward,
       this.provinces,
       this.districts,
-      this.wards});
+      this.wards,
+      required this.isValid});
 }
 
 class DataViewInitial extends DataViewState {
-  const DataViewInitial({
+  DataViewInitial({
     int? province,
     int? district,
     int? ward,
     List<Province>? provinces,
     List<District>? districts,
     List<Ward>? wards,
+    bool? isValid,
   }) : super(
             province: province,
             district: district,
             ward: ward,
             provinces: provinces,
             districts: districts,
-            wards: wards);
+            wards: wards,
+            isValid: isValid);
 
   DataViewInitial update({
     int? province,
@@ -62,5 +66,14 @@ class DataViewInitial extends DataViewState {
         district: district,
         districts: districts,
       );
-}
 
+  DataViewInitial valid({required bool valid}) => DataViewInitial(
+        province: province,
+        provinces: provinces,
+        district: district,
+        districts: districts,
+        ward: ward,
+        wards: wards,
+        isValid: valid,
+      );
+}

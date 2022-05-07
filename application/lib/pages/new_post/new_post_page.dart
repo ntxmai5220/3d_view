@@ -10,8 +10,6 @@ import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dar
 import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
-import 'package:bk_3d_view/widgets/dialog/loading_dialog.dart';
-import 'package:bk_3d_view/widgets/dialog/my_dialog.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -197,10 +195,11 @@ class NewPostPage extends StatelessWidget {
   nextStep(BuildContext context, {required NewPostStep currentStep}) {
     NewPostBloc bloc = context.read<NewPostBloc>();
     DataViewBloc dataViewBloc = context.read<DataViewBloc>();
+    FocusManager.instance.primaryFocus?.unfocus();
     switch (currentStep) {
       case NewPostStep.image:
         //call api create post
-
+        // FocusManager.instance.primaryFocus?.unfocus();
         Post post = Post(
           area: double.tryParse(dataViewBloc.area.text),
           price: double.tryParse(dataViewBloc.price.text),
@@ -219,6 +218,16 @@ class NewPostPage extends StatelessWidget {
           post: post,
           rooms: context.read<ImageViewBloc>().state.rooms,
         ));
+        break;
+      case NewPostStep.data:
+        dataViewBloc.add(DataViewCheckDataEvent());
+        // if(context.read<DataViewBloc>().state.isValid??false){
+
+        // }
+        break;
+      case NewPostStep.thumbnail:
+      //call api
+      bloc.add(NewPostUploadThumbnailsEvent(thumbnails: context.read<ThumbnailViewBloc>().state.capture));
         break;
       default:
         bloc.add(NewPostNextEvent());

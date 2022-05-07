@@ -32,14 +32,16 @@ class EmptyImageList extends StatelessWidget {
               style: TextStyles.buttonText.copyWith(color: AppColors.secondary),
             ),
             const SizedBox(height: 12),
-            ActionButton(
-              label: 'Tải ảnh lên',
-              onTap: onBackUploadImage,
-              labelColor: AppColors.darkPrimary,
-              labelStyle: TextStyles.normalLabel,
-              background: AppColors.lightSecondary,
-              padding: 10,
-            )
+            onBackUploadImage != null
+                ? ActionButton(
+                    label: 'Tải ảnh lên',
+                    onTap: onBackUploadImage,
+                    labelColor: AppColors.darkPrimary,
+                    labelStyle: TextStyles.normalLabel,
+                    background: AppColors.lightSecondary,
+                    padding: 10,
+                  )
+                : const SizedBox()
           ],
         ),
       ],

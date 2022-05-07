@@ -42,4 +42,15 @@ class NewPostRepository {
         landInfo: landInfo,
         token: token,
       );
+
+  //upload thumbnail
+  Future<ObjectResponse<Room>> uploadThumbnail(
+          {required String roomId,
+          required List<MapEntry<String, Uint8List>> images,
+          String? token}) =>
+      postServices.uploadThumbnail(
+        roomId: roomId,
+        images: images,
+        token: token,
+      );
 }

@@ -18,5 +18,5 @@ Post post = Post(
   province: province,
   district: district,
   ward: ward,
-  rooms: rooms,
+  rooms: [room],
 );

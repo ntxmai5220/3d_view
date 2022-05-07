@@ -15,27 +15,29 @@ class ListRoom extends StatelessWidget {
   final Function(Room)? onTapItem;
   @override
   Widget build(BuildContext context) {
-    ImageViewBloc imageViewBloc = context.read<ImageViewBloc>();
+    NewPostBloc bloc = context.read<NewPostBloc>();
 
     Widget itemBuilder(BuildContext context, int index) {
       return ChooseItem(
-        'Phòng ${imageViewBloc.state.rooms[index].name}',
+        '${bloc.state.post?.rooms?[index].name}',
         onClick: () {
-          onTapItem?.call(imageViewBloc.state.rooms[index]);
+          onTapItem?.call(bloc.state.post!.rooms![index]);
         },
       );
     }
 
-    return BlocBuilder<ImageViewBloc, ImageViewState>(
+    return BlocBuilder<NewPostBloc, NewPostState>(
       builder: (context, state) {
-        return state.rooms.isNotEmpty
+        var list = state.post?.rooms;
+        print(list?.length);
+        return list != null && list.isNotEmpty
             ? ListView.separated(
                 padding: const EdgeInsets.symmetric(
                     horizontal: AppConstants.pageMarginHorizontal / 2,
                     vertical: AppConstants.pageMarginHorizontal / 2),
                 itemBuilder: itemBuilder,
                 separatorBuilder: (context, index) => const SizedBox(height: 8),
-                itemCount: imageViewBloc.state.rooms.length)
+                itemCount: list.length)
             : EmptyImageList(
                 onBackUploadImage: () {
                   context.read<NewPostBloc>().add(NewPostJumpToEvent(

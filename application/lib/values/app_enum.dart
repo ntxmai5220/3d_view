@@ -1,3 +1,6 @@
+import 'package:bk_3d_view/values/app_colors.dart';
+import 'package:flutter/cupertino.dart';
+
 enum NewPostStep {
   data,
   image,
@@ -10,6 +13,22 @@ enum HomeSection {
   banner,
   newest,
   recent,
+}
+
+enum DialogType {
+  notification,
+  warning,
+}
+
+extension DialogTypeExtension on DialogType {
+  Color get color {
+    switch (this) {
+      case DialogType.notification:
+        return AppColors.primary;
+      case DialogType.warning:
+        return AppColors.red;
+    }
+  }
 }
 
 extension NewPostStepExtension on NewPostStep {

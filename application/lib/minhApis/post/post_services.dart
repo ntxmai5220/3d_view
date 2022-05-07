@@ -43,15 +43,18 @@ class PostServices {
   }
 
   //path: /post/uploadhotspot/:id
-  Future<dynamic> uploadThumbnail(
+  Future<ObjectResponse<Room>> uploadThumbnail(
       {required String roomId,
       required List<MapEntry<String, Uint8List>> images,
       String? token}) async {
     DioRequest request = PostRequest.uploadThumbnail(
         roomId: roomId, images: images, token: token);
-    dynamic data = await DioClient.put(
+    APIResponse data = await DioClient.put(
         path: request.path, data: request.body, options: request.options);
-    print(data);
+    Room room = Room.fromJson(data.toObject());
+    print(data.toString());
+
+    return ObjectResponse(object: room);
   }
 
   //path: /post/uploadmainthumbnail/:id

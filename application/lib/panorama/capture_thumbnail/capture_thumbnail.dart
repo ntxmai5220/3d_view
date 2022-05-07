@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bk_3d_view/widgets/dialog/loading_dialog.dart';
+import 'package:bk_3d_view/widgets/dialog/my_dialog.dart';
+import 'package:bk_3d_view/widgets/images/net_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -38,38 +42,39 @@ class CaptureThumbnail extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+      // DeviceOrientation.portraitUp,
+      // DeviceOrientation.portraitDown,
     ]);
     GlobalKey globalKey = GlobalKey();
 
     Future<void> _capturePng() async {
       final RenderRepaintBoundary boundary = globalKey.currentContext!
           .findRenderObject()! as RenderRepaintBoundary;
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => Dialog(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 23),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox.square(
-                    dimension: 28, child: CircularProgressIndicator()),
-                const SizedBox(height: 20),
-                Text('Đang xử lý...',
-                    style: Theme.of(context).textTheme.bodyMedium),
-              ],
-            ),
-          ),
-        ),
-      );
-      final ui.Image image = await boundary.toImage(pixelRatio: 4);
+      ShowMyDialog.show(context, dialog: const LoadingDialog());
+      // showDialog(
+      //   barrierDismissible: false,
+      //   context: context,
+      //   builder: (_) => Dialog(
+      //     child: Padding(
+      //       padding: const EdgeInsets.symmetric(vertical: 23),
+      //       child: Column(
+      //         mainAxisSize: MainAxisSize.min,
+      //         children: [
+      //           SizedBox.square(
+      //               dimension: 28, child: CircularProgressIndicator()),
+      //           const SizedBox(height: 20),
+      //           Text('Đang xử lý...',
+      //               style: Theme.of(context).textTheme.bodyMedium),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // );
+      final ui.Image image = await boundary.toImage(pixelRatio: 1);
 
-      final ByteData? byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      final Uint8List pngBytes = byteData!.buffer.asUint8List();
+      // final ByteData? byteData =
+      //     await image.toByteData(format: ui.ImageByteFormat.png);
+      // final Uint8List pngBytes = byteData!.buffer.asUint8List();
       Navigator.of(context).pop();
       // print('length ${pngBytes.length}');
       print(image.height);
@@ -102,7 +107,7 @@ class CaptureThumbnail extends StatelessWidget {
                             child: const Icon(Icons.arrow_back_ios_rounded)),
                         const SizedBox(height: 15),
                         FloatingActionButton(
-                            heroTag: 'capture',
+                            heroTag: 'save',
                             onPressed: () {
                               {
                                 capture.add(image);
@@ -137,7 +142,7 @@ class CaptureThumbnail extends StatelessWidget {
             //   ],
             // ),
           ),
-          fullscreenDialog: false,
+          fullscreenDialog: true,
         ),
       );
     }
@@ -150,16 +155,28 @@ class CaptureThumbnail extends StatelessWidget {
             RepaintBoundary(
               key: globalKey,
               child: Panorama(
-                  zoom: 0.1,
-                  child: Image.file(File(imgUrl),
-                      fit: BoxFit.cover, filterQuality: FilterQuality.medium)
+                minZoom: 0.5,
+                maxZoom: 4,
+                // onImageLoad: ,
+                child: Image(image: CachedNetworkImageProvider(imgUrl)),
+                // child: Image.network(
+                //   imgUrl,
+                //   fit: BoxFit.cover,
+                //   filterQuality: FilterQuality.medium,
+                //   loadingBuilder: (context, widget, ImageChunkEvent? chunk) {
+                //     if(chunk!.cumulativeBytesLoaded< chunk.expectedTotalBytes!){}
+                //     return widget;
+                //   },
+                // ),
+                // child: Image.file(File(imgUrl),
+                //     fit: BoxFit.cover, filterQuality: FilterQuality.medium)
 
-                  // child: Image.asset(
-                  //   'assets/images/photo.jpg',
-                  //   filterQuality: FilterQuality.none,
-                  //   fit: BoxFit.cover,
-                  // ),
-                  ),
+                // child: Image.asset(
+                //   'assets/images/photo.jpg',
+                //   filterQuality: FilterQuality.none,
+                //   fit: BoxFit.cover,
+                // ),
+              ),
             ),
             Positioned(
               top: 20,

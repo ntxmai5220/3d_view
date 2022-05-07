@@ -24,3 +24,20 @@ class NewPostCreateEvent extends NewPostEvent {
     required this.rooms,
   });
 }
+
+class NewPostUploadThumbnailEvent extends NewPostEvent {
+  // final List<ui.Image> images;
+  final List<Uint8List> images;
+  final String roomId;
+  NewPostUploadThumbnailEvent({
+    required this.images,
+    required this.roomId,
+  });
+}
+
+class NewPostUploadThumbnailsEvent extends NewPostEvent {
+  final Map<String, List<Uint8List>> thumbnails;
+  NewPostUploadThumbnailsEvent({
+    required this.thumbnails,
+  });
+}

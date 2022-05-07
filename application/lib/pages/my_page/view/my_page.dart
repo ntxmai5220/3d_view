@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/panorama/add_hotspot/testPana.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,9 @@ class MyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     void toProfile() {
       debugPrint('Profile');
+      //MyHomePage(title: 'Flutter Demo Home Page')
+       Navigator.push(
+          context, MaterialPageRoute(builder: (_) => MyHomePage(title: 'Flutter Demo Home Page')));
     }
 
     void toPostManagement() {

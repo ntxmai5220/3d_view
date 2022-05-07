@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/minhApis/apis.dart';
+import 'package:bk_3d_view/minhApis/auth/authServices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -142,5 +143,22 @@ void main() {
     InPaintingServies services = InPaintingServies();
     await services.removeWithMask(
         base64Image: base64Image, base64Mask: base64Mask);
+  });
+
+  
+  test("login", () async {
+    const account = {"username": "mai", "password": "example1"};
+    AuthServices authServices = AuthServices();
+    await authServices.login(account: account);
+  });
+
+  test("signup", () async {
+    const account = {
+      "username": "minh23",
+      "email": "minh23@gmail.com",
+      "password": "example123"
+    };
+    AuthServices authServices = AuthServices();
+    await authServices.signup(account: account);
   });
 }

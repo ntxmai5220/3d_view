@@ -129,7 +129,9 @@ class ListThumbnail extends StatelessWidget {
                 separatorBuilder: (context, index) => const SizedBox(height: 8),
                 itemCount: listThumbnail.length,
               )
-            : const EmptyImageList();
+            : const EmptyImageList(
+                content: 'Bạn chưa có thumbnail',
+              );
       }),
     );
   }

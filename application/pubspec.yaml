@@ -33,6 +33,7 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_colorpicker: ^1.0.3
 
+  flutter_painter: ^1.0.1
 
 dev_dependencies:
   flutter_test:

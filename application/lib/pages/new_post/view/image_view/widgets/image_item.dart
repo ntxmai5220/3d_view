@@ -104,7 +104,7 @@ class ImageItem extends StatelessWidget {
               Container(
                 height: 250,
                 // color: Colors.amber[index * 100],
-                child: Text(room.imgUrl ?? ''),
+                // child: Text(room.imgUrl ?? ''),
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   image: DecorationImage(

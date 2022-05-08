@@ -25,8 +25,8 @@ class RemoveObjectPage extends StatefulWidget {
 class _RemoveObjectPageState extends State<RemoveObjectPage> {
   static const Color drawColor = AppColors.white;
 
-  ui.Image? backgroundImage;
-  late final ui.Image image;
+  late ui.Image backgroundImage;
+
   Paint shapePaint = Paint()
     ..strokeWidth = 5
     ..color = drawColor
@@ -65,10 +65,9 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
 
   void initBackground() async {
     // Extension getter (.image) to get [ui.Image] from [ImageProvider]
-    // final image =
-    //     await const NetworkImage('https://picsum.photos/1920/1080/').image;
+    final image = await NetworkImage(widget.imgUrl).image;
 
-    image = await FileImage(File(widget.imgUrl)).image;
+    // image = await FileImage(File(widget.imgUrl)).image;
     // image = await const AssetImage('assets/images/photo.jpg').image;
     setState(() {
       backgroundImage = image;
@@ -145,7 +144,7 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
                       child: Center(
                         child: AspectRatio(
                           aspectRatio:
-                              image.width / image.height,
+                              backgroundImage.width / backgroundImage.height,
                           child: FlutterPainter(
                             controller: controller,
                           ),
@@ -189,7 +188,7 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
                               icon: const Icon(
                                 Icons.image,
                               ),
-                              onPressed:()=> renderAndDisplayImage(context),
+                              onPressed: () => renderAndDisplayImage(context),
                             ),
                           ],
                         ),
@@ -237,8 +236,7 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
     // renderController.drawables= controller.drawables;
 
     final backgroundImageSize = Size(
-        image.width.toDouble(), image.height.toDouble());
-
+        backgroundImage.width.toDouble(), backgroundImage.height.toDouble());
 
     // Render the image
     // Returns a [ui.Image] object, convert to to byte data and then to Uint8List
@@ -246,7 +244,7 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
         .renderImage(backgroundImageSize)
         .then((value) => value.toByteData(format: ui.ImageByteFormat.png));
     final img =
-        await backgroundImage!.toByteData(format: ui.ImageByteFormat.png);
+        await backgroundImage.toByteData(format: ui.ImageByteFormat.png);
     // From here, you can write the PNG image data a file or do whatever you want with it
     // For example:
     // ```dart

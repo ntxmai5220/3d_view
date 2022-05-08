@@ -7,10 +7,11 @@ class EmptyImageList extends StatelessWidget {
   const EmptyImageList({
     Key? key,
     this.onBackUploadImage,
+    this.content,
   }) : super(key: key);
 
   final VoidCallback? onBackUploadImage;
-
+  final String? content;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -27,7 +28,7 @@ class EmptyImageList extends StatelessWidget {
             ),
             const SizedBox(height: 17),
             Text(
-              'Bạn chưa có ảnh',
+              content ?? 'Bạn chưa có ảnh',
               textAlign: TextAlign.center,
               style: TextStyles.buttonText.copyWith(color: AppColors.secondary),
             ),

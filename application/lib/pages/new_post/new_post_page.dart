@@ -28,13 +28,13 @@ class NewPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var steps = NewPostStep.values;
     var steps = NewPostStep.values;
     // List<NewPostStep> steps = [
     //   NewPostStep.data,
     //   NewPostStep.image,
-    //   NewPostStep.thumbnail,
-    //   NewPostStep.hotspot,
+    //   // NewPostStep.thumbnail,
+    //   // NewPostStep.hotspot,
+    //   NewPostStep.remove,
     // ];
     // Size size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -227,8 +227,9 @@ class NewPostPage extends StatelessWidget {
         // }
         break;
       case NewPostStep.thumbnail:
-      //call api
-      bloc.add(NewPostUploadThumbnailsEvent(thumbnails: context.read<ThumbnailViewBloc>().state.capture));
+        //call api
+        bloc.add(NewPostUploadThumbnailsEvent(
+            thumbnails: context.read<ThumbnailViewBloc>().state.capture));
         break;
       default:
         bloc.add(NewPostNextEvent());

@@ -1,10 +1,9 @@
-
-
 import 'package:bk_3d_view/pages/new_post/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/values.dart';
 
 import 'package:bk_3d_view/widgets/user/choose_item.dart';
+import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //   }
 // }
 
-
 class RemoveView extends StatelessWidget {
   const RemoveView({Key? key}) : super(key: key);
 
@@ -30,30 +28,53 @@ class RemoveView extends StatelessWidget {
     Widget itemBuilder(BuildContext context, int index) {
       return ChooseItem(
         imageViewBloc.state.rooms[index].name ?? '',
-        onClick: () => openDrawMask(
-          context,
-          url: imageViewBloc.state.rooms.elementAt(index).imgUrl??''
-        ),
+        onClick: () => openDrawMask(context,
+            url: imageViewBloc.state.rooms.elementAt(index).imgUrl ?? ''),
       );
     }
 
-    return BlocBuilder<ImageViewBloc, ImageViewState>(
-      builder: (context, state) {
-        return ListView.separated(
-            padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.pageMarginHorizontal / 2,
-                vertical: AppConstants.pageMarginHorizontal / 2),
-            itemBuilder: itemBuilder,
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemCount: imageViewBloc.state.rooms.length);
+    return ListRoom(
+      onTapItem: (room) {
+        openDrawMask(context, url: room.imgUrl ?? '');
+        // List<ui.Image> capture = await Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (_) => CaptureThumbnail(
+        //       imgUrl: room.imgUrl ?? '',
+        //     ),
+        //   ),
+        // );
+        // debugPrint(capture.length.toString());
+        // thumbnailViewBloc
+        //     .add(ThumbnailViewReceivedCapturesEvent(capture: capture));
+
+        // context.read<NewPostBloc>().add(NewPostUploadThumbnail(images: capture));
+        // SystemChrome.setPreferredOrientations([
+        //   DeviceOrientation.portraitUp,
+        //   // DeviceOrientation.landscapeLeft,
+        // ]);
       },
     );
+
+    // BlocBuilder<ImageViewBloc, ImageViewState>(
+    //   builder: (context, state) {
+    //     return ListView.separated(
+    //         padding: const EdgeInsets.symmetric(
+    //             horizontal: AppConstants.pageMarginHorizontal / 2,
+    //             vertical: AppConstants.pageMarginHorizontal / 2),
+    //         itemBuilder: itemBuilder,
+    //         separatorBuilder: (context, index) => const SizedBox(height: 8),
+    //         itemCount: imageViewBloc.state.rooms.length);
+    //   },
+    // );
   }
 
-  openDrawMask(BuildContext context,{required String url}) {
+  openDrawMask(BuildContext context, {required String url}) {
     Navigator.of(context).push(
       MaterialPageRoute(
-          builder: (_) => RemoveObjectPage(imgUrl: url,), fullscreenDialog: true),
+          builder: (_) => RemoveObjectPage(
+                imgUrl: url,
+              ),
+          fullscreenDialog: true),
     );
   }
 }

@@ -53,7 +53,7 @@ class TextStyles {
     fontFamily: AppFonts.primary,
     color: AppColors.darkPrimary,
     fontWeight: FontWeight.w500,
-    fontSize: 12,
+    fontSize: 12.5,
     letterSpacing: 0.15,
   );
 
@@ -61,7 +61,7 @@ class TextStyles {
     fontFamily: AppFonts.primary,
     color: AppColors.secondary,
     fontWeight: FontWeight.w500,
-    fontSize: 11,
+    fontSize: 12,
     letterSpacing: 0.15,
   );
 

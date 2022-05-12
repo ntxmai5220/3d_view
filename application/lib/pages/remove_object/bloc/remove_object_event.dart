@@ -11,3 +11,20 @@ class RemoveObjectSendMaskEvent extends RemoveObjectEvent {
     required this.mask,
   });
 }
+
+class RemoveObjectInitEvent extends RemoveObjectEvent {
+  final String url;
+  RemoveObjectInitEvent({
+    required this.url,
+  });
+}
+
+class ToggleDrawEvent extends RemoveObjectEvent {}
+
+class ToggleEraseEvent extends RemoveObjectEvent {}
+
+class UndoEvent extends RemoveObjectEvent {}
+
+class RedoEvent extends RemoveObjectEvent {}
+
+class RemoveObjectGenMaskEvent extends RemoveObjectEvent{}

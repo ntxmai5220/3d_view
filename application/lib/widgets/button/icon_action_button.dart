@@ -24,7 +24,7 @@ class IconActionButton extends StatelessWidget {
         color: background,
         padding: EdgeInsets.symmetric(
             vertical: 8 + padding, horizontal: 8 + padding),
-        minSize: 25 + padding,
+        minSize: 28 + padding,
         child: Icon(
           icon,
           color: iconColor,

@@ -69,7 +69,7 @@ class ManagePost extends StatelessWidget {
           ),
         )),
         floatingActionButton: Container(
-          margin: const EdgeInsets.all(AppConstants.pageMarginHorizontal / 4),
+          margin: const EdgeInsets.all(AppConstants.pageMarginHorizontal / 1.5),
           child: FloatingActionButton(
             backgroundColor: AppColors.darkPrimary,
             elevation: 10,

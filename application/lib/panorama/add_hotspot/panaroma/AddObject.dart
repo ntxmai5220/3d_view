@@ -130,7 +130,7 @@ class _AddObjectState extends State<AddObject>
   late Offset _lastFocalPoint;
   double? _lastZoom;
   double _radius = 500;
-  double _dampingFactor = 0.05;
+  double _dampingFactor = 0.1;
   double _animateDirection = 1.0;
   double rotateY = 0;
   double rotateX = 0;
@@ -366,7 +366,6 @@ class _AddObjectState extends State<AddObject>
   void _updateView() {
     if (scene == null) return;
     if (sceneObj == null) return;
-
     /// update fab
     if (!isFAB)
       setState(() {

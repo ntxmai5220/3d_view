@@ -33,7 +33,6 @@ class Object {
       child.parent = this;
     }
     this.scene = scene;
-
     // load mesh from obj file
     if (fileName != null) {
       loadObj(fileName, normalized, isAsset: isAsset).then((List<Mesh> meshes) {

@@ -80,7 +80,7 @@ Future<List<Mesh>> loadObj(String fileName, bool normalized, {bool isAsset = tru
   final lines = data.split('\n');
   for (var line in lines) {
     List<String> parts = line.trim().split(RegExp(r"\s+"));
-
+    
     switch (parts[0]) {
       case 'mtllib':
         // load material library file. eg: mtllib master.mtl

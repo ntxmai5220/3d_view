@@ -235,10 +235,12 @@ class Scene {
 
   void render(Canvas canvas, Size size) {
     // check if texture needs to update
+    
     if (_needsUpdateTexture) {
       _needsUpdateTexture = false;
       _updateTexture();
     }
+    
 
     // create render mesh from objects
     final renderMesh = _makeRenderMesh();

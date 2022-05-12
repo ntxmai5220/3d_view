@@ -3,8 +3,8 @@ import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Image/DetailIma
 import 'package:flutter/material.dart';
 
 
-List<String> objectImagePath = ["assets/objects/plane/texture.png","assets/objects/toilet/toilet.jpg","assets/objects/couch/couch.jpg","assets/objects/statue/statue.jpg"];
-List<String> objectPath = ["assets/objects/plane/Boeing_787.obj","assets/objects/toilet/toilet.obj","assets/objects/couch/Couch.obj","assets/objects/statue/statue.obj"];
+List<String> objectImagePath = ["assets/objects/chair/chair.jpg", "assets/objects/table/table.jpg","assets/objects/shelf/Shelving_origin.jpg"];
+List<String> objectPath = ["assets/objects/chair/chair.obj", "assets/objects/table/table.obj","assets/objects/shelf/Shelving_origin.obj"];
 List<String> getImageObjectPath(){
   return objectImagePath;
 }

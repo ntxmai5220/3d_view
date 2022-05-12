@@ -52,12 +52,9 @@ flutter:
     - assets/test/
     - assets/fonts/Baloo2/
     - assets/fonts/Quicksand/
-    - assets/objects/
-    - assets/objects/couch/
-    - assets/objects/cube/
-    - assets/objects/plane/
-    - assets/objects/toilet/
-    - assets/objects/statue/
+    - assets/objects/chair/
+    - assets/objects/table/
+    - assets/objects/shelf/
 
   fonts:
     - family: Baloo2

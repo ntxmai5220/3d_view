@@ -1,0 +1,22 @@
+import 'dart:convert';
+
+
+import 'package:bk_3d_view/apis/apis.dart';
+import 'package:bk_3d_view/apis/base/dio_request.dart';
+import 'package:bk_3d_view/apis/base/option_builder.dart';
+import 'package:dio/dio.dart';
+
+class AuthRequest {
+    AuthRequest._();
+
+
+    static DioRequest login({required Map<String, String> account}){
+      Options options = OptionBuilder().jsonContent().build();
+      return DioRequest(path: "auth/login", body: jsonEncode(account), options: options );
+    }
+
+    static DioRequest signUp({required Map<String, String> account}){
+      Options options = OptionBuilder().jsonContent().build();
+      return DioRequest(path: "auth/register", body: jsonEncode(account), options: options );
+    }
+}

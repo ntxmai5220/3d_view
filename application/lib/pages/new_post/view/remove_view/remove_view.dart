@@ -1,10 +1,9 @@
 import 'package:bk_3d_view/pages/new_post/blocs.dart';
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/values/values.dart';
 
-import 'package:bk_3d_view/widgets/user/choose_item.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // class RemoveView extends StatelessWidget {
@@ -68,14 +67,17 @@ class RemoveView extends StatelessWidget {
     // );
   }
 
-  openDrawMask(BuildContext context, {required String url}) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (_) => RemoveObjectPage(
-                imgUrl: url,
-              ),
-          fullscreenDialog: true),
-    );
+  openDrawMask(BuildContext context, {required String url}) async {
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+            builder: (_) => RemoveObjectPage(
+                  url: url,
+                ),
+            fullscreenDialog: true))
+        .then(
+          (value) => SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.portraitUp]),
+        );
   }
 }
 

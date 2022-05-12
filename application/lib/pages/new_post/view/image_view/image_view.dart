@@ -74,7 +74,8 @@ class ImageView extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 3, bottom: 75),
+                  padding: const EdgeInsets.only(
+                      top: 3, bottom: 75, left: 15, right: 15),
                   child: Wrap(
                       // alignment: WrapAlignment.center,
                       runSpacing: 15,

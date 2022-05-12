@@ -1,13 +1,10 @@
-import 'package:bk_3d_view/pages/new_post/bloc/new_post_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/bloc/thumbnail_view_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 
 import 'package:bk_3d_view/widgets/list/list_room.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'dart:ui' as ui;
 
 class ThumbnailView extends StatelessWidget {
   const ThumbnailView({Key? key}) : super(key: key);

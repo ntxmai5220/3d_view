@@ -56,10 +56,10 @@ class MyApp extends StatelessWidget {
             ),
             floatingActionButtonTheme: const FloatingActionButtonThemeData(
                 sizeConstraints: BoxConstraints(
-                  maxHeight: 46,
-                  minHeight: 46,
-                  maxWidth: 46,
-                  minWidth: 46,
+                  maxHeight: 48,
+                  minHeight: 48,
+                  maxWidth: 48,
+                  minWidth: 48,
                 ),
                 backgroundColor: AppColors.darkPrimary)),
         home: const MainPage(),

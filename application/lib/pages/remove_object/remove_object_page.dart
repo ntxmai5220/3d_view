@@ -1,101 +1,69 @@
-import 'dart:io';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bk_3d_view/pages/remove_object/bloc/remove_object_bloc.dart';
 import 'package:bk_3d_view/repositories/remove_object/remove_object_repository.dart';
 import 'package:bk_3d_view/values/values.dart';
-import 'package:bk_3d_view/widgets/app_bar/back_leading.dart';
+
+import 'package:bk_3d_view/widgets/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_painter/flutter_painter.dart';
-import 'dart:ui' as ui;
 
-class RemoveObjectPage extends StatefulWidget {
+class RemoveObjectPage extends StatelessWidget {
   const RemoveObjectPage({
     Key? key,
-    required this.imgUrl,
+    required this.url,
   }) : super(key: key);
-  final String imgUrl;
 
+  final String url;
   @override
-  State<RemoveObjectPage> createState() => _RemoveObjectPageState();
-}
-
-class _RemoveObjectPageState extends State<RemoveObjectPage> {
-  static const Color drawColor = AppColors.white;
-
-  late ui.Image backgroundImage;
-
-  Paint shapePaint = Paint()
-    ..strokeWidth = 5
-    ..color = drawColor
-    ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.round;
-
-  FocusNode textFocusNode = FocusNode();
-
-  late PainterController controller;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller = PainterController(
-      settings: const PainterSettings(
-        freeStyle: FreeStyleSettings(
-          color: drawColor,
-          strokeWidth: 13,
-        ),
-        scale: ScaleSettings(
-          enabled: true,
-          minScale: 1,
-          maxScale: 5,
-        ),
-      ),
-    );
-    initBackground();
+  Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
-  }
 
-  void initBackground() async {
-    // Extension getter (.image) to get [ui.Image] from [ImageProvider]
-    final image = await NetworkImage(widget.imgUrl).image;
-
-    // image = await FileImage(File(widget.imgUrl)).image;
-    // image = await const AssetImage('assets/images/photo.jpg').image;
-    setState(() {
-      backgroundImage = image;
-      controller.background = image.backgroundDrawable;
-    });
-  }
-
-  void onFocus() {
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement
-    // disposeS
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    PainterController controller = PainterController(
+      settings: const PainterSettings(
+        freeStyle: FreeStyleSettings(
+          color: Colors.white,
+          strokeWidth: 13,
+        ),
+        scale: ScaleSettings(
+          enabled: true,
+          minScale: 1,
+          maxScale: 4,
+        ),
+      ),
+    );
     return RepositoryProvider(
       create: (context) => RemoveObjectRepository(),
       child: BlocProvider(
-        create: (context) =>
-            RemoveObjectBloc(repository: RepositoryProvider.of(context)),
-        child: BlocBuilder<RemoveObjectBloc, RemoveObjectState>(
+        create: (context) => RemoveObjectBloc(
+            repository: RepositoryProvider.of(context),
+            painterController: controller)
+          ..add(RemoveObjectInitEvent(url: url)),
+        child: BlocConsumer<RemoveObjectBloc, RemoveObjectState>(
+          listenWhen: (previous, current) {
+            return (previous is RemoveObjectLoading &&
+                    current is! RemoveObjectLoading) ||
+                (previous is! RemoveObjectLoading &&
+                    current is RemoveObjectLoading);
+          },
+          listener: (context, state) {
+            if (state is RemoveObjectLoading) {
+              ShowMyDialog.show(context, dialog: const LoadingDialog());
+            } else {
+              Navigator.pop(context);
+            }
+          },
           builder: (context, state) {
+            var bloc = context.read<RemoveObjectBloc>();
             return Scaffold(
               backgroundColor: AppColors.black,
               body: SafeArea(
@@ -106,7 +74,7 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       color: AppColors.white,
                       child: ValueListenableBuilder<PainterControllerValue>(
-                          valueListenable: controller,
+                          valueListenable: bloc.painterController,
                           child: const Text("Flutter Painter Example"),
                           builder: (context, _, child) {
                             return Column(
@@ -122,73 +90,104 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
                                 const Spacer(),
                                 // Redo action
                                 IconButton(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.redo,
-                                    color: AppColors.darkPrimary,
+                                    color: !bloc.painterController.canRedo
+                                        ? AppColors.secondary
+                                        : AppColors.darkPrimary,
                                   ),
-                                  onPressed: controller.canRedo ? redo : null,
+                                  onPressed: bloc.painterController.canRedo
+                                      ? () => bloc.add(RedoEvent())
+                                      : null,
                                 ),
                                 // Undo action
                                 IconButton(
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.undo,
-                                    color: AppColors.darkPrimary,
+                                    color: !bloc.painterController.canUndo
+                                        ? AppColors.secondary
+                                        : AppColors.darkPrimary,
                                   ),
-                                  onPressed: controller.canUndo ? undo : null,
+                                  onPressed: bloc.painterController.canUndo
+                                      ? () => bloc.add(UndoEvent())
+                                      : null,
                                 ),
                               ],
                             );
                           }),
                     ),
                     Expanded(
-                      child: Center(
-                        child: AspectRatio(
-                          aspectRatio:
-                              backgroundImage.width / backgroundImage.height,
-                          child: FlutterPainter(
-                            controller: controller,
-                          ),
-                        ),
-                      ),
+                      // child: InteractiveViewer(
+                      //     child: Image.memory(base64Decode(img))),
+                      child: state is RemoveObjectReceivedMask
+                          ? InteractiveViewer(
+                              child: Image.memory(base64Decode(state.mask)))
+                          : state.background != null
+                              ? Center(
+                                  child: AspectRatio(
+                                  aspectRatio: state.background!.width /
+                                      state.background!.height,
+                                  child: state is! RemoveObjectLoading
+                                      ? FlutterPainter(
+                                          controller: bloc.painterController,
+                                        )
+                                      : Image(
+                                          image:
+                                              CachedNetworkImageProvider(url)),
+                                ))
+                              : Container(
+                                  color: AppColors.white80,
+                                  child: const Center(
+                                    child: LoadingPlaceHolder(
+                                        width: 200, height: 200),
+                                  )),
                     ),
                     Container(
                       width: 48,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       color: AppColors.white,
                       child: ValueListenableBuilder(
-                        valueListenable: controller,
+                        valueListenable:
+                            context.read<RemoveObjectBloc>().painterController,
                         builder: (context, _, __) => Column(
                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             // Free-style eraser
-                            IconButton(
-                              icon: Icon(
-                                Icons.cleaning_services_rounded,
-                                color: controller.freeStyleMode ==
-                                        FreeStyleMode.erase
-                                    ? AppColors.darkPrimary
-                                    : AppColors.darkSecondary,
-                              ),
-                              onPressed: toggleFreeStyleErase,
+                            IconActionButton(
+                              padding: 3,
+                              icon: Icons.cleaning_services_rounded,
+                              iconColor:
+                                  bloc.painterController.drawables.isNotEmpty
+                                      ? bloc.painterController.freeStyleMode ==
+                                              FreeStyleMode.erase
+                                          ? AppColors.darkPrimary
+                                          : AppColors.darkSecondary
+                                      : AppColors.secondary,
+                              onTap: bloc.painterController.drawables.isNotEmpty
+                                  ? () => bloc.add(ToggleEraseEvent())
+                                  : null,
                             ),
                             // Free-style drawing
 
-                            IconButton(
-                              icon: Icon(
-                                Icons.gesture_rounded,
-                                color: controller.freeStyleMode ==
-                                        FreeStyleMode.draw
-                                    ? AppColors.darkPrimary
-                                    : AppColors.darkSecondary,
-                              ),
-                              onPressed: toggleFreeStyleDraw,
+                            IconActionButton(
+                              padding: 3,
+                              icon: Icons.gesture_rounded,
+                              iconColor: bloc.painterController.freeStyleMode ==
+                                      FreeStyleMode.draw
+                                  ? AppColors.darkPrimary
+                                  : AppColors.darkSecondary,
+                              onTap: () => bloc.add(ToggleDrawEvent()),
                             ),
                             const Spacer(),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.image,
-                              ),
-                              onPressed: () => renderAndDisplayImage(context),
+                            IconActionButton(
+                              icon: Icons.image,
+                              iconColor:
+                                  bloc.painterController.drawables.isNotEmpty
+                                      ? AppColors.darkPrimary
+                                      : AppColors.secondary,
+                              onTap: bloc.painterController.drawables.isNotEmpty
+                                  ? () => renderAndDisplayImage(context)
+                                  : null,
                             ),
                           ],
                         ),
@@ -204,67 +203,48 @@ class _RemoveObjectPageState extends State<RemoveObjectPage> {
     );
   }
 
-  void undo() {
-    controller.undo();
-  }
+  void renderAndDisplayImage(BuildContext context) {
+    context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
+    //   if (backgroundImage == null) return;
 
-  void redo() {
-    controller.redo();
-  }
+    //   // PainterController renderController = PainterController(
+    //   //   settings: controller.settings,
+    //   //   drawables: controller.drawables,
+    //   //   background: image.backgroundDrawable,
+    //   // );
 
-  void toggleFreeStyleDraw() {
-    controller.freeStyleMode = controller.freeStyleMode != FreeStyleMode.draw
-        ? FreeStyleMode.draw
-        : FreeStyleMode.none;
-  }
+    //   // renderController.drawables= controller.drawables;
 
-  void toggleFreeStyleErase() {
-    controller.freeStyleMode = controller.freeStyleMode != FreeStyleMode.erase
-        ? FreeStyleMode.erase
-        : FreeStyleMode.none;
-  }
+    //   final backgroundImageSize = Size(
+    //       backgroundImage.width.toDouble(), backgroundImage.height.toDouble());
 
-  void renderAndDisplayImage(BuildContext context) async {
-    if (backgroundImage == null) return;
+    //   // Render the image
+    //   // Returns a [ui.Image] object, convert to to byte data and then to Uint8List
+    //   final mask = await controller
+    //       .renderImage(backgroundImageSize)
+    //       .then((value) => value.toByteData(format: ui.ImageByteFormat.png));
+    //   final img =
+    //       await backgroundImage.toByteData(format: ui.ImageByteFormat.png);
+    //   // From here, you can write the PNG image data a file or do whatever you want with it
+    //   // For example:
+    //   // ```dart
+    //   // final file = File('${(await getTemporaryDirectory()).path}/img.png');
+    //   // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    //   // ```
+    //   // I am going to display it using Image.memory
 
-    // PainterController renderController = PainterController(
-    //   settings: controller.settings,
-    //   drawables: controller.drawables,
-    //   background: image.backgroundDrawable,
-    // );
+    //   // Show a dialog with the image
+    //   var bloc = context.read<RemoveObjectBloc>();
+    //   bloc.add(RemoveObjectSendMaskEvent(image: img!, mask: mask!));
+    //   // showDialog(
+    //   //     context: context,
+    //   //     builder: (context) => RenderedImageDialog(imageFuture: imageFuture));
 
-    // renderController.drawables= controller.drawables;
-
-    final backgroundImageSize = Size(
-        backgroundImage.width.toDouble(), backgroundImage.height.toDouble());
-
-    // Render the image
-    // Returns a [ui.Image] object, convert to to byte data and then to Uint8List
-    final mask = await controller
-        .renderImage(backgroundImageSize)
-        .then((value) => value.toByteData(format: ui.ImageByteFormat.png));
-    final img =
-        await backgroundImage.toByteData(format: ui.ImageByteFormat.png);
-    // From here, you can write the PNG image data a file or do whatever you want with it
-    // For example:
-    // ```dart
-    // final file = File('${(await getTemporaryDirectory()).path}/img.png');
-    // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-    // ```
-    // I am going to display it using Image.memory
-
-    // Show a dialog with the image
-    var bloc = context.read<RemoveObjectBloc>();
-    bloc.add(RemoveObjectSendMaskEvent(image: img!, mask: mask!));
-    // showDialog(
-    //     context: context,
-    //     builder: (context) => RenderedImageDialog(imageFuture: imageFuture));
-
-    //     final ui.Image send =
-    //     await renderController.renderImage(backgroundImageSize);
-    // ByteData? byteData = await send.toByteData(format: ui.ImageByteFormat.png);
-    // byteData?.buffer.asInt64List();
-    // MultipartFile.fromBytes(byteData?.buffer.asInt64List().cast<int>()??[]);
+    //   //     final ui.Image send =
+    //   //     await renderController.renderImage(backgroundImageSize);
+    //   // ByteData? byteData = await send.toByteData(format: ui.ImageByteFormat.png);
+    //   // byteData?.buffer.asInt64List();
+    //   // MultipartFile.fromBytes(byteData?.buffer.asInt64List().cast<int>()??[]);
   }
 }
 
@@ -297,3 +277,5 @@ class RenderedImageDialog extends StatelessWidget {
     );
   }
 }
+
+//////////////////////////////////////

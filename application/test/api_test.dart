@@ -140,12 +140,12 @@ void main() {
     File image2 = File("assets/test/mask2.jpg");
     Uint8List data2 = await image2.readAsBytes();
     String base64Mask = base64Encode(data2);
-    InPaintingServies services = InPaintingServies();
+    InPaintingServices services = InPaintingServices();
     await services.removeWithMask(
         base64Image: base64Image, base64Mask: base64Mask);
+    debugPrint('mask');
   });
 
-  
   test("login", () async {
     const account = {"username": "mai", "password": "example1"};
     AuthServices authServices = AuthServices();

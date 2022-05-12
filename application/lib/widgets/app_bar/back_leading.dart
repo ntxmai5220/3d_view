@@ -13,7 +13,7 @@ class BackLeading extends StatelessWidget {
         onTap: () => Navigator.of(context).pop(),
         child: Icon(
           Icons.arrow_back_ios_rounded,
-          size: 20,
+          size: 24,
           color: color ?? AppColors.white,
         ));
   }

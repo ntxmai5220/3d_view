@@ -1,4 +1,3 @@
-import 'package:bk_3d_view/models/map_utility.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class Post {

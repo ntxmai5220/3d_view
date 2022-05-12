@@ -42,12 +42,8 @@ class NetImage extends StatelessWidget {
       placeholderFadeInDuration: const Duration(milliseconds: 700),
       placeholder: (context, url) =>
           LoadingPlaceHolder(width: width, height: height),
-      errorWidget: (context, url, error) => SizedBox(
-        width: width,
-        height: height,
-        // color: AppColors.background,
-        child: const Center(child: CircularProgressIndicator()),
-      ),
+      errorWidget: (context, url, error) =>
+          LoadingPlaceHolder(width: width, height: height),
     );
   }
 }

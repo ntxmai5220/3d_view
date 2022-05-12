@@ -60,6 +60,9 @@ class RemoveObjectPage extends StatelessWidget {
               ShowMyDialog.show(context, dialog: const LoadingDialog());
             } else {
               Navigator.pop(context);
+              if(state is RemoveObjectReceivedMask){
+                // showGeneralDialog(context: context, pageBuilder: pageBuilder)
+              }
             }
           },
           builder: (context, state) {
@@ -204,47 +207,8 @@ class RemoveObjectPage extends StatelessWidget {
   }
 
   void renderAndDisplayImage(BuildContext context) {
-    context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
-    //   if (backgroundImage == null) return;
-
-    //   // PainterController renderController = PainterController(
-    //   //   settings: controller.settings,
-    //   //   drawables: controller.drawables,
-    //   //   background: image.backgroundDrawable,
-    //   // );
-
-    //   // renderController.drawables= controller.drawables;
-
-    //   final backgroundImageSize = Size(
-    //       backgroundImage.width.toDouble(), backgroundImage.height.toDouble());
-
-    //   // Render the image
-    //   // Returns a [ui.Image] object, convert to to byte data and then to Uint8List
-    //   final mask = await controller
-    //       .renderImage(backgroundImageSize)
-    //       .then((value) => value.toByteData(format: ui.ImageByteFormat.png));
-    //   final img =
-    //       await backgroundImage.toByteData(format: ui.ImageByteFormat.png);
-    //   // From here, you can write the PNG image data a file or do whatever you want with it
-    //   // For example:
-    //   // ```dart
-    //   // final file = File('${(await getTemporaryDirectory()).path}/img.png');
-    //   // await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-    //   // ```
-    //   // I am going to display it using Image.memory
-
-    //   // Show a dialog with the image
-    //   var bloc = context.read<RemoveObjectBloc>();
-    //   bloc.add(RemoveObjectSendMaskEvent(image: img!, mask: mask!));
-    //   // showDialog(
-    //   //     context: context,
-    //   //     builder: (context) => RenderedImageDialog(imageFuture: imageFuture));
-
-    //   //     final ui.Image send =
-    //   //     await renderController.renderImage(backgroundImageSize);
-    //   // ByteData? byteData = await send.toByteData(format: ui.ImageByteFormat.png);
-    //   // byteData?.buffer.asInt64List();
-    //   // MultipartFile.fromBytes(byteData?.buffer.asInt64List().cast<int>()??[]);
+     context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
+   
   }
 }
 

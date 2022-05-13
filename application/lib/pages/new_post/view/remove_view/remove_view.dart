@@ -24,17 +24,9 @@ class RemoveView extends StatelessWidget {
   Widget build(BuildContext context) {
     ImageViewBloc imageViewBloc = context.read<ImageViewBloc>();
 
-    Widget itemBuilder(BuildContext context, int index) {
-      return ChooseItem(
-        imageViewBloc.state.rooms[index].name ?? '',
-        onClick: () => openDrawMask(context,
-            url: imageViewBloc.state.rooms.elementAt(index).imgUrl ?? ''),
-      );
-    }
-
     return ListRoom(
       onTapItem: (room) {
-        openDrawMask(context, url: room.imgUrl ?? '');
+        openDrawMask(context, url: room.imgUrl ?? '', roomId: room.id ?? '');
         // List<ui.Image> capture = await Navigator.of(context).push(
         //   MaterialPageRoute(
         //     builder: (_) => CaptureThumbnail(
@@ -67,11 +59,13 @@ class RemoveView extends StatelessWidget {
     // );
   }
 
-  openDrawMask(BuildContext context, {required String url}) async {
+  openDrawMask(BuildContext context,
+      {required String url, required String roomId}) async {
     Navigator.of(context)
         .push(MaterialPageRoute(
             builder: (_) => RemoveObjectPage(
                   url: url,
+                  roomId: roomId,
                 ),
             fullscreenDialog: true))
         .then(

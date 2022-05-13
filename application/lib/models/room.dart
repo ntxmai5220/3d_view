@@ -6,7 +6,7 @@ class Room {
     this.name,
     this.id,
     this.imgUrl,
-    this.removeImgUrl,
+    this.removedImg,
     this.thumbnails,
     this.hotspots,
   });
@@ -15,9 +15,9 @@ class Room {
   String? name;
   String? id;
   String? imgUrl; //link anh
-  String? removeImgUrl;
+  Img? removedImg;
   // List<String>? thumbnails;
-  List<Thumbnail>? thumbnails;
+  List<Img>? thumbnails;
   List<Hotspot>? hotspots;
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
@@ -25,13 +25,15 @@ class Room {
         name: json['name'],
         id: json['_id'],
         imgUrl: json['imgUrl'],
-        removeImgUrl: json['removeImgUrl'],
+        removedImg: json['removedImg'] != null
+            ? Img.fromJson(json['removedImg'])
+            : null,
         // thumbnails: json['thumbnail'] != null
         //     ? List<String>.from(json['thumbnail']).toList()
         //     : null,
         thumbnails: json['thumbnail'] != null
             ? List<Map<String, dynamic>>.from(json['thumbnail'])
-                .map((e) => Thumbnail.fromJson(e))
+                .map((e) => Img.fromJson(e))
                 .toList()
             : null,
         hotspots: json['hotspot'] != null
@@ -46,7 +48,7 @@ class Room {
         'name': name,
         'id': id,
         'imgUrl': imgUrl,
-        'removeImgUrl': removeImgUrl,
+        'removeImgUrl': removedImg,
         'thumbnail': thumbnails,
         'hotspots': hotspots,
       };

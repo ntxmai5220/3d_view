@@ -94,7 +94,7 @@ class NewPostBloc extends Bloc<NewPostEvent, NewPostState> {
 
     if (images.isNotEmpty) {
       var response = await _repository.uploadThumbnail(
-          roomId: '625be882ba0392826c179527', images: images);
+          roomId: event.roomId, images: images);
       debugPrint(response.toString());
       // emit(NewPostInitial(currentStep: state.currentStep, post: state.post));
     }

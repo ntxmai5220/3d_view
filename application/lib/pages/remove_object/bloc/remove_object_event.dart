@@ -27,4 +27,13 @@ class UndoEvent extends RemoveObjectEvent {}
 
 class RedoEvent extends RemoveObjectEvent {}
 
-class RemoveObjectGenMaskEvent extends RemoveObjectEvent{}
+class RemoveObjectGenMaskEvent extends RemoveObjectEvent {}
+
+class RemoveObjectResetEvent extends RemoveObjectEvent {}
+
+class RemoveObjectUploadImageEvent extends RemoveObjectEvent {
+  final String roomId;
+  RemoveObjectUploadImageEvent({
+    required this.roomId,
+  });
+}

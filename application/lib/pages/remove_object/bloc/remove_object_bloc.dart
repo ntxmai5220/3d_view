@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -25,6 +26,8 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
     on<UndoEvent>(undo);
     on<RedoEvent>(redo);
     on<RemoveObjectGenMaskEvent>(genMask);
+    on<RemoveObjectResetEvent>(reset);
+    on<RemoveObjectUploadImageEvent>(uploadImage);
   }
 
   sendMask(
@@ -87,7 +90,7 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
     emit(RemoveObjectLoading(background: state.background));
     painterController.background =
         const ColorBackgroundDrawable(color: Colors.black);
-    List<ByteData?> list = [];
+
     final mask = await painterController
         .renderImage(size)
         .then((value) => value.toByteData(format: ui.ImageByteFormat.png));
@@ -98,7 +101,7 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
     // ]).then((value) => list.addAll(value));
     final image =
         await state.background!.toByteData(format: ui.ImageByteFormat.png);
-
+    painterController.background = state.background!.backgroundDrawable;
     if (image != null && mask != null) {
       Uint8List dataImage = image.buffer.asUint8List();
       String base64Image = base64Encode(dataImage);
@@ -108,15 +111,37 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
 
       var response = await _repository.sendMask(
           base64Image: base64Image, base64Mask: base64Mask);
-      // Uint8List dataResult = base64Decode(response.object);
-      // var result = Image.memory(bytes)
-      debugPrint(response.object);
+
       if (response.object != null) {
         emit(RemoveObjectReceivedMask(
             background: state.background, mask: response.object!));
       } else {
         debugPrint('error');
-        emit(RemoveObjectLoaded(background: state.background!));
+        emit(RemoveObjectError(background: state.background));
+        // emit(RemoveObjectLoaded(background: state.background!));
+      }
+    }
+  }
+
+  reset(RemoveObjectResetEvent event, Emitter<RemoveObjectState> emit) {
+    debugPrint('reset');
+    emit(RemoveObjectLoaded(background: state.background!));
+  }
+
+  uploadImage(RemoveObjectUploadImageEvent event,
+      Emitter<RemoveObjectState> emit) async {
+    var currentState = state;
+    if (currentState is RemoveObjectReceivedMask) {
+      emit(RemoveObjectLoading(background: state.background));
+      MapEntry<String, Uint8List> removeImage =
+          MapEntry('removeImage.jpg', base64Decode(currentState.mask));
+
+      var response = await _repository.uploadRemoveImage(
+          roomId: event.roomId, removeImage: removeImage);
+      if (response.object != null) {
+        emit(RemoveObjectUploadCompleted(background: state.background));
+      } else {
+        add(RemoveObjectResetEvent());
       }
     }
   }

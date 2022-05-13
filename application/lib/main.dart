@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  //   DeviceOrientation.landscapeLeft,
-  //   DeviceOrientation.landscapeRight,
-  // ]).then((value) => runApp(const MyApp()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    // DeviceOrientation.portraitDown,
+    // DeviceOrientation.landscapeLeft,
+    // DeviceOrientation.landscapeRight,
+  ]).then((value) => runApp(const MyApp()));
   BlocOverrides.runZoned(
     () {
       runApp(const MyApp());

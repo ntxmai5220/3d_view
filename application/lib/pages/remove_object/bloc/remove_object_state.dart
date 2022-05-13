@@ -34,3 +34,12 @@ class RemoveObjectReceivedMask extends RemoveObjectState {
     required this.mask,
   }) : super(background: background);
 }
+
+class RemoveObjectError extends RemoveObjectState {
+  RemoveObjectError({required ui.Image? background})
+      : super(background: background);
+}
+
+class RemoveObjectUploadCompleted extends RemoveObjectState{
+  RemoveObjectUploadCompleted({required ui.Image? background}) : super(background: background);
+}

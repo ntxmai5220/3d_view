@@ -102,9 +102,9 @@ class CaptureThumbnail extends StatelessWidget {
                     child: Column(
                       children: [
                         FloatingActionButton(
-                            heroTag: 'back',
+                            heroTag: 'discard',
                             onPressed: () => Navigator.of(context).pop(),
-                            child: const Icon(Icons.arrow_back_ios_rounded)),
+                            child: const Icon(Icons.close_rounded)),
                         const SizedBox(height: 15),
                         FloatingActionButton(
                             heroTag: 'save',
@@ -121,26 +121,6 @@ class CaptureThumbnail extends StatelessWidget {
                 )
               ],
             ),
-            // Row(
-            //   children: [
-            //     Container(
-            //         color: Colors.black,
-            //         child: FloatingActionButton(
-            //             onPressed: () {
-            //               capture.add(image);
-            //               debugPrint(capture.length.toString());
-            //             },
-            //             child: const Icon(
-            //               Icons.save_rounded,
-            //               color: Colors.white,
-            //             ))),
-            //     Expanded(
-            //       child: RawImage(
-            //         image: image,
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ),
           fullscreenDialog: true,
         ),

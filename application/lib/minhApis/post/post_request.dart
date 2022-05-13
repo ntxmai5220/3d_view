@@ -104,6 +104,32 @@ class PostRequest {
         options: options);
   }
 
+  // Path: /post/uploadremoveimg/:roomId
+  static DioRequest uploadRemoveImage({
+    required String roomId,
+    required MapEntry<String, Uint8List> removeImage,
+    String? token,
+  }) {
+    Options options = OptionBuilder()
+        .jsonContent()
+        .authorizeToken(token ?? 'example1')
+        .build();
+
+    FormData form = FormData();
+
+    String name = removeImage.key;
+    Uint8List data = removeImage.value;
+
+    form.files
+        .add(MapEntry("image", MultipartFile.fromBytes(data, filename: name)));
+    // var formData =
+    //     MapEntry("image", MultipartFile.fromBytes(data, filename: name));
+    return DioRequest(
+        path: "post/uploadremovedimg/$roomId",
+        body: form,
+        options: options);
+  }
+
   // Path: /post
   static DioRequest getPostWithFilter({
     required Map<String, dynamic> params,

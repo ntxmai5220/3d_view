@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bk_3d_view/apis/room/room_services.dart';
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:bk_3d_view/minhApis/auth/authServices.dart';
@@ -173,5 +174,26 @@ void main() {
     };
     AuthServices authServices = AuthServices();
     await authServices.signup(account: account);
+  });
+
+  // Room api
+
+  test("updateRoom", () async {
+    const room = {"name": "test Name"};
+    RoomServices roomServices = RoomServices();
+    String id = "625a6ae0c313e60d2f3836e6";
+    await roomServices.updateRoom(id: id, token: token, body: room);
+  });
+
+  test("getRoom", () async {
+    String id = "625a6ae0c313e60d2f3836e6";
+    RoomServices roomServices = RoomServices();
+    await roomServices.getRoom(id: id, token: token);
+  });
+
+  test("deleteRoom", () async {
+    String id = "625a6ae0c313e60d2f3836e6";
+    RoomServices roomServices = RoomServices();
+    await roomServices.deleteRoom(id: id, token: token);
   });
 }

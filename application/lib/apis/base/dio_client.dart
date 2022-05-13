@@ -34,6 +34,28 @@ class DioClient {
     // return null;
   }
 
+  static Future<void> delete(
+      {required String path,
+      Map<String, dynamic>? params,
+      Options? options}) async {
+    String fullPath = buildFullPath(path);
+    try {
+      Response response =
+          await _dio.delete(fullPath, queryParameters: params, options: options);
+    } on DioError catch (e) {
+      throw e.response?.statusMessage ??
+          APIResponse.fromJson(e.response?.data).message ??
+          'An unexpected error occurred.';
+    } on SocketException catch (e) {
+      throw e.message;
+    } on HttpException catch (e) {
+      throw e.message;
+    } on Exception catch (e) {
+      throw e.toString();
+    }
+    // return null;
+  }
+
   static Future<APIResponse> post(
       {required String path, dynamic data, Options? options}) async {
     String fullPath = buildFullPath(path);

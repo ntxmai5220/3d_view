@@ -7,7 +7,7 @@ class TextStyles {
     color: AppColors.darkSecondary,
     fontWeight: FontWeight.w700,
     fontSize: 24,
-    letterSpacing: 0.02,
+    letterSpacing: 0.1,
   );
 
   static const tinyLabel = TextStyle(

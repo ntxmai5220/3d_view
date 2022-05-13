@@ -91,6 +91,19 @@ void main() {
     print(result);
   });
 
+  test("upload remove image", () async {
+    final images = await getImage();
+    PostServices services = PostServices();
+    var result = await services.uploadRemoveImage(
+      roomId:
+          "627e139ec5d44f0fca3de5f1", //6275c370117a505b026e719b-6275c370117a505b026e719d
+      removeImage: images[0]
+      // token:
+      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
+    );
+    print(result);
+  });
+
   test("upload mainThumbnail", () async {
     final images = await getImage();
     final mainThumbnail = {"mainThumbnail": "duong link dan toi Thumbnail"};

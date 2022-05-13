@@ -16,9 +16,11 @@ class RemoveObjectPage extends StatelessWidget {
   const RemoveObjectPage({
     Key? key,
     required this.url,
+    required this.roomId,
   }) : super(key: key);
 
   final String url;
+  final String roomId;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -55,13 +57,33 @@ class RemoveObjectPage extends StatelessWidget {
                 (previous is! RemoveObjectLoading &&
                     current is RemoveObjectLoading);
           },
-          listener: (context, state) {
+          listener: (context, state) async {
+            var bloc = context.read<RemoveObjectBloc>();
             if (state is RemoveObjectLoading) {
               ShowMyDialog.show(context, dialog: const LoadingDialog());
             } else {
               Navigator.pop(context);
-              if(state is RemoveObjectReceivedMask){
-                // showGeneralDialog(context: context, pageBuilder: pageBuilder)
+              if (state is RemoveObjectReceivedMask) {
+                var result = await showResult(context, img: state.mask);
+                if (result == true) {
+                  //call api save
+                  bloc.add(RemoveObjectUploadImageEvent(roomId: roomId));
+                } else {
+                  bloc.add(RemoveObjectResetEvent());
+                }
+              } else if (state is RemoveObjectUploadCompleted) {
+                Navigator.of(context).pop();
+              } else if (state is RemoveObjectError) {
+                var result = await ShowMyDialog.show(
+                  context,
+                  dialog: const NotificationDialog(
+                    content: 'Đã xảy ra lỗi, vui lòng thử lại.',
+                    type: DialogType.warning,
+                  ),
+                );
+                if (result != null) {
+                  bloc.add(RemoveObjectResetEvent());
+                }
               }
             }
           },
@@ -78,7 +100,6 @@ class RemoveObjectPage extends StatelessWidget {
                       color: AppColors.white,
                       child: ValueListenableBuilder<PainterControllerValue>(
                           valueListenable: bloc.painterController,
-                          child: const Text("Flutter Painter Example"),
                           builder: (context, _, child) {
                             return Column(
                               // title: child,
@@ -207,39 +228,48 @@ class RemoveObjectPage extends StatelessWidget {
   }
 
   void renderAndDisplayImage(BuildContext context) {
-     context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
-   
+    context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
   }
+
+  Future<dynamic> showResult(BuildContext context, {required String img}) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                Positioned.fill(
+                  // key: globalKey,
+                  child: Container(
+                    // padding: const EdgeInsets.all(15),
+                    color: Colors.white12,
+                    child: InteractiveViewer(
+                        child: Image.memory(base64Decode(img))),
+                  ),
+                ),
+                Positioned(
+                  top: 20,
+                  left: 20,
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        FloatingActionButton(
+                            heroTag: 'discard',
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Icon(Icons.close_rounded)),
+                        const SizedBox(height: 15),
+                        FloatingActionButton(
+                            heroTag: 'save',
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: const Icon(Icons.save)),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          fullscreenDialog: true,
+        ),
+      );
 }
-
-class RenderedImageDialog extends StatelessWidget {
-  final Future<Uint8List?> imageFuture;
-
-  const RenderedImageDialog({Key? key, required this.imageFuture})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Rendered Image"),
-      content: FutureBuilder<Uint8List?>(
-        future: imageFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const SizedBox(
-              height: 50,
-              child: Center(child: CircularProgressIndicator.adaptive()),
-            );
-          }
-          if (!snapshot.hasData || snapshot.data == null) {
-            return const SizedBox();
-          }
-          return InteractiveViewer(
-              maxScale: 10, child: Image.memory(snapshot.data!));
-        },
-      ),
-    );
-  }
-}
-
-//////////////////////////////////////

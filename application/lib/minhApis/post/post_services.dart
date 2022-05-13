@@ -69,6 +69,20 @@ class PostServices {
     print(data);
   }
 
+  Future<ObjectResponse<Room?>> uploadRemoveImage(
+      {required String roomId,
+      required MapEntry<String, Uint8List> removeImage,
+      String? token}) async {
+    DioRequest request = PostRequest.uploadRemoveImage(
+        roomId: roomId, removeImage: removeImage, token: token);
+    APIResponse data = await DioClient.put(
+        path: request.path, data: request.body, options: request.options);
+    Room room = Room.fromJson(data.toObject());
+    print(data.toString());
+
+    return ObjectResponse(object: room);
+  }
+
   Future<dynamic> getPostWithFilter(
       {required Map<String, dynamic> params}) async {
     DioRequest request = PostRequest.getPostWithFilter(params: params);

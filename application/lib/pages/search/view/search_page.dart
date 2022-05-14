@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/drawer/drawer.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class SearchPage extends StatelessWidget {
       key: globalKey,
       // endDrawerEnableOpenDragGesture: ,
       endDrawerEnableOpenDragGesture: false,
-      endDrawer: Drawer(),
+      endDrawer: const FilterDrawer(),
       appBar: AppBar(
         title: Text('Tìm kiếm',
             style: TextStyles.screenTitle.copyWith(color: AppColors.primary)),

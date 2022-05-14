@@ -170,6 +170,7 @@ class _AddObjectState extends State<AddObject>
         sceneObj!.world.children.indexWhere((element) => element == currentObj);
     int prevObjIndex = (currentIndex - 1 + length) % length;
     currentObj = sceneObj!.world.children.elementAt(prevObjIndex);
+    setCurrentColor(currentObj!.light.color);
   }
 
   void onAddingFABCLicked() {
@@ -195,6 +196,8 @@ class _AddObjectState extends State<AddObject>
     int nextObjIndex = (currentIndex + 1 + length) % length;
     
     currentObj = sceneObj!.world.children.elementAt(nextObjIndex);
+    setCurrentColor(currentObj!.light.color);
+
   }
 
   void rotateObject(Object obj, {double angleY = 0, double angleX = 0}) {
@@ -232,7 +235,7 @@ class _AddObjectState extends State<AddObject>
       normalized: true,
       visiable: true,
       backfaceCulling: false,
-      scale: Vector3(2, 2, 2),
+      scale: Vector3(6, 6, 6),
       parent: surface,
       position: Vector3(0, 0, 0),
     );
@@ -242,6 +245,7 @@ class _AddObjectState extends State<AddObject>
     moveUp(newObj, trueYdeg);
     sceneObj!.world.add(newObj);
     _updateView();
+    setCurrentColor(currentObj!.light.color);
   }
 
   void _onHotspotChange() {
@@ -290,6 +294,7 @@ class _AddObjectState extends State<AddObject>
 
   void changeCorlorObjectRec(Object obj, Color color, int index) {
     obj.light.setColor(color, 1, 2, 2);
+    obj.light.position.setFrom(Vector3(0,0,-10));
     if (obj.children.isEmpty) return;
     for (Object child in obj.children) {
       changeCorlorObjectRec(child, color, index + 1);
@@ -298,7 +303,15 @@ class _AddObjectState extends State<AddObject>
 
   void changeColor(Color color) {
     changeCorlorObjectRec(this.currentObj!, color, 1);
+    setColorPicker(color);
+  }
+
+  void setColorPicker(Color color){
     setState(() => pickerColor = color);
+  }
+
+  void setCurrentColor(Color color){
+    setState(() => currentColor = color);
   }
 
   void _handleScaleStart(ScaleStartDetails details) {

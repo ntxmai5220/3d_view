@@ -13,12 +13,16 @@ class Light {
   final Vector3 ambient = Vector3.zero();
   final Vector3 diffuse = Vector3.zero();
   final Vector3 specular = Vector3.zero();
+  Color color = Color.fromARGB(255, 0, 0, 0);
 
   void setColor(Color? color, double ambient, double diffuse, double specular) {
     final Vector3 c = (color != null) ? fromColor(color) : Vector3.all(1.0);
     this.ambient.setFrom(c * ambient);
     this.diffuse.setFrom(c * diffuse);
     this.specular.setFrom(c * specular);
+    if (color != null){
+      this.color = color;
+    }
   }
 
   Color shading(Vector3 viewPosition, Vector3 fragmentPosition, Vector3 normal, Material material) {

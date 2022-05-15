@@ -28,42 +28,42 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: '3D VIEW',
-        theme: ThemeData(
-            tabBarTheme: const TabBarTheme(
-              labelColor: AppColors.white,
-              unselectedLabelColor: AppColors.darkSecondary,
-            ),
-            textTheme: const TextTheme(bodyMedium: TextStyles.normalContent),
-            appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
-            dialogTheme: const DialogTheme(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(AppConstants.borderRadius))),
-                backgroundColor: Colors.white,
-                titleTextStyle: TextStyles.normalContent,
-                contentTextStyle: TextStyles.tinyContent),
-            progressIndicatorTheme: const ProgressIndicatorThemeData(
-                color: AppColors.primary,
-                linearTrackColor: AppColors.lightPrimary),
-            bottomSheetTheme: const BottomSheetThemeData(
-              backgroundColor: Colors.transparent,
-            ),
-            iconTheme: const IconThemeData(
-              color: AppColors.darkPrimary,
-              size: 24,
-            ),
-            floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                sizeConstraints: BoxConstraints(
-                  maxHeight: 48,
-                  minHeight: 48,
-                  maxWidth: 48,
-                  minWidth: 48,
-                ),
-                backgroundColor: AppColors.darkPrimary)),
-        home: const LoginPage(),
-        routes: {'main': (_) => const MainPage()});
+      debugShowCheckedModeBanner: false,
+      title: '3D VIEW',
+      theme: ThemeData(
+          tabBarTheme: const TabBarTheme(
+            labelColor: AppColors.white,
+            unselectedLabelColor: AppColors.darkSecondary,
+          ),
+          textTheme: const TextTheme(bodyMedium: TextStyles.normalContent),
+          appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
+          dialogTheme: const DialogTheme(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(AppConstants.borderRadius))),
+              backgroundColor: Colors.white,
+              titleTextStyle: TextStyles.normalContent,
+              contentTextStyle: TextStyles.tinyContent),
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+              color: AppColors.primary,
+              linearTrackColor: AppColors.lightPrimary),
+          bottomSheetTheme: const BottomSheetThemeData(
+            backgroundColor: Colors.transparent,
+          ),
+          iconTheme: const IconThemeData(
+            color: AppColors.darkPrimary,
+            size: 24,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              sizeConstraints: BoxConstraints(
+                maxHeight: 48,
+                minHeight: 48,
+                maxWidth: 48,
+                minWidth: 48,
+              ),
+              backgroundColor: AppColors.darkPrimary)),
+      home: const MainPage(),
+    );
   }
 }
 

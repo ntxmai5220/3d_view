@@ -1,4 +1,4 @@
-import 'package:bk_3d_view/panorama/add_object/AddObject.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/AddObject.dart';
 import 'package:flutter/material.dart';
 import 'package:panorama/module.dart';
 
@@ -21,9 +21,6 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     Widget panaroma = AddObject(
       child: panoImages,
-      onHotspotChange: (Map<int, List<Hotspot>> hotpost) {
-        print(hotpost);
-      },
     );
     return Scaffold(
         appBar: AppBar(

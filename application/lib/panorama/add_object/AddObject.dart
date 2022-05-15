@@ -1,31 +1,27 @@
-library panorama;
 
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Delete/ExtFABDel.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Delete/FABDel.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Fab/ExtFAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Fab/FAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Hotspot/Hotspot.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Image/DetailImage.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalBottomSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalObjectSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-
-import 'flutter_cube/flutter_cube.dart';
+import 'package:panorama/module.dart';
 
 import 'package:uuid/uuid.dart';
 
-import 'Widgets/Hotspot/HotspotButton.dart';
+import 'panaroma/Widgets/Image/DetailImage.dart';
+import 'panaroma/Widgets/Model/ModalObjectSheet.dart';
+import 'panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
+import 'panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
+import 'panaroma/flutter_cube/flutter_cube.dart';
 
-class AddHotspot extends StatefulWidget {
-  AddHotspot({
+
+
+
+class AddObject extends StatefulWidget {
+  AddObject({
     Key? key,
     this.latitude = 0,
     this.longitude = 0,
@@ -121,10 +117,10 @@ class AddHotspot extends StatefulWidget {
   // final Widget
 
   @override
-  _AddHotspotState createState() => _AddHotspotState();
+  _AddObjectState createState() => _AddObjectState();
 }
 
-class _AddHotspotState extends State<AddHotspot>
+class _AddObjectState extends State<AddObject>
     with SingleTickerProviderStateMixin {
   Scene? sceneObj;
   Scene? scene;
@@ -137,7 +133,7 @@ class _AddHotspotState extends State<AddHotspot>
   late Offset _lastFocalPoint;
   double? _lastZoom;
   double _radius = 500;
-  double _dampingFactor = 0.05;
+  double _dampingFactor = 0.1;
   double _animateDirection = 1.0;
   double rotateY = 0;
   double rotateX = 0;
@@ -177,6 +173,7 @@ class _AddHotspotState extends State<AddHotspot>
         sceneObj!.world.children.indexWhere((element) => element == currentObj);
     int prevObjIndex = (currentIndex - 1 + length) % length;
     currentObj = sceneObj!.world.children.elementAt(prevObjIndex);
+    setCurrentColor(currentObj!.light.color);
   }
 
   void onAddingFABCLicked() {
@@ -202,6 +199,8 @@ class _AddHotspotState extends State<AddHotspot>
     int nextObjIndex = (currentIndex + 1 + length) % length;
     
     currentObj = sceneObj!.world.children.elementAt(nextObjIndex);
+    setCurrentColor(currentObj!.light.color);
+
   }
 
   void rotateObject(Object obj, {double angleY = 0, double angleX = 0}) {
@@ -222,7 +221,7 @@ class _AddHotspotState extends State<AddHotspot>
   void _handleTapUp(TapUpDetails details) {
     final Vector3 o =
         positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    if (mode == 1) _handleAddHospot(degrees(o.x), degrees(-o.y), degrees(o.z));
+    if (mode == 3) _handleAddObject(-o.x, -o.y, o.z);
   }
 
   void _handleAddObject(double longitude, double latitude, double tilt) async {
@@ -230,7 +229,6 @@ class _AddHotspotState extends State<AddHotspot>
     if (objPath == null) return;
     double trueXdeg = -longitude + math.pi / 2;
     double trueYdeg = latitude;
-    double trueZdeg = tilt;
     Object newObj = Object(
       name: objPath,
       fileName: objPath,
@@ -238,7 +236,7 @@ class _AddHotspotState extends State<AddHotspot>
       normalized: true,
       visiable: true,
       backfaceCulling: false,
-      scale: Vector3(2, 2, 2),
+      scale: Vector3(6, 6, 6),
       parent: surface,
       position: Vector3(0, 0, 0),
     );
@@ -248,54 +246,17 @@ class _AddHotspotState extends State<AddHotspot>
     moveUp(newObj, trueYdeg);
     sceneObj!.world.add(newObj);
     _updateView();
+    setCurrentColor(currentObj!.light.color);
   }
 
   void _onHotspotChange() {
     widget.onHotspotChange!(listHotspot);
   }
 
-  void _handleAddHospot(double longitude, double latitude, double tilt) async {
-    int? index = await roomSheet(context, widget.child!);
-    if (index == null) return ;
-    String uuid = Uuid().v1();
-    Hotspot temp = Hotspot(
-      name: uuid,
-      latitude: latitude,
-      longitude: longitude,
-      width: 90,
-      height: 75,
-      widget: hotspotButton(
-          text: widget.child![index].name,
-          icon: Icons.open_in_browser,
-          onPressed: () {
-            switch (mode) {
-              // transfer to another scene
-              case 0:
-                current_index = index;
-                if (listHotspot[current_index] == null)
-                  listHotspot[current_index] = [];
-                hotspots = listHotspot[current_index]!;
-                _loadTexture(widget.child![index].getImage().image);
-                break;
-              case 2:
-                Hotspot deltmp = listHotspot[current_index]!
-                    .firstWhere((element) => element.name == uuid);
-                listHotspot[current_index]!.remove(deltmp);
-                _onHotspotChange();
-            }
-
-            _updateView();
-          }),
-    );
-
-    setState(() {
-      listHotspot[current_index]!.add(temp);
-      _onHotspotChange();
-    });
-  }
 
   void changeCorlorObjectRec(Object obj, Color color, int index) {
-    obj.light.setColor(color, 2, 2, 20);
+    obj.light.setColor(color, 1, 2, 2);
+    obj.light.position.setFrom(Vector3(0,0,-10));
     if (obj.children.isEmpty) return;
     for (Object child in obj.children) {
       changeCorlorObjectRec(child, color, index + 1);
@@ -304,7 +265,15 @@ class _AddHotspotState extends State<AddHotspot>
 
   void changeColor(Color color) {
     changeCorlorObjectRec(this.currentObj!, color, 1);
+    setColorPicker(color);
+  }
+
+  void setColorPicker(Color color){
     setState(() => pickerColor = color);
+  }
+
+  void setCurrentColor(Color color){
+    setState(() => currentColor = color);
   }
 
   void _handleScaleStart(ScaleStartDetails details) {
@@ -372,7 +341,6 @@ class _AddHotspotState extends State<AddHotspot>
   void _updateView() {
     if (scene == null) return;
     if (sceneObj == null) return;
-
     /// update fab
     if (!isFAB)
       setState(() {
@@ -550,6 +518,8 @@ class _AddHotspotState extends State<AddHotspot>
         final Widget child = Positioned(
           left: pos.x - orgin.dx,
           top: pos.y - orgin.dy,
+          width: hotspot.width,
+          height: hotspot.height,
           child: Transform(
             origin: orgin,
             transform: transform..invert(),
@@ -593,7 +563,7 @@ class _AddHotspotState extends State<AddHotspot>
   }
 
   @override
-  void didUpdateWidget(AddHotspot oldWidget) {
+  void didUpdateWidget(AddObject oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (surface == null) return;
@@ -619,7 +589,145 @@ class _AddHotspotState extends State<AddHotspot>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
- 
+
+    Container moveContainer = Container(
+        width: size.width / 4,
+        child: Wrap(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                moveUp(currentObj!, 3.14 / 20);
+              },
+              child: Icon(Icons.arrow_upward),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                moveRight(currentObj!, -3.14 / 20);
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                moveRight(currentObj!, 3.14 / 20);
+              },
+              child: Icon(Icons.arrow_forward),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                moveUp(currentObj!, -3.14 / 20);
+              },
+              child: Icon(Icons.arrow_downward),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                zoomIn(currentObj!, 1.1);
+              },
+              child: Icon(Icons.zoom_in),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                zoomIn(currentObj!, 0.9);
+              },
+              child: Icon(Icons.zoom_out),
+            ),
+            ElevatedButton(
+              onPressed: changePrevObject,
+              child: Text("Prev"),
+            ),
+            ElevatedButton(
+              onPressed: changeNextObject,
+              child: Text("Next"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (currentObj == null) return;
+                sceneObj!.world.children.remove(currentObj);
+                changePrevObject();
+
+              },
+              child: Text("Remove"),
+            ),
+          ],
+        ));
+
+    Stack objectToolKit = Stack(
+      children: [
+        Positioned(
+          child: Visibility(
+            child: moveContainer,
+            visible: objectToolVisible,
+          ),
+          bottom: 150,
+        ),
+        Positioned(
+            bottom: 10,
+            right: size.width / 3,
+            left: 0,
+            child:
+                Visibility(
+                  visible: objectToolVisible,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 15),
+                    width: 70,
+                    height: 30,
+                    color: currentColor,
+                  ),
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Pick a color!'),
+                            content: SingleChildScrollView(
+                              child: ColorPicker(
+                                pickerColor: pickerColor,
+                                onColorChanged: changeColor,
+                              ),
+                            ),
+                            actions: <Widget>[
+                              ElevatedButton(
+                                child: const Text('Got it'),
+                                onPressed: () {
+                                  setState(() => currentColor = pickerColor);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                              ),
+                              Slider(
+                  value: rotateY,
+                  onChanged: (value) {
+                    setState(() {
+                      rotateY = value;
+                      if (currentObj == null) return;
+                      rotateObject(currentObj!, angleY: value);
+                    });
+                  },
+                  min: 0,
+                  max: 360,
+                              ),
+                              Slider(
+                  value: rotateX,
+                  onChanged: (value) {
+                    setState(() {
+                      rotateX = value;
+                      if (currentObj == null) return;
+                      rotateObject(currentObj!, angleX: rotateX);
+                    });
+                  },
+                  min: 0,
+                  max: 360,
+                              ),
+                            ]),
+                )),
+      ],
+    );
+    
     Widget pano = Stack(
       children: [
         Cube(interactive: false, onSceneCreated: _onSceneCreated),
@@ -629,19 +737,10 @@ class _AddHotspotState extends State<AddHotspot>
           right: 20,
           child: Column(
             children: [
-              
+              isFAB? ObjectFAB(onAddingFABCLicked, mode) : ExtObjectFAB(onAddingFABCLicked, mode),
               SizedBox(
                 height: 20,
-              ),
-              isFAB
-                  ? buildDel(_toggleDelMode, mode)
-                  : buildExtendedDel(_toggleDelMode, mode),
-              SizedBox(
-                height: 20,
-              ),
-              isFAB
-                  ? buildFAB(_toggleFabMode, mode)
-                  : buildExtendedFAB(_toggleFabMode, mode),
+              )
             ],
           ),
         ),
@@ -651,16 +750,18 @@ class _AddHotspotState extends State<AddHotspot>
             return buildHotspotWidgets(hotspots);
           },
         )
-    
       ],
     );
 
-    return GestureDetector(
-      onScaleStart: _handleScaleStart,
-      onScaleUpdate: _handleScaleUpdate,
-      onTapUp: _handleTapUp,
-      child: pano,
-    );
+    return Stack(
+      children: [GestureDetector(
+        onScaleStart: _handleScaleStart,
+        onScaleUpdate: _handleScaleUpdate,
+        onTapUp: _handleTapUp,
+        child: pano,
+      )
+      ,objectToolKit
+    ]);
   }
 }
 

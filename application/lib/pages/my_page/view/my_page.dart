@@ -1,5 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/testPana.dart';
+import 'package:bk_3d_view/panorama/add_object/testPana.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';

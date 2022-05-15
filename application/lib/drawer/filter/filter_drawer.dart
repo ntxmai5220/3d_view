@@ -22,25 +22,24 @@ class FilterDrawer extends StatelessWidget {
 
     Widget buildRangeInput(String label) => Flexible(
             child: Row(
-              children: [
-                Text(label),
-                const SizedBox(width: 2,),
-                Flexible(
-                  child:TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
+          children: [
+            Text(label),
+            const SizedBox(
+              width: 2,
+            ),
+            Flexible(
+              child: TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: const InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.all(10),
-                    border: OutlineInputBorder()
-                  ),
-                ),
-                ),
-                const SizedBox(width: 2)
-              ],
-            )
-          
-        );
+                    border: OutlineInputBorder()),
+              ),
+            ),
+            const SizedBox(width: 2)
+          ],
+        ));
 
     Widget buildFilterInRange(String title, Widget unit) => Column(
           children: [
@@ -73,7 +72,6 @@ class FilterDrawer extends StatelessWidget {
           child: ElevatedButton(child: const Text("Lọc"), onPressed: () {}),
         );
     return Drawer(
-      width: size.width/2,
       child: ListView(
         children: [
           buildFilterType(),

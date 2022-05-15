@@ -1,5 +1,6 @@
 class Hotspot {
   Hotspot({
+    this.id,
     this.title,
     this.latitude,
     this.longitude,
@@ -8,6 +9,7 @@ class Hotspot {
     this.nextRoom,
   });
 
+  String? id;
   String? title;
 
   /// The initial latitude, in degrees, between -90 and 90.
@@ -23,6 +25,7 @@ class Hotspot {
 
   factory Hotspot.fromJson(Map<String, dynamic> json) {
     return Hotspot(
+      id: json['_id'],
       title: json['title'],
       latitude: json['latitude']?.toDouble(),
       longitude: json['longitude']?.toDouble(),
@@ -34,6 +37,7 @@ class Hotspot {
 
   Map<String, dynamic> toJson() {
     return {
+      '_id':id,
       'title': title,
       'latitude': latitude,
       'longitude': longitude,

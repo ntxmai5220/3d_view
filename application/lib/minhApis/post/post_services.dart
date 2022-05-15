@@ -1,10 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:bk_3d_view/apis/apis.dart';
-
-import 'package:bk_3d_view/minhApis/base/dio_client.dart';
-import 'package:bk_3d_view/minhApis/base/dio_request.dart';
-import 'package:bk_3d_view/minhApis/post/post_request.dart';
+import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class PostServices {
@@ -31,7 +27,7 @@ class PostServices {
   }
 
   //path: /post/uploadhotspot/:id
-  Future<dynamic> addHotspot(
+  Future<ObjectResponse<Room>> addHotspot(
       {required String roomId,
       required List<Map<String, dynamic>> hotspots,
       String? token}) async {
@@ -40,6 +36,8 @@ class PostServices {
     dynamic data = await DioClient.post(
         path: request.path, data: request.body, options: request.options);
     print(data);
+    Room room = Room.fromJson(data.toObject());
+    return ObjectResponse(object: room);
   }
 
   //path: /post/uploadhotspot/:id
@@ -117,20 +115,28 @@ class PostServices {
     print(data);
   }
 
-  Future<dynamic> deletePost({required String id, required String token}) async {
-    DioRequest request = PostRequest.deletePost(id:id, token: token);
+  Future<dynamic> deletePost(
+      {required String id, required String token}) async {
+    DioRequest request = PostRequest.deletePost(id: id, token: token);
     await DioClient.delete(path: request.path, options: request.options);
   }
 
-  Future<dynamic> follow({required String id, required String token, required Map<String, dynamic> body}) async {
-    DioRequest request = PostRequest.follow(id:id, token: token, body: body);
-    APIResponse data = await DioClient.put(path: request.path, options: request.options, data: request.body);
+  Future<dynamic> follow(
+      {required String id,
+      required String token,
+      required Map<String, dynamic> body}) async {
+    DioRequest request = PostRequest.follow(id: id, token: token, body: body);
+    APIResponse data = await DioClient.put(
+        path: request.path, options: request.options, data: request.body);
     print(data);
   }
 
   Future<dynamic> getBanners() async {
     DioRequest request = PostRequest.getBanner();
-    APIResponse data = await DioClient.get(path: request.path, options: request.options, optionPath: request.optionPath);
+    APIResponse data = await DioClient.get(
+        path: request.path,
+        options: request.options,
+        optionPath: request.optionPath);
     print(data.toList());
   }
 }

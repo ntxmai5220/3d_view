@@ -33,8 +33,10 @@ class MainPage extends StatelessWidget {
       create: (context) => MainPageBloc(),
       child: Scaffold(
         backgroundColor: AppColors.lightPrimary,
-        body: BlocBuilder<MainPageBloc, int>(
-          builder: (context, state) => Center(child: pages[state]),
+        body: SafeArea(
+          child: BlocBuilder<MainPageBloc, int>(
+            builder: (context, state) => Center(child: pages[state]),
+          ),
         ),
         bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
           builder: (context, state) {

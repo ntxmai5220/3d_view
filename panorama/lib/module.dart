@@ -1,2 +1,2 @@
-
-export './add_object/add_object.dart';
+export './components.dart';
+export './hotspot.dart/hotspot.dart';

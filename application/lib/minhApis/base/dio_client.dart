@@ -14,12 +14,36 @@ class DioClient {
   static Future<APIResponse> get(
       {required String path,
       Map<String, dynamic>? params,
-      Options? options}) async {
-    String fullPath = buildFullPath(path);
+      Options? options,
+      String? optionPath,
+      }) async {
+    String fullPath = optionPath ?? buildFullPath(path);
     try {
       Response response =
           await _dio.get(fullPath, queryParameters: params, options: options);
       return APIResponse.fromAppJson(response.data);
+    } on DioError catch (e) {
+      throw e.response?.statusMessage ??
+          APIResponse.fromJson(e.response?.data).message ??
+          'An unexpected error occurred.';
+    } on SocketException catch (e) {
+      throw e.message;
+    } on HttpException catch (e) {
+      throw e.message;
+    } on Exception catch (e) {
+      throw e.toString();
+    }
+    // return null;
+  }
+
+  static Future<void> delete(
+      {required String path,
+      Map<String, dynamic>? params,
+      Options? options}) async {
+    String fullPath = buildFullPath(path);
+    try {
+      Response response =
+          await _dio.delete(fullPath, queryParameters: params, options: options);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??
           APIResponse.fromJson(e.response?.data).message ??
@@ -76,4 +100,5 @@ class DioClient {
     }
     // return null;
   }
+
 }

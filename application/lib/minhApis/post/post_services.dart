@@ -116,4 +116,21 @@ class PostServices {
         path: request.path, options: request.options, data: request.body);
     print(data);
   }
+
+  Future<dynamic> deletePost({required String id, required String token}) async {
+    DioRequest request = PostRequest.deletePost(id:id, token: token);
+    await DioClient.delete(path: request.path, options: request.options);
+  }
+
+  Future<dynamic> follow({required String id, required String token, required Map<String, dynamic> body}) async {
+    DioRequest request = PostRequest.follow(id:id, token: token, body: body);
+    APIResponse data = await DioClient.put(path: request.path, options: request.options, data: request.body);
+    print(data);
+  }
+
+  Future<dynamic> getBanners() async {
+    DioRequest request = PostRequest.getBanner();
+    APIResponse data = await DioClient.get(path: request.path, options: request.options, optionPath: request.optionPath);
+    print(data.toList());
+  }
 }

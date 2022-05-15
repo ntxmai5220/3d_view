@@ -168,4 +168,19 @@ class PostRequest {
     return DioRequest(
         path: "post/$id", body: jsonEncode(updateInfo), options: options);
   }
+
+  static DioRequest deletePost({required String id, required String token}){
+    Options options = OptionBuilder().authorizeToken(token).build();
+    return DioRequest(path: "post/$id", options: options);
+  }
+
+  static DioRequest follow({required String id, required String token, required Map<String, dynamic> body}){
+    Options options = OptionBuilder().jsonContent().authorizeToken(token).build();
+    return DioRequest(path: "user/follow/$id", options: options, body: jsonEncode(body));
+  }
+
+  static DioRequest getBanner(){
+    String path = "https://6280872d7532b4920f704090.mockapi.io/v1/3dview/banners";
+    return DioRequest(path: "", optionPath: path);
+  } 
 }

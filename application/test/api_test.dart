@@ -146,6 +146,25 @@ void main() {
         id: "625a6ae0c313e60d2f3836e6", updateInfo: update, token: "example1");
   });
 
+  test("followPost", () async {
+    String id = "625bd0648e18145a85211945";
+    const body = {
+    "postId": "627f3d20b08af56a9b99fcd8",
+    "isFavorite":false
+    };
+    PostServices services = PostServices();
+    await services.follow(id: id, token: token, body: body);
+  });
+
+  test("deletePost", () async {
+
+  });
+
+  test("banners", () async {
+    PostServices services = PostServices();
+    await services.getBanners();
+  });
+
   test("removeMask", () async {
     File image = File("assets/test/mask1.jpg");
     Uint8List data = await image.readAsBytes();

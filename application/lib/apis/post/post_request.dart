@@ -144,4 +144,5 @@ class PostRequest {
     return DioRequest(
         path: "post/$id", body: jsonEncode(updateInfo), options: options);
   }
+
 }

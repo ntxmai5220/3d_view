@@ -5,5 +5,6 @@ class DioRequest {
   Options? options;
   Map<String,dynamic>? params;
   dynamic body;
-  DioRequest({required this.path, this.options, this.params, this.body});
+  String? optionPath;
+  DioRequest({required this.path, this.options, this.params, this.body, this.optionPath});
 }

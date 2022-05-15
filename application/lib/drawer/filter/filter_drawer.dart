@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/widgets/text/m_square.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,16 +9,16 @@ class FilterDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Widget typeItem(String text) => Padding(
+    Widget typeItem(String text, {Color textColor = AppColors.white}) =>
+        Container(
           padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 36,
-            child: Center(child: Text(text)),
-          ),
+          height: 36,
+          color: textColor,
+          child: Center(child: Text(text)),
         );
     Widget buildFilterType() => Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [typeItem('Thue'), typeItem('Ban'), typeItem('Tat ca')],
+          children: [typeItem('Thuê'), typeItem('Bán'), typeItem('Tất cả', textColor: AppColors.lightSecondary)],
         );
 
     Widget buildRangeInput(String label) => Flexible(
@@ -76,7 +77,7 @@ class FilterDrawer extends StatelessWidget {
         children: [
           buildFilterType(),
           buildFilterInRange("Diện tích", const MSquare()),
-          buildFilterInRange("Giá", const Text("  tỷ ")),
+          buildFilterInRange("Giá", const Text("  triệu ")),
           buildFilterAccept()
         ],
       ),

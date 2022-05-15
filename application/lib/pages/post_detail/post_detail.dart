@@ -68,8 +68,8 @@ class PostDetail extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 30),
         children: [
           
-          buildDataInfo("Giá", postDetail.price),
-          buildDataInfo("Diện tích", postDetail.area),
+          buildDataInfo("Giá", postDetail.price.toString() + " triệu"),
+          buildDataInfo("Diện tích", postDetail.area.toString() + " m^2"),
           buildDataInfo("Địa chỉ", postDetail.getAddress()),
           buildDataInfo("Mô tả", postDetail.desc),
           buildDataInfo("Tình trạng", postDetail.getPostStatus() ),

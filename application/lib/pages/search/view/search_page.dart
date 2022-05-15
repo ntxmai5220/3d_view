@@ -1,4 +1,6 @@
+import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/drawer/drawer.dart';
+import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,39 @@ class SearchPage extends StatelessWidget {
         ],
         backgroundColor: Colors.white,
       ),
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.pageMarginHorizontal / 1.5,
+                vertical: AppConstants.pageMarginHorizontal / 1.5),
+            child: Wrap(
+                // alignment: WrapAlignment.center,
+                runSpacing: 15,
+                spacing: 15,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: posts
+                    .map((post) => PostItem(
+                          post: post,
+                          onTapPost: (id) => onClickPost(context, 0),
+                          onToggleFavorite: (id) =>
+                              onToggleFavorite(context, 0),
+                        ))
+                    .toList()),
+          ),
+        ),
+    );
+    
+  }
+
+  onClickPost(BuildContext context, int index) {
+    debugPrint('$index');
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => PostDetail(id: index.toString())),
     );
   }
+
+  onToggleFavorite(BuildContext context, int index) {
+    debugPrint('favor $index');
+  }
+  
 }

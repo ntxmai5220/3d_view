@@ -58,8 +58,8 @@ class ManagePost extends StatelessWidget {
                 runSpacing: 15,
                 spacing: 15,
                 crossAxisAlignment: WrapCrossAlignment.center,
-                children: List.filled(10, 0)
-                    .map((e) => PostItem(
+                children: posts
+                    .map((post) => PostItem(
                           post: post,
                           onTapPost: (id) => onClickPost(context, 0),
                           onToggleFavorite: (id) =>

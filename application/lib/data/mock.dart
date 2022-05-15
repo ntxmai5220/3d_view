@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/models/user.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 
 Room room = Room(id: '1', imgUrl: AppConstants.imgTemp);
@@ -26,10 +27,10 @@ const postData = {
   "district": {"id": 2039, "name": "Huyện Trấn Yên", "provinceId": 263},
   "ward": {"code": 130715, "name": "Xã Nga Quán", "districtId": 2039},
   "_id": "627f58577214269308fee932",
-  "area": 1,
-  "price": 1,
-  "desc": "1",
-  "address": "1",
+  "area": 100,
+  "price": 987,
+  "desc": "Nhằm mong muốn có 1 không gian rộng rãi cho các hộ gia đình đông thành viên, nhiều thế hệ, căn hộ 3 phòng sẽ ngủ giúp các thành viên trong gia đình đều có sự gần gũi nhưng vẫn đủ riêng tư, có nhiều không gian hơn để thỏa thích làm những điều yêu thích.",
+  "address": "Số 2",
   "isUsed": false,
   "isFavorite": false,
   "isHidden": false,
@@ -63,7 +64,7 @@ const postData = {
     }
   ],
   "favoriteCount": 0,
-  "creatorId": "625bd0648e18145a85211945",
+  "creatorId": "Đoàn Thanh Nam - 09xxxxxxxx",
   "createdAt": "2022-05-14T07:20:55.075Z",
   "updatedAt": "2022-05-14T07:20:59.136Z",
   "__v": 1
@@ -83,9 +84,9 @@ List<dynamic> rawPosts =  [
     "district": {"id": 1770, "name": "Huyện Phù Cát", "provinceId": 262},
     "ward": {"code": 370610, "name": "Xã Cát Nhơn", "districtId": 1770},
     "_id": "6280ce803a8880eb07e58fb6",
-    "area": 1,
-    "price": 1,
-    "desc": "1",
+    "area": 123,
+    "price": 100,
+    "desc": "Nhà đẹp mới xây 100%",
     "address": "1",
     "isUsed": false,
     "isFavorite": false,
@@ -395,7 +396,7 @@ List<dynamic> rawPosts =  [
     "desc": "nha moi 2 phong ngu, 1 tret 1 lau",
     "address": "210b duong so 1",
     "isUsed": false,
-    "isFavorite": false,
+    "isFavorite": true,
     "isHidden": false,
     "isRent": false,
     "rooms": [
@@ -433,25 +434,25 @@ List<dynamic> rawPosts =  [
     "district": {"id": 1886, "name": "Huyện An Lão", "provinceId": 262},
     "ward": {"code": 370204, "name": "Xã An Hưng", "districtId": 1886},
     "_id": "62805845b0b0c32105430f3e",
-    "area": 1,
-    "price": 1,
-    "desc": "1",
-    "address": "1",
+    "area": 48,
+    "price": 1730,
+    "desc": "Khu căn hộ Lexington Residence nằm ngay mặt tiền Mai Chí Thọ, đoạn đầu từ Xa lộ Hà Nội đi vào, thuận tiện di chuyển đến Quận 9, Bình Thạnh hay vào trung tâm thành phố chỉ trong 10 phút di chuyển. Bên cạnh đó, khu căn hộ còn tập hợp đầy đủ các tiện ích như hồ bơi, khu giải trí thư giãn ngoài trời, nhà hàng, cafe, sân vườn, công viên,...",
+    "address": "Số 12 đường Phạm Ngũ Lão",
     "isUsed": false,
-    "isFavorite": false,
+    "isFavorite": true,
     "isHidden": false,
     "isRent": false,
     "rooms": [
       {
         "mainThumbnail": {
           "imgUrl":
-              "http://res.cloudinary.com/dtnam302/image/upload/v1652578466/Thesis/62805845b0b0c32105430f3e/6280584ab0b0c32105430f43/vlxeecfxcizwksrwldja.png",
+              "https://res.cloudinary.com/dtnam302/image/upload/v1652505963/Thesis/627f3d67a2acba9257d120db/mmpruanhsw3bpcip3avx.jpg",
           "publicId":
               "Thesis/62805845b0b0c32105430f3e/6280584ab0b0c32105430f43/vlxeecfxcizwksrwldja"
         },
         "_id": "6280584ab0b0c32105430f43",
         "imgUrl":
-            "http://res.cloudinary.com/dtnam302/image/upload/v1652578375/Thesis/62805845b0b0c32105430f3e/ciivqsjwscy0cvxwacmu.jpg"
+            "https://res.cloudinary.com/dtnam302/image/upload/v1652505963/Thesis/627f3d67a2acba9257d120db/mmpruanhsw3bpcip3avx.jpg"
       },
       {
         "mainThumbnail": {
@@ -483,9 +484,9 @@ List<Img> thumbnails = List.of([
   Img.fromJson(thumbnail)
 ]);
 
-const user = {
+const userRaw = {
   "_id": "625bd0648e18145a85211945",
-  "username": "nam",
+  "username": "Đoàn Thanh Nam",
   "email": "nam@gmail.com",
   "isAdmin": false,
   "posts": [
@@ -503,6 +504,8 @@ const user = {
     "627e39ee5e5f54414032d654"
   ]
 };
+
+User user = User.fromJson(userRaw);
 
 Post postDetail = Post.fromJson(postData);
 

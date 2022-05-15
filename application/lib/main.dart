@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/pages/admin/admin.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/room_detail/room_detail.dart';
 import 'package:bk_3d_view/values/values.dart';
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
                 minWidth: 48,
               ),
               backgroundColor: AppColors.darkPrimary)),
-      home: MainPage(),
+      home: Admin(),
     );
   }
 }

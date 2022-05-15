@@ -77,7 +77,7 @@ const thumbnail = {
   "_id": "627f58a17214269308fee944"
 };
 
-List<dynamic> posts = [
+List<dynamic> rawPosts =  [
   {
     "province": {"id": 262, "name": "Bình Định"},
     "district": {"id": 1770, "name": "Huyện Phù Cát", "provinceId": 262},
@@ -472,6 +472,9 @@ List<dynamic> posts = [
     "__v": 1
   }
 ];
+List<Post> posts = rawPosts.map((post) => Post.fromJson(post)).toList();
+
+
 
 List<Img> thumbnails = List.of([
   Img.fromJson(thumbnail),
@@ -502,3 +505,24 @@ const user = {
 };
 
 Post postDetail = Post.fromJson(postData);
+
+List<dynamic> bannerRaw = [
+            {
+                "title": "Rever",
+                "webUrl": "https://rever.vn/",
+                "imgUrl": "https://res.cloudinary.com/dtnam302/image/upload/v1652590903/samples/photo-1582407947304-fd86f028f716_cj8hcc.jpg",
+                "content": "Lựa chọn căn nhà ưng ý của bạn"
+            },
+            {
+                "title": "VN Express",
+                "webUrl": "https://vnexpress.net/kinh-doanh/bat-dong-san",
+                "imgUrl": "https://res.cloudinary.com/dtnam302/image/upload/v1652591016/samples/22838-perspectives-in-todays-real-estate-market_gettyimages-1205029788_1380x800-2_s6zbcz.jpg",
+                "content": "Thông tin bất động sản cập nhật mỗi ngày"
+            },
+            {
+                "title": "Bách Khoa",
+                "webUrl": "http://www.aao.hcmut.edu.vn/",
+                "imgUrl": "https://chamsockhachang.com/wp-content/uploads/truong-dai-hoc-bach-khoa-tp.-ho-chi-minh.jpg",
+                "content": "Giáo dục khai phóng, tiên phong trong chất lượng, sáng tạo và hội nhập"
+            }
+        ];

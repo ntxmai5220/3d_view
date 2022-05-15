@@ -52,7 +52,7 @@ class PostItem extends StatelessWidget {
                 child: Stack(
                   children: [
                     NetImage(
-                      imageUrl: room.imgUrl ?? '',
+                      imageUrl: post.rooms?[0].imgUrl ?? '',
                       height: mini ? 225 : 260,
                       width: 380,
                     ),

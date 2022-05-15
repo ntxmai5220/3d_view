@@ -58,7 +58,7 @@ class HorizontalListMiniPost2 extends StatelessWidget {
                               childAspectRatio: 1.1),
                       itemBuilder: (context, index) => PostItem(
                             mini: true,
-                            post: post,
+                            post: posts[index],
                             onTapPost: onTapPost,
                             onToggleFavorite: onToggleFavorite,
                           )),

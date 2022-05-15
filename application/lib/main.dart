@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                 minWidth: 48,
               ),
               backgroundColor: AppColors.darkPrimary)),
-      home: const PostDetail(id: "123123",),
+      home: MainPage(),
     );
   }
 }

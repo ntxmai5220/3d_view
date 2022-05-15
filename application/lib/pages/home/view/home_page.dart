@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -24,12 +25,12 @@ class HomePage extends StatelessWidget {
                       color: AppColors.secondary,
                       borderRadius:
                           BorderRadius.circular(AppConstants.borderRadius),
-                      image: const DecorationImage(
-                          image: AssetImage(AppAssets.background),
+                      image: DecorationImage(
+                          image: NetworkImage(bannerRaw[index]["imgUrl"]),
                           fit: BoxFit.cover),
                     ),
                     child: Center(
-                        child: Text('Banner $index',
+                        child: Text(bannerRaw[index]["title"],
                             style:
                                 TextStyles.buttonText.copyWith(fontSize: 32))),
                   ),
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
         case HomeSection.newest:
           return HorizontalListMiniPost2(
             title: 'Bài đăng mới',
-            list: List.filled(10, 1),
+            list: List.filled(8, 1),
             // backgroundColor: AppColors.darkSecondary,
             // titleColor: AppColors.lightPrimary,
             onTapPost: (id) => openPostDetail(context, id: id),
@@ -56,8 +57,8 @@ class HomePage extends StatelessWidget {
           );
         case HomeSection.recent:
           return HorizontalListMiniPost2(
-            title: 'Đã xem gần đây',
-            list: List.filled(10, 1),
+            title: 'Bài đăng yêu thích',
+            list: List.filled(8, 1),
             onTapPost: (id) => openPostDetail(context, id: id),
             onToggleFavorite: (id) => toggleFavorite(context, id: id),
           );

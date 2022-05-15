@@ -6,6 +6,7 @@ class Post {
     this.area,
     this.price,
     this.isUsed,
+    this.isRent,
     this.isFavorite,
     this.isHidden,
     this.desc,
@@ -15,13 +16,14 @@ class Post {
     this.ward,
     this.rooms,
     this.creatorId,
-    this.creationTime,
+    this.createdAt,
   });
 
   String? id;
   double? area;
   double? price;
   bool? isUsed;
+  bool? isRent;
   bool? isFavorite;
   bool? isHidden;
   String? desc;
@@ -35,13 +37,14 @@ class Post {
   // List<String>? rooms;
   List<Room>? rooms;
   String? creatorId;
-  DateTime? creationTime;
+  DateTime? createdAt;
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json['_id'],
         area: json['area']?.toDouble(),
         price: json['price']?.toDouble(),
         isUsed: json['isUsed'],
+        isRent: json["isRent"],
         isFavorite: json['isFavorite'],
         isHidden: json['isHidden'],
         desc: json['desc'],
@@ -62,8 +65,8 @@ class Post {
                 .toList()
             : null,
         creatorId: json['creatorId'],
-        creationTime: json['creationTime'] != null
-            ? DateTime.parse(json['creationTime']).toLocal()
+        createdAt: json['createdAt'] != null
+            ? DateTime.parse(json['createdAt'])
             : null,
       );
 
@@ -91,4 +94,13 @@ class Post {
         // 'creatorId': creatorId ?? '',
         // 'creationTime': creationTime?.toIso8601String() ?? '',
       };
+
+      String getAddress(){
+        return "$address, ${ward?.name}, ${district?.name}, ${province?.name}";
+      }
+
+      String getCreatedDate(){
+        return createdAt.toString().split(" ").first;
+      }
+
 }

@@ -788,16 +788,18 @@ class _AddObjectState extends State<AddObject>
             return buildHotspotWidgets(hotspots);
           },
         )
-        ,objectToolKit
       ],
     );
 
-    return GestureDetector(
-      onScaleStart: _handleScaleStart,
-      onScaleUpdate: _handleScaleUpdate,
-      onTapUp: _handleTapUp,
-      child: pano,
-    );
+    return Stack(
+      children: [GestureDetector(
+        onScaleStart: _handleScaleStart,
+        onScaleUpdate: _handleScaleUpdate,
+        onTapUp: _handleTapUp,
+        child: pano,
+      )
+      ,objectToolKit
+    ]);
   }
 }
 

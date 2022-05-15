@@ -72,7 +72,7 @@ class PostDetail extends StatelessWidget {
           buildDataInfo("Diện tích", postDetail.area),
           buildDataInfo("Địa chỉ", postDetail.getAddress()),
           buildDataInfo("Mô tả", postDetail.desc),
-          buildDataInfo("Tình trạng", postDetail.isRent! ? "Cho thuê" : "Bán" ),
+          buildDataInfo("Tình trạng", postDetail.getPostStatus() ),
           buildDataInfo("Người đăng", postDetail.creatorId),
           buildDataInfo("Ngày đăng", postDetail.getCreatedDate()),
           buildRoomsCarousel(rooms: postDetail.rooms!),

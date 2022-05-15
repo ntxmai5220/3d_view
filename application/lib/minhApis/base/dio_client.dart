@@ -18,6 +18,7 @@ class DioClient {
       String? optionPath,
       }) async {
     String fullPath = optionPath ?? buildFullPath(path);
+    print(fullPath);
     try {
       Response response =
           await _dio.get(fullPath, queryParameters: params, options: options);

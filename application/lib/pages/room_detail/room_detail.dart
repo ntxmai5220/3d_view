@@ -1,11 +1,9 @@
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/img.dart';
-import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 import 'package:bk_3d_view/widgets/images/net_image.dart';
 import 'package:bk_3d_view/widgets/user/choose_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoomDetail extends StatelessWidget {

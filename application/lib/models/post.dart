@@ -103,4 +103,6 @@ class Post {
         return createdAt.toString().split(" ").first;
       }
 
+      String getPostStatus() => isRent! ? "Cho thuê" : "Bán" ;
+
 }

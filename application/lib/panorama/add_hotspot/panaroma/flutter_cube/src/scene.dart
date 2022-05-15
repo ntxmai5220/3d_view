@@ -38,10 +38,10 @@ class Scene {
     }
   }
 
-  RenderMesh _makeRenderMesh() {
+  RenderMesh _makeRenderMesh(Object obj) {
     vertexCount = 0;
     faceCount = 0;
-    _calculateVertices(world);
+    _calculateVertices(obj);
     final renderMesh = RenderMesh(vertexCount, faceCount);
     renderMesh.texture = texture;
     return renderMesh;
@@ -243,8 +243,16 @@ class Scene {
     
 
     // create render mesh from objects
-    final renderMesh = _makeRenderMesh();
-    _renderObject(renderMesh, world, Matrix4.identity(), camera.lookAtMatrix, camera.projectionMatrix);
+    for (Object obj in world.children){
+      final renderMesh = _makeRenderMesh(obj);
+      _renderObject(renderMesh, obj, Matrix4.identity(), camera.lookAtMatrix, camera.projectionMatrix);
+      _buildMesh(renderMesh, canvas);
+    }
+    
+    
+  }
+
+  void _buildMesh(RenderMesh renderMesh, Canvas canvas){
     // remove the culled faces and recreate list.
     final List<Polygon> renderIndices = <Polygon>[];
     final List<Polygon?> rawIndices = renderMesh.indices;

@@ -742,6 +742,7 @@ class _AddObjectState extends State<AddObject>
                   onChanged: (value) {
                     setState(() {
                       rotateY = value;
+                      if (currentObj == null) return;
                       rotateObject(currentObj!, angleY: value);
                     });
                   },
@@ -753,6 +754,7 @@ class _AddObjectState extends State<AddObject>
                   onChanged: (value) {
                     setState(() {
                       rotateX = value;
+                      if (currentObj == null) return;
                       rotateObject(currentObj!, angleX: rotateX);
                     });
                   },

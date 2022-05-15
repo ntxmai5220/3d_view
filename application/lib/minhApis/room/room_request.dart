@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:bk_3d_view/apis/base/dio_request.dart';
-import 'package:bk_3d_view/apis/base/option_builder.dart';
+import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:dio/dio.dart';
 
 class RoomRequest{

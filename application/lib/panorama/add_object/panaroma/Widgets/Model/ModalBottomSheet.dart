@@ -1,35 +1,8 @@
-
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Image/DetailImage.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Image/DetailImage.dart';
 import 'package:flutter/material.dart';
 
 
-List<String> objectImagePath = ["assets/objects/chair/chair.jpg", "assets/objects/table/table.jpg","assets/objects/shelf/Shelving_origin.jpg"];
-List<String> objectPath = ["assets/objects/chair/chair.obj", "assets/objects/table/table.obj","assets/objects/shelf/Shelving_origin.obj"];
-List<String> getImageObjectPath(){
-  return objectImagePath;
-}
-
-List<DetailImage> convertImagePathtoImage( List<String> imagePath){
-  List<DetailImage> imageObjects =  imagePath.map((e) => 
-    DetailImage(name: e,imageLink: e)
-  ).toList();
-  return imageObjects;
-}
-
-String convertImageObjtoObjPath(String imageObj){
-  int imageIndex = objectPath.indexOf(imageObj);
-  
-
-  return objectPath[imageIndex];
-}
-
-String getFileName(String path){
-  return path.split("/").last.split(".").first;
-}
-
-Future<String?> ModalObjectSheet (context) async{
-  List<String> imageObjectPaths = getImageObjectPath();
-  List<DetailImage> imageObjectImages = convertImagePathtoImage(imageObjectPaths);
+Future<int?> roomSheet (context, List<DetailImage> reactions) async{
   return await showModalBottomSheet(
               backgroundColor: Colors.transparent,
               context: context,
@@ -50,7 +23,6 @@ Future<String?> ModalObjectSheet (context) async{
                           children: [
                             Text(
                               'Reactions',
-                              // style: AppStyles.fillStyle,
                             ),
                             InkWell(
                               child: Icon(Icons.close),
@@ -70,16 +42,16 @@ Future<String?> ModalObjectSheet (context) async{
                       ),
                       Expanded(
                         child: ListView.builder(
-                            itemCount: imageObjectImages.length,
+                            itemCount: reactions.length,
                             itemBuilder: (context, index) {
                       
                               return ListTile(
-                                onTap: (){Navigator.pop(context, objectPath[index]);},
+                                onTap: (){Navigator.pop(context, index);},
                                 leading: CircleAvatar(
-                                  child: imageObjectImages[index].getImage(),
+                                  child: reactions[index].getImage(),
                                 ),
                                 title: Text(
-                                  getFileName(imageObjectImages[index].name),
+                                  reactions[index].name,
                                   style: TextStyle(
                                     color: Colors.black,
                                       fontWeight: FontWeight.w600,

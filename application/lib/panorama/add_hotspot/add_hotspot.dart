@@ -1,31 +1,18 @@
-library panorama;
-
 import 'dart:async';
-import 'dart:collection';
 import 'dart:math' as math;
-import 'dart:ui' as ui;
+import 'package:bk_3d_view/panorama/add_hotspot/bloc/add_hotspot_bloc.dart';
 
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Delete/ExtFABDel.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Delete/FABDel.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Fab/ExtFAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Fab/FAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Hotspot/Hotspot.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Image/DetailImage.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalBottomSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalObjectSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
+import 'package:bk_3d_view/values/app_enum.dart';
+import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-
-import 'flutter_cube/flutter_cube.dart';
-
-import 'package:uuid/uuid.dart';
-
-import 'Widgets/Hotspot/HotspotButton.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cube/flutter_cube.dart';
+import 'package:motion_sensors/motion_sensors.dart';
+import 'package:panorama/module.dart';
 
 class AddHotspot extends StatefulWidget {
-  AddHotspot({
+  const AddHotspot({
     Key? key,
     this.latitude = 0,
     this.longitude = 0,
@@ -34,7 +21,7 @@ class AddHotspot extends StatefulWidget {
     this.maxLatitude = 90.0,
     this.minLongitude = -180.0,
     this.maxLongitude = 180.0,
-    this.minZoom = 1.0,
+    this.minZoom = 0.7,
     this.maxZoom = 5.0,
     this.sensitivity = 1.0,
     this.animSpeed = 0.0,
@@ -42,13 +29,18 @@ class AddHotspot extends StatefulWidget {
     this.latSegments = 32,
     this.lonSegments = 64,
     this.interactive = true,
+    this.sensorControl = SensorControl.None,
     this.croppedArea = const Rect.fromLTWH(0.0, 0.0, 1.0, 1.0),
     this.croppedFullWidth = 1.0,
     this.croppedFullHeight = 1.0,
     this.onViewChanged,
+    this.onTap,
+    this.onLongPressStart,
+    this.onLongPressMoveUpdate,
+    this.onLongPressEnd,
+    this.onImageLoad,
     this.child,
     this.hotspots,
-    this.onHotspotChange,
   }) : super(key: key);
 
   /// The initial latitude, in degrees, between -90 and 90. default to 0 (the vertical center of the image).
@@ -96,6 +88,9 @@ class AddHotspot extends StatefulWidget {
   /// Interact with the panorama. default to true
   final bool interactive;
 
+  /// Control the panorama with motion sensors.
+  final SensorControl sensorControl;
+
   /// Area of the image was cropped from the full sized photo sphere.
   final Rect croppedArea;
 
@@ -108,17 +103,29 @@ class AddHotspot extends StatefulWidget {
   /// This event will be called when the view direction has changed, it contains latitude and longitude about the current view.
   final Function(double longitude, double latitude, double tilt)? onViewChanged;
 
-  /// Pass hostpot data when changing
-  Function(Map<int, List<Hotspot>> listHotspot)? onHotspotChange;
+  /// This event will be called when the user has tapped, it contains latitude and longitude about where the user tapped.
+  final Function(double longitude, double latitude, double tilt)? onTap;
+
+  /// This event will be called when the user has started a long press, it contains latitude and longitude about where the user pressed.
+  final Function(double longitude, double latitude, double tilt)?
+      onLongPressStart;
+
+  /// This event will be called when the user has drag-moved after a long press, it contains latitude and longitude about where the user pressed.
+  final Function(double longitude, double latitude, double tilt)?
+      onLongPressMoveUpdate;
+
+  /// This event will be called when the user has stopped a long presses, it contains latitude and longitude about where the user pressed.
+  final Function(double longitude, double latitude, double tilt)?
+      onLongPressEnd;
+
+  /// This event will be called when provided image is loaded on texture.
+  final Function()? onImageLoad;
 
   /// Specify an Image(equirectangular image) widget to the panorama.
-  final List<DetailImage>? child;
+  final Image? child;
 
   /// Place widgets in the panorama.
-
   final List<Hotspot>? hotspots;
-
-  // final Widget
 
   @override
   _AddHotspotState createState() => _AddHotspotState();
@@ -126,7 +133,6 @@ class AddHotspot extends StatefulWidget {
 
 class _AddHotspotState extends State<AddHotspot>
     with SingleTickerProviderStateMixin {
-  Scene? sceneObj;
   Scene? scene;
   Object? surface;
   late double latitude;
@@ -136,175 +142,44 @@ class _AddHotspotState extends State<AddHotspot>
   double zoomDelta = 0;
   late Offset _lastFocalPoint;
   double? _lastZoom;
-  double _radius = 500;
-  double _dampingFactor = 0.05;
+  final double _radius = 500;
+  final double _dampingFactor = 0.05;
   double _animateDirection = 1.0;
-  double rotateY = 0;
-  double rotateX = 0;
   late AnimationController _controller;
   double screenOrientation = 0.0;
   Vector3 orientation = Vector3(0, radians(90), 0);
   StreamSubscription? _orientationSubscription;
   StreamSubscription? _screenOrientSubscription;
-  late StreamController<Null> _streamController;
-  Stream<Null>? _stream;
+  late StreamController<void> _streamController;
+  Stream<void>? _stream;
   ImageStream? _imageStream;
-  double zoom = 1;
-  int current_index = 0;
-  Map<int, List<Hotspot>> listHotspot = new Map<int, List<Hotspot>>();
-  List<Hotspot> hotspots = [];
-  Object? currentObj;
-  bool isFAB = false;
-  // 0 for scroll , 1 for add hostpost, 2 for delete
-  int mode = 0;
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
-  bool objectToolVisible = false;
-  // DelTapFunction
-  void _toggleDelMode() {
-    setState(() {
-      this.mode = this.mode != 2 ? 2 : 0;
-    });
-  }
 
-  void changePrevObject() {
-    int length = sceneObj!.world.children.length;
-    if (length == 0) {
-      currentObj = null;
-      return;
-    }
-    int currentIndex =
-        sceneObj!.world.children.indexWhere((element) => element == currentObj);
-    int prevObjIndex = (currentIndex - 1 + length) % length;
-    currentObj = sceneObj!.world.children.elementAt(prevObjIndex);
-  }
-
-  void onAddingFABCLicked() {
-    int mode;
-    if (this.mode == 3) {
-      mode = 0;
-    } else
-      mode = 3;
-    setState(() {
-      objectToolVisible = !objectToolVisible;
-      this.mode = mode;
-    });
-  }
-
-  void changeNextObject() {
-    int length = sceneObj!.world.children.length;
-    if (length == 0) {
-      currentObj = null;
-      return;
-    }
-    int currentIndex =
-        sceneObj!.world.children.indexWhere((element) => element == currentObj);
-    int nextObjIndex = (currentIndex + 1 + length) % length;
-    
-    currentObj = sceneObj!.world.children.elementAt(nextObjIndex);
-  }
-
-  void rotateObject(Object obj, {double angleY = 0, double angleX = 0}) {
-    Vector3 initialRotation = obj.rotation;
-    double x = angleX != 0 ? angleX : initialRotation.x;
-    double y = angleY != 0 ? angleY : initialRotation.y;
-    obj.rotation.setValues(x, y, 0);
-    obj.updateTransform();
-  }
-
-  // FabTapFunction
-  void _toggleFabMode() {
-    setState(() {
-      this.mode = this.mode != 1 ? 1 : 0;
-    });
-  }
+  bool isExtendBtn = true;
 
   void _handleTapUp(TapUpDetails details) {
     final Vector3 o =
         positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    if (mode == 1) _handleAddHospot(degrees(o.x), degrees(-o.y), degrees(o.z));
+    debugPrint(degrees(o.x).toString());
+    //show bottomshet to choose
+    // widget.onTap!(degrees(o.x), degrees(-o.y), degrees(o.z));
   }
 
-  void _handleAddObject(double longitude, double latitude, double tilt) async {
-    String? objPath = await ModalObjectSheet(context);
-    if (objPath == null) return;
-    double trueXdeg = -longitude + math.pi / 2;
-    double trueYdeg = latitude;
-    double trueZdeg = tilt;
-    Object newObj = Object(
-      name: objPath,
-      fileName: objPath,
-      lighting: true,
-      normalized: true,
-      visiable: true,
-      backfaceCulling: false,
-      scale: Vector3(2, 2, 2),
-      parent: surface,
-      position: Vector3(0, 0, 0),
-    );
-    currentObj = newObj;
-    // rotate object position
-    moveRight(newObj, trueXdeg);
-    moveUp(newObj, trueYdeg);
-    sceneObj!.world.add(newObj);
-    _updateView();
+  void _handleLongPressStart(LongPressStartDetails details) {
+    final Vector3 o =
+        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
+    widget.onLongPressStart!(degrees(o.x), degrees(-o.y), degrees(o.z));
   }
 
-  void _onHotspotChange() {
-    widget.onHotspotChange!(listHotspot);
+  void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
+    final Vector3 o =
+        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
+    widget.onLongPressMoveUpdate!(degrees(o.x), degrees(-o.y), degrees(o.z));
   }
 
-  void _handleAddHospot(double longitude, double latitude, double tilt) async {
-    int? index = await roomSheet(context, widget.child!);
-    if (index == null) return ;
-    String uuid = Uuid().v1();
-    Hotspot temp = Hotspot(
-      name: uuid,
-      latitude: latitude,
-      longitude: longitude,
-      width: 90,
-      height: 75,
-      widget: hotspotButton(
-          text: widget.child![index].name,
-          icon: Icons.open_in_browser,
-          onPressed: () {
-            switch (mode) {
-              // transfer to another scene
-              case 0:
-                current_index = index;
-                if (listHotspot[current_index] == null)
-                  listHotspot[current_index] = [];
-                hotspots = listHotspot[current_index]!;
-                _loadTexture(widget.child![index].getImage().image);
-                break;
-              case 2:
-                Hotspot deltmp = listHotspot[current_index]!
-                    .firstWhere((element) => element.name == uuid);
-                listHotspot[current_index]!.remove(deltmp);
-                _onHotspotChange();
-            }
-
-            _updateView();
-          }),
-    );
-
-    setState(() {
-      listHotspot[current_index]!.add(temp);
-      _onHotspotChange();
-    });
-  }
-
-  void changeCorlorObjectRec(Object obj, Color color, int index) {
-    obj.light.setColor(color, 2, 2, 20);
-    if (obj.children.isEmpty) return;
-    for (Object child in obj.children) {
-      changeCorlorObjectRec(child, color, index + 1);
-    }
-  }
-
-  void changeColor(Color color) {
-    changeCorlorObjectRec(this.currentObj!, color, 1);
-    setState(() => pickerColor = color);
+  void _handleLongPressEnd(LongPressEndDetails details) {
+    final Vector3 o =
+        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
+    widget.onLongPressEnd!(degrees(o.x), degrees(-o.y), degrees(o.z));
   }
 
   void _handleScaleStart(ScaleStartDetails details) {
@@ -326,58 +201,26 @@ class _AddHotspotState extends State<AddHotspot>
         math.pi *
         offset.dx /
         scene!.camera.viewportHeight;
-    if (_lastZoom == null) {
-      _lastZoom = scene!.camera.zoom;
-    }
+    _lastZoom ??= scene!.camera.zoom;
     zoomDelta += _lastZoom! * details.scale - (scene!.camera.zoom + zoomDelta);
-    if (!_controller.isAnimating) {
+    if (widget.sensorControl == SensorControl.None &&
+        !_controller.isAnimating) {
       _controller.reset();
       if (widget.animSpeed != 0) {
         _controller.repeat();
-      } else
+      } else {
         _controller.forward();
+      }
     }
-  }
-
-  void zoomIn(Object obj, double scale) {
-    Vector3 currentScale = obj.scale;
-    obj.scale.setValues(
-        currentScale.x * scale, currentScale.y * scale, currentScale.z * scale);
-    obj.updateTransform();
-    scene!.update();
-  }
-
-  void moveRight(Object obj, double angle) {
-    Vector3 axis = new Vector3(0, 1, 0);
-
-    Quaternion q = new Quaternion.axisAngle(axis, angle);
-    Vector3 camera_point = scene!.camera.position;
-
-    Vector3 obj_position = obj.position;
-    Vector3 point = obj_position - camera_point;
-    q.rotate(point);
-    point += camera_point;
-    obj.position.setFrom(point);
-    obj.updateTransform();
-    scene!.update();
-  }
-
-  void moveUp(Object obj, double angle) {
-    Vector3 obj_position = obj.position;
-    obj.position.add(Vector3(0, angle, 0));
-    obj.updateTransform();
-    scene!.update();
   }
 
   void _updateView() {
     if (scene == null) return;
-    if (sceneObj == null) return;
-
-    /// update fab
-    if (!isFAB)
+    if (isExtendBtn && (latitude.abs() > 0.07 || longitude.abs() > 0.45)) {
       setState(() {
-        if (latitude.abs() > 0.05 || longitude.abs() > 0.5) isFAB = true;
+        isExtendBtn = false;
       });
+    }
     // auto rotate
     longitudeDelta += 0.001 * widget.animSpeed;
     // animate vertical rotating
@@ -393,12 +236,13 @@ class _AddHotspotState extends State<AddHotspot>
     final double zoom = scene!.camera.zoom + zoomDelta * _dampingFactor;
     zoomDelta *= 1 - _dampingFactor;
     scene!.camera.zoom = zoom.clamp(widget.minZoom, widget.maxZoom);
-    sceneObj!.camera.zoom = zoom.clamp(widget.minZoom, widget.maxZoom);
     // stop animation if not needed
     if (latitudeDelta.abs() < 0.001 &&
         longitudeDelta.abs() < 0.001 &&
         zoomDelta.abs() < 0.001) {
-      if (widget.animSpeed == 0 && _controller.isAnimating) _controller.stop();
+      if (widget.sensorControl == SensorControl.None &&
+          widget.animSpeed == 0 &&
+          _controller.isAnimating) _controller.stop();
     }
 
     // rotate for screen orientation
@@ -423,10 +267,11 @@ class _AddHotspotState extends State<AddHotspot>
         longitude = (lon + longitude < minLon ? minLon : maxLon) - lon;
         // reverse rotation when reaching the boundary
         if (widget.animSpeed != 0) {
-          if (widget.animReverse)
+          if (widget.animReverse) {
             _animateDirection *= -1.0;
-          else
+          } else {
             _controller.stop();
+          }
         }
       }
     }
@@ -435,7 +280,7 @@ class _AddHotspotState extends State<AddHotspot>
     q = orientationToQuaternion(o);
 
     // rotate to longitude zero
-    q *= Quaternion.axisAngle(Vector3(0, 1, 0), -math.pi * 1);
+    q *= Quaternion.axisAngle(Vector3(0, 1, 0), -math.pi * 0.5);
     // rotate around the global Y axis
     q *= Quaternion.axisAngle(Vector3(0, 1, 0), longitude);
     // rotate around the local X axis
@@ -448,12 +293,38 @@ class _AddHotspotState extends State<AddHotspot>
     q.rotate(scene!.camera.target..setFrom(Vector3(0, 0, -_radius)));
     q.rotate(scene!.camera.up..setFrom(Vector3(0, 1, 0)));
     scene!.update();
-
-    q.rotate(sceneObj!.camera.target..setFrom(Vector3(0, 0, -_radius)));
-    q.rotate(sceneObj!.camera.up..setFrom(Vector3(0, 1, 0)));
-    sceneObj!.update();
-
     _streamController.add(null);
+  }
+
+  void _updateSensorControl() {
+    _orientationSubscription?.cancel();
+    switch (widget.sensorControl) {
+      case SensorControl.Orientation:
+        motionSensors.orientationUpdateInterval =
+            Duration.microsecondsPerSecond ~/ 60;
+        _orientationSubscription =
+            motionSensors.orientation.listen((OrientationEvent event) {
+          orientation.setValues(event.yaw, event.pitch, event.roll);
+        });
+        break;
+      case SensorControl.AbsoluteOrientation:
+        motionSensors.absoluteOrientationUpdateInterval =
+            Duration.microsecondsPerSecond ~/ 60;
+        _orientationSubscription = motionSensors.absoluteOrientation
+            .listen((AbsoluteOrientationEvent event) {
+          orientation.setValues(event.yaw, event.pitch, event.roll);
+        });
+        break;
+      default:
+    }
+
+    _screenOrientSubscription?.cancel();
+    if (widget.sensorControl != SensorControl.None) {
+      _screenOrientSubscription = motionSensors.screenOrientation
+          .listen((ScreenOrientationEvent event) {
+        screenOrientation = radians(event.angle!);
+      });
+    }
   }
 
   void _updateTexture(ImageInfo imageInfo, bool synchronousCall) {
@@ -461,20 +332,25 @@ class _AddHotspotState extends State<AddHotspot>
     surface?.mesh.textureRect = Rect.fromLTWH(0, 0,
         imageInfo.image.width.toDouble(), imageInfo.image.height.toDouble());
     scene!.texture = imageInfo.image;
-
     scene!.update();
+    widget.onImageLoad?.call();
   }
 
   void _loadTexture(ImageProvider? provider) {
     if (provider == null) return;
     _imageStream?.removeListener(ImageStreamListener(_updateTexture));
-    _imageStream = provider.resolve(ImageConfiguration());
+    _imageStream = provider.resolve(const ImageConfiguration());
     ImageStreamListener listener = ImageStreamListener(_updateTexture);
     _imageStream!.addListener(listener);
   }
 
   void _onSceneCreated(Scene scene) {
     this.scene = scene;
+    scene.camera.near = 1.0;
+    scene.camera.far = _radius + 1.0;
+    scene.camera.fov = 75;
+    scene.camera.zoom = widget.zoom;
+    scene.camera.position.setFrom(Vector3(0, 0, 0.1));
     if (widget.child != null) {
       final Mesh mesh = generateSphereMesh(
           radius: _radius,
@@ -484,18 +360,10 @@ class _AddHotspotState extends State<AddHotspot>
           croppedFullWidth: widget.croppedFullWidth,
           croppedFullHeight: widget.croppedFullHeight);
       surface = Object(name: 'surface', mesh: mesh, backfaceCulling: false);
-
-      _loadTexture(widget.child![current_index].getImage().image);
-
+      _loadTexture(widget.child!.image);
       scene.world.add(surface!);
+      _updateView();
     }
-  }
-
-  void _onSceneCreatedObj(Scene scene) {
-    this.sceneObj = scene;
-    scene.light.position.setFrom(Vector3(0, 0, -10));
-
-    _updateView();
   }
 
   Matrix4 matrixFromLatLon(double lat, double lon) {
@@ -550,6 +418,8 @@ class _AddHotspotState extends State<AddHotspot>
         final Widget child = Positioned(
           left: pos.x - orgin.dx,
           top: pos.y - orgin.dy,
+          width: hotspot.width,
+          height: hotspot.height,
           child: Transform(
             origin: orgin,
             transform: transform..invert(),
@@ -573,13 +443,14 @@ class _AddHotspotState extends State<AddHotspot>
     _streamController = StreamController<Null>.broadcast();
     _stream = _streamController.stream;
 
-    if (listHotspot[current_index] == null) listHotspot[current_index] = [];
-    this.hotspots = listHotspot[current_index]!;
+    _updateSensorControl();
 
     _controller = AnimationController(
-        duration: Duration(milliseconds: 60000), vsync: this)
+        duration: const Duration(milliseconds: 60000), vsync: this)
       ..addListener(_updateView);
-    if (widget.animSpeed != 0) _controller.repeat();
+    if (widget.sensorControl != SensorControl.None || widget.animSpeed != 0) {
+      _controller.repeat();
+    }
   }
 
   @override
@@ -595,7 +466,6 @@ class _AddHotspotState extends State<AddHotspot>
   @override
   void didUpdateWidget(AddHotspot oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (surface == null) return;
     if (widget.latSegments != oldWidget.latSegments ||
         widget.lonSegments != oldWidget.lonSegments ||
@@ -610,129 +480,77 @@ class _AddHotspotState extends State<AddHotspot>
           croppedFullWidth: widget.croppedFullWidth,
           croppedFullHeight: widget.croppedFullHeight);
     }
-    if (widget.child![current_index].getImage().image !=
-        oldWidget.child![current_index].getImage().image) {
-      _loadTexture(widget.child![current_index].getImage().image);
+    if (widget.child?.image != oldWidget.child?.image) {
+      _loadTexture(widget.child?.image);
+    }
+    if (widget.sensorControl != oldWidget.sensorControl) {
+      _updateSensorControl();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
- 
-    Widget pano = Stack(
-      children: [
-        Cube(interactive: false, onSceneCreated: _onSceneCreated),
-        Cube(interactive: false, onSceneCreated: _onSceneCreatedObj),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: Column(
-            children: [
-              
-              SizedBox(
-                height: 20,
-              ),
-              isFAB
-                  ? buildDel(_toggleDelMode, mode)
-                  : buildExtendedDel(_toggleDelMode, mode),
-              SizedBox(
-                height: 20,
-              ),
-              isFAB
-                  ? buildFAB(_toggleFabMode, mode)
-                  : buildExtendedFAB(_toggleFabMode, mode),
-            ],
-          ),
-        ),
-        StreamBuilder(
-          stream: _stream,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return buildHotspotWidgets(hotspots);
+    Widget pano = RepositoryProvider(
+      create: (context) => AddHotspotRepository(),
+      child: BlocProvider(
+        create: (context) => AddHotspotBloc(
+            repository: RepositoryProvider.of<AddHotspotRepository>(context)),
+        child: BlocBuilder<AddHotspotBloc, AddHotspotState>(
+          builder: (context, state) {
+            var bloc = context.read<AddHotspotBloc>();
+            return Stack(
+              children: [
+                Cube(interactive: false, onSceneCreated: _onSceneCreated),
+                Positioned(
+                  right: 25,
+                  bottom: 25,
+                  child: Column(
+                    children: [
+                      ExtendFloatingButton(
+                        type: PanoramActionType.add,
+                        currentType: state.status,
+                        onTap: () => bloc.add(AddHotspotChangeActionEvent(
+                            type: PanoramActionType.add)),
+                        isExtend: isExtendBtn,
+                      ),
+                      const SizedBox(height: 20),
+                      ExtendFloatingButton(
+                        type: PanoramActionType.delete,
+                        currentType: state.status,
+                        onTap: () => bloc.add(AddHotspotChangeActionEvent(
+                            type: PanoramActionType.delete)),
+                        isExtend: isExtendBtn,
+                      ),
+                    ],
+                  ),
+                ),
+                StreamBuilder(
+                  stream: _stream,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return buildHotspotWidgets(widget.hotspots);
+                  },
+                ),
+              ],
+            );
           },
-        )
-    
-      ],
+        ),
+      ),
     );
 
-    return GestureDetector(
-      onScaleStart: _handleScaleStart,
-      onScaleUpdate: _handleScaleUpdate,
-      onTapUp: _handleTapUp,
-      child: pano,
-    );
+    return widget.interactive
+        ? GestureDetector(
+            onScaleStart: _handleScaleStart,
+            onScaleUpdate: _handleScaleUpdate,
+            onTapUp: _handleTapUp,
+            onLongPressStart:
+                widget.onLongPressStart == null ? null : _handleLongPressStart,
+            onLongPressMoveUpdate: widget.onLongPressMoveUpdate == null
+                ? null
+                : _handleLongPressMoveUpdate,
+            onLongPressEnd:
+                widget.onLongPressEnd == null ? null : _handleLongPressEnd,
+            child: pano,
+          )
+        : pano;
   }
-}
-
-
-Mesh generateSphereMesh(
-    {num radius = 1.0,
-    int latSegments = 16,
-    int lonSegments = 16,
-    ui.Image? texture,
-    Rect croppedArea = const Rect.fromLTWH(0.0, 0.0, 1.0, 1.0),
-    double croppedFullWidth = 1.0,
-    double croppedFullHeight = 1.0}) {
-  int count = (latSegments + 1) * (lonSegments + 1);
-  List<Vector3> vertices = List<Vector3>.filled(count, Vector3.zero());
-  List<Offset> texcoords = List<Offset>.filled(count, Offset.zero);
-  List<Polygon> indices =
-      List<Polygon>.filled(latSegments * lonSegments * 2, Polygon(0, 0, 0));
-
-  int i = 0;
-  for (int y = 0; y <= latSegments; ++y) {
-    final double tv = y / latSegments;
-    final double v =
-        (croppedArea.top + croppedArea.height * tv) / croppedFullHeight;
-    final double sv = math.sin(v * math.pi);
-    final double cv = math.cos(v * math.pi);
-    for (int x = 0; x <= lonSegments; ++x) {
-      final double tu = x / lonSegments;
-      final double u =
-          (croppedArea.left + croppedArea.width * tu) / croppedFullWidth;
-      vertices[i] = Vector3(radius * math.cos(u * math.pi * 2.0) * sv,
-          radius * cv, radius * math.sin(u * math.pi * 2.0) * sv);
-      texcoords[i] = Offset(tu, 1.0 - tv);
-      i++;
-    }
-  }
-
-  i = 0;
-  for (int y = 0; y < latSegments; ++y) {
-    final int base1 = (lonSegments + 1) * y;
-    final int base2 = (lonSegments + 1) * (y + 1);
-    for (int x = 0; x < lonSegments; ++x) {
-      indices[i++] = Polygon(base1 + x, base1 + x + 1, base2 + x);
-      indices[i++] = Polygon(base1 + x + 1, base2 + x + 1, base2 + x);
-    }
-  }
-
-  final Mesh mesh = Mesh(
-      vertices: vertices,
-      texcoords: texcoords,
-      indices: indices,
-      texture: texture);
-  return mesh;
-}
-
-Vector3 quaternionToOrientation(Quaternion q) {
-  final storage = q.storage;
-  final double x = storage[0];
-  final double y = storage[1];
-  final double z = storage[2];
-  final double w = storage[3];
-  final double roll =
-      math.atan2(-2 * (x * y - w * z), 1.0 - 2 * (x * x + z * z));
-  final double pitch = math.asin(2 * (y * z + w * x));
-  final double yaw =
-      math.atan2(-2 * (x * z - w * y), 1.0 - 2 * (x * x + y * y));
-  return Vector3(yaw, pitch, roll);
-}
-
-Quaternion orientationToQuaternion(Vector3 v) {
-  final Matrix4 m = Matrix4.identity();
-  m.rotateZ(v.z);
-  m.rotateX(v.y);
-  m.rotateY(v.x);
-  return Quaternion.fromRotation(m.getRotation());
 }

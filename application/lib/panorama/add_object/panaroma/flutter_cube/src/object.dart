@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/flutter_cube/src/light.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/flutter_cube/src/light.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'scene.dart';
 import 'mesh.dart';
@@ -41,7 +41,11 @@ class Object {
         } else if (meshes.length > 1) {
           // multiple objects
           for (Mesh mesh in meshes) {
-            add(Object(name: mesh.name, mesh: mesh, backfaceCulling: backfaceCulling, lighting: lighting));
+            add(Object(
+                name: mesh.name,
+                mesh: mesh,
+                backfaceCulling: backfaceCulling,
+                lighting: lighting));
           }
         }
         this.scene?.objectCreated(this);
@@ -95,7 +99,11 @@ class Object {
   final Matrix4 transform = Matrix4.identity();
 
   void updateTransform() {
-    final Matrix4 m = Matrix4.compose(position, Quaternion.euler(radians(rotation.y), radians(rotation.x), radians(rotation.z)), scale);
+    final Matrix4 m = Matrix4.compose(
+        position,
+        Quaternion.euler(
+            radians(rotation.y), radians(rotation.x), radians(rotation.z)),
+        scale);
     transform.setFrom(m);
   }
 
@@ -115,7 +123,8 @@ class Object {
   /// Find a child matching the name
   Object? find(Pattern name) {
     for (Object child in children) {
-      if (child.name != null && (name as RegExp).hasMatch(child.name!)) return child;
+      if (child.name != null && (name as RegExp).hasMatch(child.name!))
+        return child;
       final Object? result = child.find(name);
       if (result != null) return result;
     }

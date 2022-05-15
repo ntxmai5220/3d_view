@@ -59,3 +59,7 @@ export './empty/empty_image_list.dart';
 
 //scroll
 export './scroll/custom_scroll.dart';
+
+//floating button
+export 'floating_button/extend_floating_button.dart';
+export 'floating_button/custom_floating_button.dart';

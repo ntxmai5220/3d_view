@@ -139,23 +139,6 @@ class CaptureThumbnail extends StatelessWidget {
                 maxZoom: 4,
                 // onImageLoad: ,
                 child: Image(image: CachedNetworkImageProvider(imgUrl)),
-                // child: Image.network(
-                //   imgUrl,
-                //   fit: BoxFit.cover,
-                //   filterQuality: FilterQuality.medium,
-                //   loadingBuilder: (context, widget, ImageChunkEvent? chunk) {
-                //     if(chunk!.cumulativeBytesLoaded< chunk.expectedTotalBytes!){}
-                //     return widget;
-                //   },
-                // ),
-                // child: Image.file(File(imgUrl),
-                //     fit: BoxFit.cover, filterQuality: FilterQuality.medium)
-
-                // child: Image.asset(
-                //   'assets/images/photo.jpg',
-                //   filterQuality: FilterQuality.none,
-                //   fit: BoxFit.cover,
-                // ),
               ),
             ),
             Positioned(

@@ -1,21 +1,17 @@
-
 import 'dart:async';
-import 'dart:collection';
+
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Hotspot/Hotspot.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Image/DetailImage.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalBottomSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/Model/ModalObjectSheet.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
-import 'package:bk_3d_view/panorama/add_hotspot/panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Image/DetailImage.dart';
+
+import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Model/ModalObjectSheet.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:panorama/module.dart';
 import 'flutter_cube/flutter_cube.dart';
-import 'package:uuid/uuid.dart';
-
-import 'Widgets/Hotspot/HotspotButton.dart';
 
 class AddObject extends StatefulWidget {
   AddObject({
@@ -194,10 +190,9 @@ class _AddObjectState extends State<AddObject>
     int currentIndex =
         sceneObj!.world.children.indexWhere((element) => element == currentObj);
     int nextObjIndex = (currentIndex + 1 + length) % length;
-    
+
     currentObj = sceneObj!.world.children.elementAt(nextObjIndex);
     setCurrentColor(currentObj!.light.color);
-
   }
 
   void rotateObject(Object obj, {double angleY = 0, double angleX = 0}) {
@@ -218,7 +213,7 @@ class _AddObjectState extends State<AddObject>
   void _handleTapUp(TapUpDetails details) {
     final Vector3 o =
         positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    if (mode == 1) _handleAddHospot(degrees(o.x), degrees(-o.y), degrees(o.z));
+
     if (mode == 3) _handleAddObject(-o.x, -o.y, o.z);
   }
 
@@ -252,49 +247,9 @@ class _AddObjectState extends State<AddObject>
     widget.onHotspotChange!(listHotspot);
   }
 
-  void _handleAddHospot(double longitude, double latitude, double tilt) async {
-    int? index = await roomSheet(context, widget.child!);
-    if (index == null) return;
-    String uuid = Uuid().v1();
-    Hotspot temp = Hotspot(
-      name: uuid,
-      latitude: latitude,
-      longitude: longitude,
-      width: 90,
-      height: 75,
-      widget: hotspotButton(
-          text: widget.child![index].name,
-          icon: Icons.open_in_browser,
-          onPressed: () {
-            switch (mode) {
-              // transfer to another scene
-              case 0:
-                current_index = index;
-                if (listHotspot[current_index] == null)
-                  listHotspot[current_index] = [];
-                hotspots = listHotspot[current_index]!;
-                _loadTexture(widget.child![index].getImage().image);
-                break;
-              case 2:
-                Hotspot deltmp = listHotspot[current_index]!
-                    .firstWhere((element) => element.name == uuid);
-                listHotspot[current_index]!.remove(deltmp);
-                _onHotspotChange();
-            }
-
-            _updateView();
-          }),
-    );
-
-    setState(() {
-      listHotspot[current_index]!.add(temp);
-      _onHotspotChange();
-    });
-  }
-
   void changeCorlorObjectRec(Object obj, Color color, int index) {
     obj.light.setColor(color, 1, 2, 2);
-    obj.light.position.setFrom(Vector3(0,0,-10));
+    obj.light.position.setFrom(Vector3(0, 0, -10));
     if (obj.children.isEmpty) return;
     for (Object child in obj.children) {
       changeCorlorObjectRec(child, color, index + 1);
@@ -306,11 +261,11 @@ class _AddObjectState extends State<AddObject>
     setColorPicker(color);
   }
 
-  void setColorPicker(Color color){
+  void setColorPicker(Color color) {
     setState(() => pickerColor = color);
   }
 
-  void setCurrentColor(Color color){
+  void setCurrentColor(Color color) {
     setState(() => currentColor = color);
   }
 
@@ -379,6 +334,7 @@ class _AddObjectState extends State<AddObject>
   void _updateView() {
     if (scene == null) return;
     if (sceneObj == null) return;
+
     /// update fab
     if (!isFAB)
       setState(() {
@@ -681,7 +637,6 @@ class _AddObjectState extends State<AddObject>
                 if (currentObj == null) return;
                 sceneObj!.world.children.remove(currentObj);
                 changePrevObject();
-
               },
               child: Text("Remove"),
             ),
@@ -701,71 +656,73 @@ class _AddObjectState extends State<AddObject>
             bottom: 10,
             right: size.width / 3,
             left: 0,
-            child:
-                Visibility(
-                  visible: objectToolVisible,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              GestureDetector(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 15),
-                    width: 70,
-                    height: 30,
-                    color: currentColor,
-                  ),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Pick a color!'),
-                            content: SingleChildScrollView(
-                              child: ColorPicker(
-                                pickerColor: pickerColor,
-                                onColorChanged: changeColor,
-                              ),
-                            ),
-                            actions: <Widget>[
-                              ElevatedButton(
-                                child: const Text('Got it'),
-                                onPressed: () {
-                                  setState(() => currentColor = pickerColor);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
+            child: Visibility(
+              visible: objectToolVisible,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        width: 70,
+                        height: 30,
+                        color: currentColor,
+                      ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Pick a color!'),
+                                content: SingleChildScrollView(
+                                  child: ColorPicker(
+                                    pickerColor: pickerColor,
+                                    onColorChanged: changeColor,
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  ElevatedButton(
+                                    child: const Text('Got it'),
+                                    onPressed: () {
+                                      setState(
+                                          () => currentColor = pickerColor);
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                    ),
+                    Slider(
+                      value: rotateY,
+                      onChanged: (value) {
+                        setState(() {
+                          rotateY = value;
+                          if (currentObj == null) return;
+                          rotateObject(currentObj!, angleY: value);
                         });
-                  },
-                              ),
-                              Slider(
-                  value: rotateY,
-                  onChanged: (value) {
-                    setState(() {
-                      rotateY = value;
-                      if (currentObj == null) return;
-                      rotateObject(currentObj!, angleY: value);
-                    });
-                  },
-                  min: 0,
-                  max: 360,
-                              ),
-                              Slider(
-                  value: rotateX,
-                  onChanged: (value) {
-                    setState(() {
-                      rotateX = value;
-                      if (currentObj == null) return;
-                      rotateObject(currentObj!, angleX: rotateX);
-                    });
-                  },
-                  min: 0,
-                  max: 360,
-                              ),
-                            ]),
-                )),
+                      },
+                      min: 0,
+                      max: 360,
+                    ),
+                    Slider(
+                      value: rotateX,
+                      onChanged: (value) {
+                        setState(() {
+                          rotateX = value;
+                          if (currentObj == null) return;
+                          rotateObject(currentObj!, angleX: rotateX);
+                        });
+                      },
+                      min: 0,
+                      max: 360,
+                    ),
+                  ]),
+            )),
       ],
     );
-    
+
     Widget pano = Stack(
       children: [
         Cube(interactive: false, onSceneCreated: _onSceneCreated),
@@ -775,7 +732,9 @@ class _AddObjectState extends State<AddObject>
           right: 20,
           child: Column(
             children: [
-              isFAB? ObjectFAB(onAddingFABCLicked, mode) : ExtObjectFAB(onAddingFABCLicked, mode),
+              isFAB
+                  ? ObjectFAB(onAddingFABCLicked, mode)
+                  : ExtObjectFAB(onAddingFABCLicked, mode),
               SizedBox(
                 height: 20,
               )
@@ -791,18 +750,17 @@ class _AddObjectState extends State<AddObject>
       ],
     );
 
-    return Stack(
-      children: [GestureDetector(
+    return Stack(children: [
+      GestureDetector(
         onScaleStart: _handleScaleStart,
         onScaleUpdate: _handleScaleUpdate,
         onTapUp: _handleTapUp,
         child: pano,
-      )
-      ,objectToolKit
+      ),
+      objectToolKit
     ]);
   }
 }
-
 
 Mesh generateSphereMesh(
     {num radius = 1.0,
@@ -866,12 +824,4 @@ Vector3 quaternionToOrientation(Quaternion q) {
   final double yaw =
       math.atan2(-2 * (x * z - w * y), 1.0 - 2 * (x * x + y * y));
   return Vector3(yaw, pitch, roll);
-}
-
-Quaternion orientationToQuaternion(Vector3 v) {
-  final Matrix4 m = Matrix4.identity();
-  m.rotateZ(v.z);
-  m.rotateX(v.y);
-  m.rotateY(v.x);
-  return Quaternion.fromRotation(m.getRotation());
 }

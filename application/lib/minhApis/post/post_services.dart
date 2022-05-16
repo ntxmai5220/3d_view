@@ -33,7 +33,7 @@ class PostServices {
       String? token}) async {
     DioRequest request = PostRequest.addHotspot(
         roomId: roomId, hotspots: hotspots, token: token);
-    dynamic data = await DioClient.post(
+    APIResponse data = await DioClient.post(
         path: request.path, data: request.body, options: request.options);
     print(data);
     Room room = Room.fromJson(data.toObject());

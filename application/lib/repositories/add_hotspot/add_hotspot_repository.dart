@@ -5,6 +5,7 @@ class AddHotspotRepository {
   AddHotspotRepository();
 
   final PostServices postServices = PostServices();
+  final RoomServices roomServices = RoomServices();
 
   Future<ObjectResponse<Room>> addHotspot({
     required String roomId,
@@ -12,5 +13,6 @@ class AddHotspotRepository {
   }) =>
       postServices.addHotspot(roomId: roomId, hotspots: hotspots);
 
-   
+  Future<ObjectResponse<Room>> getRoom({required String id}) =>
+      roomServices.getRoom(id: id);
 }

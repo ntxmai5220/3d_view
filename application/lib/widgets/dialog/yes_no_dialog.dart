@@ -7,27 +7,50 @@ class YesNoDialog extends StatelessWidget {
   const YesNoDialog({
     Key? key,
     required this.content,
+    this.noLabel,
+    this.yesLabel,
   }) : super(key: key);
 
   final String content;
-
+  final String? noLabel;
+  final String? yesLabel;
   @override
   Widget build(BuildContext context) {
     return DialogWrap(
         child: Column(
       children: [
         const SizedBox(height: 5),
-        Text(content, style: TextStyles.normalContent),
+        Row(
+          children: [
+            Spacer(
+              flex: 9,
+            ),
+            Text(content, style: TextStyles.normalContent),
+            Spacer(
+              flex: 8,
+            ),
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: const Icon(
+                Icons.close,
+                size: 18,
+                color: AppColors.secondary,
+              ),
+            )
+          ],
+        ),
         const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ActionButton(
-                label: 'Không', onTap: () => Navigator.of(context).pop(false)),
+                label: noLabel ?? 'Không',
+                labelColor: AppColors.darkPrimary,
+                onTap: () => Navigator.of(context).pop(false)),
             ActionButton(
-              label: 'Có',
+              label: yesLabel ?? 'Có',
               labelColor: AppColors.darkPrimary,
-              onTap: () => Navigator.of(context).pop(false),
+              onTap: () => Navigator.of(context).pop(true),
             ),
           ],
         )

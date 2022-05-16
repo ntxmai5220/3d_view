@@ -14,7 +14,7 @@ class TextStyles {
     fontFamily: AppFonts.primary,
     color: AppColors.darkSecondary,
     fontWeight: FontWeight.w600,
-    fontSize: 14.5,
+    fontSize: 15,
     letterSpacing: 0.15,
   );
 

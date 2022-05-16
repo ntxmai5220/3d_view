@@ -115,7 +115,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
 
     print(currentState.ward != null);
     if (currentState is DataViewInitial) {
-      emit(currentState.valid(valid: valid));
+      emit(currentState.valid(valid: true));
     }
   }
 }

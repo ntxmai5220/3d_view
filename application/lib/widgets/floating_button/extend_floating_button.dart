@@ -23,7 +23,7 @@ class ExtendFloatingButton extends StatelessWidget {
       width: isExtend ? 165 : 50,
       height: 50,
       child: FloatingActionButton.extended(
-        heroTag: "Extend${type.text}",
+        heroTag: "Extend ${isExtend ? 165 : 50} $type",
         backgroundColor: type == currentType
             ? type.backgroundColor
             : PanoramActionType.none.backgroundColor,

@@ -11,12 +11,15 @@ class NetImage extends StatelessWidget {
     required this.width,
     required this.height,
     this.fit = BoxFit.cover,
+    this.mini = false,
   }) : super(key: key);
 
   final String imageUrl;
   final double width;
   final double height;
   final BoxFit fit;
+
+  final bool mini;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +43,16 @@ class NetImage extends StatelessWidget {
       // },
       filterQuality: FilterQuality.medium,
       placeholderFadeInDuration: const Duration(milliseconds: 700),
-      placeholder: (context, url) =>
-          LoadingPlaceHolder(width: width, height: height),
-      errorWidget: (context, url, error) =>
-          LoadingPlaceHolder(width: width, height: height),
+      placeholder: (context, url) => LoadingPlaceHolder(
+        width: width,
+        height: height,
+        mini: mini,
+      ),
+      errorWidget: (context, url, error) => LoadingPlaceHolder(
+        width: width,
+        height: height,
+        mini: mini,
+      ),
     );
   }
 }

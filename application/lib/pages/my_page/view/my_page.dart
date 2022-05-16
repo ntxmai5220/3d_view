@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/pages/user_info/user_info.dart';
 import 'package:bk_3d_view/panorama/add_object/testPana.dart';
 
 import 'package:bk_3d_view/values/values.dart';
@@ -16,7 +17,7 @@ class MyPage extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (_) => MyHomePage(title: 'Flutter Demo Home Page')));
+              builder: (_) => UserInfo(userId: "1312")));
     }
 
     void toPostManagement() {

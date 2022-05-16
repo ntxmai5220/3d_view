@@ -26,7 +26,7 @@ export 'my_page/view/my_page.dart';
 export 'manage_post/view/manage_post.dart';
 
 //post_detail
-export 'post_detail/view/post_detail.dart';
+export 'post_detail/post_detail.dart';
 
 //new post
 export 'new_post/new_post_page.dart';

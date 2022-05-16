@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/minhApis/apis.dart';
-import 'package:bk_3d_view/minhApis/auth/authServices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -214,4 +213,10 @@ void main() {
     RoomServices roomServices = RoomServices();
     await roomServices.deleteRoom(id: id, token: token);
   });
+
+  test("getAllUser", () async {
+    UserServices userServices = UserServices();
+    await userServices.getById(id:"625bd0648e18145a85211945",token: token);
+  });
 }
+

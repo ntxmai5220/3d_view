@@ -13,6 +13,14 @@ export './inpanting/inpanting_services.dart';
 export './post/post_request.dart';
 export './post/post_services.dart';
 
+//user
+export './user/user_request.dart';
+export './user/user_services.dart';
+
 //room
 export './room/room_request.dart';
 export './room/room_services.dart';
+
+//auth 
+export './auth/authRequest.dart';
+export './auth/authServices.dart';

@@ -673,7 +673,7 @@ class _AddObjectState extends State<AddObject>
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text('Pick a color!'),
+                                title: const Text('Chọn màu'),
                                 content: SingleChildScrollView(
                                   child: ColorPicker(
                                     pickerColor: pickerColor,
@@ -682,7 +682,7 @@ class _AddObjectState extends State<AddObject>
                                 ),
                                 actions: <Widget>[
                                   ElevatedButton(
-                                    child: const Text('Got it'),
+                                    child: const Text('Đổi'),
                                     onPressed: () {
                                       setState(
                                           () => currentColor = pickerColor);

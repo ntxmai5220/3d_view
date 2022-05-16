@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 List<String> objectImagePath = ["assets/objects/chair/chair.jpg", "assets/objects/table/table.jpg","assets/objects/shelf/Shelving_origin.jpg"];
 List<String> objectPath = ["assets/objects/chair/chair.obj", "assets/objects/table/table.obj","assets/objects/shelf/Shelving_origin.obj"];
+List<String> objectNames = ["Ghế tựa", "Bàn làm việc", "Kệ sách"];
 List<String> getImageObjectPath(){
   return objectImagePath;
 }
@@ -21,10 +22,6 @@ String convertImageObjtoObjPath(String imageObj){
   
 
   return objectPath[imageIndex];
-}
-
-String getFileName(String path){
-  return path.split("/").last.split(".").first;
 }
 
 Future<String?> ModalObjectSheet (context) async{
@@ -48,9 +45,8 @@ Future<String?> ModalObjectSheet (context) async{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              'Reactions',
-                              // style: AppStyles.fillStyle,
+                            const Text(
+                              'Chọn vật thể',
                             ),
                             InkWell(
                               child: Icon(Icons.close),
@@ -79,15 +75,11 @@ Future<String?> ModalObjectSheet (context) async{
                                   child: imageObjectImages[index].getImage(),
                                 ),
                                 title: Text(
-                                  getFileName(imageObjectImages[index].name),
-                                  style: TextStyle(
+                                  objectNames[index],
+                                  style: const TextStyle(
                                     color: Colors.black,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 18),
-                                ),
-                                trailing: Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
                                 ),
                               );
                             }),

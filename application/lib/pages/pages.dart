@@ -36,3 +36,6 @@ export 'remove_object/remove_object_page.dart';
 
 //
 export 'list_thumbnail/list_thumbnail.dart';
+
+//
+export 'view_panorama/view_panoram.dart';

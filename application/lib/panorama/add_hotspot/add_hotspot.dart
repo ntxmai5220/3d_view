@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:bk_3d_view/bottom_sheets/bottom_sheets.dart';
+import 'package:bk_3d_view/data/mock.dart';
+import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/panorama/add_hotspot/bloc/add_hotspot_bloc.dart';
 
 import 'package:bk_3d_view/repositories/repositories.dart';
+import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_enum.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +44,8 @@ class AddHotspot extends StatefulWidget {
     this.onLongPressEnd,
     this.onImageLoad,
     this.child,
-    this.hotspots,
+    this.rooms,
+    required this.currentRoom,
   }) : super(key: key);
 
   /// The initial latitude, in degrees, between -90 and 90. default to 0 (the vertical center of the image).
@@ -124,8 +129,8 @@ class AddHotspot extends StatefulWidget {
   /// Specify an Image(equirectangular image) widget to the panorama.
   final Image? child;
 
-  /// Place widgets in the panorama.
-  final List<Hotspot>? hotspots;
+  final List<Room>? rooms;
+  final String currentRoom;
 
   @override
   _AddHotspotState createState() => _AddHotspotState();
@@ -155,14 +160,6 @@ class _AddHotspotState extends State<AddHotspot>
   ImageStream? _imageStream;
 
   bool isExtendBtn = true;
-
-  void _handleTapUp(TapUpDetails details) {
-    final Vector3 o =
-        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    debugPrint(degrees(o.x).toString());
-    //show bottomshet to choose
-    // widget.onTap!(degrees(o.x), degrees(-o.y), degrees(o.z));
-  }
 
   void _handleLongPressStart(LongPressStartDetails details) {
     final Vector3 o =
@@ -440,7 +437,7 @@ class _AddHotspotState extends State<AddHotspot>
     super.initState();
     latitude = degrees(widget.latitude);
     longitude = degrees(widget.longitude);
-    _streamController = StreamController<Null>.broadcast();
+    _streamController = StreamController<void>.broadcast();
     _stream = _streamController.stream;
 
     _updateSensorControl();
@@ -490,67 +487,149 @@ class _AddHotspotState extends State<AddHotspot>
 
   @override
   Widget build(BuildContext context) {
-    Widget pano = RepositoryProvider(
-      create: (context) => AddHotspotRepository(),
-      child: BlocProvider(
-        create: (context) => AddHotspotBloc(
-            repository: RepositoryProvider.of<AddHotspotRepository>(context)),
-        child: BlocBuilder<AddHotspotBloc, AddHotspotState>(
-          builder: (context, state) {
-            var bloc = context.read<AddHotspotBloc>();
-            return Stack(
+    var hotspotType = HotspotType.values;
+    handleTapUp(BuildContext context, {required TapUpDetails details}) async {
+      var bloc = context.read<AddHotspotBloc>();
+      final Vector3 o =
+          positionToLatLon(details.localPosition.dx, details.localPosition.dy);
+      debugPrint(degrees(o.x).toString());
+
+      if (bloc.state.status == PanoramActionType.add) {
+        bool? type = await ShowMyDialog.show(context,
+            dialog: const YesNoDialog(
+              content: 'Chọn loại hotspot',
+              noLabel: 'Thông tin',
+              yesLabel: 'Chuyển cảnh',
+            ));
+        if (type == true) {
+          Room? nextRoom = await ShowBottomSheet.showBS(context,
+              child: ChooseRoomBS(
+                rooms: widget.rooms,
+              ));
+
+          if (nextRoom != null) {
+            bloc.add(AddHotspotAddEvent(
+                nextRoom: nextRoom,
+                long: degrees(o.x),
+                lat: degrees(-o.y),
+                type: HotspotType.changeRoom));
+            debugPrint(nextRoom.toString());
+          }
+        } else {
+          List<String>? result = await ShowMyDialog.show(context,
+              dialog: const HotspotInforDialog());
+          if (result != null) {
+            bloc.add(AddHotspotAddEvent(
+                long: degrees(o.x),
+                lat: degrees(-o.y),
+                title: result[0],
+                content: result[1],
+                type: HotspotType.infor));
+          }
+        }
+      }
+    }
+
+    Widget pano(BuildContext context) {
+      var bloc = context.read<AddHotspotBloc>();
+      return Stack(
+        children: [
+          Cube(interactive: false, onSceneCreated: _onSceneCreated),
+          Positioned(
+            right: 25,
+            bottom: 25,
+            child: Column(
               children: [
-                Cube(interactive: false, onSceneCreated: _onSceneCreated),
-                Positioned(
-                  right: 25,
-                  bottom: 25,
-                  child: Column(
-                    children: [
-                      ExtendFloatingButton(
-                        type: PanoramActionType.add,
-                        currentType: state.status,
-                        onTap: () => bloc.add(AddHotspotChangeActionEvent(
-                            type: PanoramActionType.add)),
-                        isExtend: isExtendBtn,
-                      ),
-                      const SizedBox(height: 20),
-                      ExtendFloatingButton(
-                        type: PanoramActionType.delete,
-                        currentType: state.status,
-                        onTap: () => bloc.add(AddHotspotChangeActionEvent(
-                            type: PanoramActionType.delete)),
-                        isExtend: isExtendBtn,
-                      ),
-                    ],
-                  ),
+                ExtendFloatingButton(
+                  type: PanoramActionType.add,
+                  currentType: bloc.state.status,
+                  onTap: () => bloc.add(
+                      AddHotspotChangeActionEvent(type: PanoramActionType.add)),
+                  isExtend: isExtendBtn,
                 ),
-                StreamBuilder(
-                  stream: _stream,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    return buildHotspotWidgets(widget.hotspots);
-                  },
+                const SizedBox(height: 20),
+                ExtendFloatingButton(
+                  type: PanoramActionType.delete,
+                  currentType: bloc.state.status,
+                  onTap: () => bloc.add(AddHotspotChangeActionEvent(
+                      type: PanoramActionType.delete)),
+                  isExtend: isExtendBtn,
                 ),
               ],
+            ),
+          ),
+          // buildHotspotWidgets(mapListHotspot(
+          //     context.read<AddHotspotBloc>().state.room?.hotspots ?? []))
+          StreamBuilder(
+            stream: _stream,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              return buildHotspotWidgets(bloc.state.room?.hotspots
+                      ?.map((item) => Hotspot(
+                          name: item.title,
+                          type: hotspotType[item.type ?? 0],
+                          latitude: item.latitude!,
+                          longitude: item.longitude!,
+                          content: item.content,
+                          onTap: () =>
+                              bloc.state.status == PanoramActionType.delete
+                                  ? bloc.add(AddHotspotDeleteEvent(item: item))
+                                  : null))
+                      .toList() ??
+                  []);
+            },
+          )
+        ],
+      );
+    }
+
+    Size size = MediaQuery.of(context).size;
+    return RepositoryProvider<AddHotspotRepository>(
+      create: (context) => AddHotspotRepository(),
+      child: BlocProvider<AddHotspotBloc>(
+        create: (context) => AddHotspotBloc(
+            repository: RepositoryProvider.of<AddHotspotRepository>(context))
+          ..add(AddHotspotLoadEvent(roomId: widget.currentRoom)),
+        child: BlocConsumer<AddHotspotBloc, AddHotspotState>(
+          listenWhen: (previous, current) {
+            return (previous is AddHotspotLoading &&
+                    current is! AddHotspotLoading) ||
+                (previous is! AddHotspotLoading &&
+                    current is AddHotspotLoading);
+          },
+          listener: (context, state) async {
+            if (state is AddHotspotLoading) {
+              ShowMyDialog.show(context,
+                  dialog: const LoadingDialog(content: 'Đang tải hình ảnh...'));
+            } else if (state is AddHotspotLoaded) {
+              Navigator.pop(context);
+            }
+          },
+          builder: (context, state) {
+            return Scaffold(
+              appBar: MyAppBar(
+                title: AppBarTextTitle(
+                  title: state.room?.name ?? '',
+                  color: AppColors.white,
+                ),
+                actions: [
+                  IconActionButton(
+                    icon: Icons.save_rounded,
+                    padding: 5,
+                    iconColor: AppColors.white,
+                    onTap: (){},
+                  )
+                ],
+              ),
+              body: GestureDetector(
+                  onScaleStart: _handleScaleStart,
+                  onScaleUpdate: _handleScaleUpdate,
+                  onTapUp: (detail) => handleTapUp(context, details: detail),
+                  child: pano(context)),
             );
+            // : pano(context);
           },
         ),
       ),
     );
-
-    return widget.interactive
-        ? GestureDetector(
-            onScaleStart: _handleScaleStart,
-            onScaleUpdate: _handleScaleUpdate,
-            onTapUp: _handleTapUp,
-            onLongPressStart:
-                widget.onLongPressStart == null ? null : _handleLongPressStart,
-            onLongPressMoveUpdate: widget.onLongPressMoveUpdate == null
-                ? null
-                : _handleLongPressMoveUpdate,
-            onLongPressEnd:
-                widget.onLongPressEnd == null ? null : _handleLongPressEnd,
-            child: pano,
-          )
-        : pano;
   }
 }

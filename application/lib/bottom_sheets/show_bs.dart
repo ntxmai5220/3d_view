@@ -1,12 +1,13 @@
 //show BS
-import 'package:bk_3d_view/bottom_sheets/bottom_sheets.dart';
 import 'package:flutter/material.dart';
 
 class ShowBottomSheet {
-  static Future showBS(BuildContext context) => showModalBottomSheet(
+  static Future<dynamic> showBS(BuildContext context, {required Widget child}) =>
+      showModalBottomSheet(
+        // isScrollControlled: true,
         context: context,
         builder: (ctx) {
-          return const AddImageBS();
+          return child;
         },
       );
 }

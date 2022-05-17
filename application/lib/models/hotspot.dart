@@ -1,5 +1,5 @@
-class Hotspot {
-  Hotspot({
+class HotspotModel {
+  HotspotModel({
     this.id,
     this.title,
     this.latitude,
@@ -7,6 +7,7 @@ class Hotspot {
     this.type,
     this.currentRoom,
     this.nextRoom,
+    this.content,
   });
 
   String? id;
@@ -22,9 +23,10 @@ class Hotspot {
   int? type;
   String? currentRoom;
   String? nextRoom;
+  String? content;
 
-  factory Hotspot.fromJson(Map<String, dynamic> json) {
-    return Hotspot(
+  factory HotspotModel.fromJson(Map<String, dynamic> json) {
+    return HotspotModel(
       id: json['_id'],
       title: json['title'],
       latitude: json['latitude']?.toDouble(),
@@ -32,18 +34,20 @@ class Hotspot {
       type: json['type']?.toInt(),
       currentRoom: json['currentRoom'],
       nextRoom: json['nextRoom'],
+      content: json['content'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      '_id':id,
+      '_id': id,
       'title': title,
       'latitude': latitude,
       'longitude': longitude,
       'type': type,
       'currentRoom': currentRoom,
       'nextRoom': nextRoom,
+      'content': content,
     };
   }
 }

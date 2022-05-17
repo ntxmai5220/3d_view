@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
                 minWidth: 48,
               ),
               backgroundColor: AppColors.darkPrimary)),
-      home: Admin(),
+      home: const MainPage(),
     );
   }
 }

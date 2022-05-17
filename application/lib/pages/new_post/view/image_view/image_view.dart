@@ -95,7 +95,7 @@ class ImageView extends StatelessWidget {
   }
 
   Future showAddImageOptionsBS(BuildContext context) =>
-      ShowBottomSheet.showBS(context);
+      ShowBottomSheet.showBS(context, child: const AddImageBS());
 
   showRenameDialog(BuildContext context, {required Room room}) async {
     String? newName = await showDialog(

@@ -18,6 +18,7 @@ class ListRoom extends StatelessWidget {
     NewPostBloc bloc = context.read<NewPostBloc>();
 
     Widget itemBuilder(BuildContext context, int index) {
+      debugPrint(bloc.state.post!.rooms![index].id.toString());
       return ChooseItem(
         '${bloc.state.post?.rooms?[index].name}',
         onClick: () {

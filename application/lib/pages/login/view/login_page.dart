@@ -24,15 +24,15 @@ class LoginPage extends StatelessWidget {
 
     _toRegister() {
       debugPrint('to register');
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const RegisterPage()));
     }
 
     _toMainPage() {
       debugPrint('to main');
-      Navigator.pushNamed(context, 'main');
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (_) => const MainPage()));
+      // Navigator.pushNamed(context, 'main');
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const MainPage()));
     }
 
     String? validEmail(String? email) {

@@ -29,7 +29,8 @@ const postData = {
   "_id": "627f58577214269308fee932",
   "area": 100,
   "price": 987,
-  "desc": "Nhằm mong muốn có 1 không gian rộng rãi cho các hộ gia đình đông thành viên, nhiều thế hệ, căn hộ 3 phòng sẽ ngủ giúp các thành viên trong gia đình đều có sự gần gũi nhưng vẫn đủ riêng tư, có nhiều không gian hơn để thỏa thích làm những điều yêu thích.",
+  "desc":
+      "Nhằm mong muốn có 1 không gian rộng rãi cho các hộ gia đình đông thành viên, nhiều thế hệ, căn hộ 3 phòng sẽ ngủ giúp các thành viên trong gia đình đều có sự gần gũi nhưng vẫn đủ riêng tư, có nhiều không gian hơn để thỏa thích làm những điều yêu thích.",
   "address": "Số 2",
   "isUsed": false,
   "isFavorite": false,
@@ -70,15 +71,30 @@ const postData = {
   "__v": 1
 };
 
-const thumbnail = {
-  "imgUrl":
-      "http://res.cloudinary.com/dtnam302/image/upload/v1652512928/Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj.png",
-  "publicId":
-      "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
-  "_id": "627f58a17214269308fee944"
-};
-
-List<dynamic> rawPosts =  [
+const thumbnailss = [
+  {
+    "imgUrl":
+        "http://res.cloudinary.com/dtnam302/image/upload/v1652512928/Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj.png",
+    "publicId":
+        "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
+    "_id": "627f58a17214269308fee944"
+  },
+  {
+    "imgUrl":
+        "http://res.cloudinary.com/dtnam302/image/upload/v1652600475/Thesis/6280ae35ffea6bfa096bcf17/6280ae3bffea6bfa096bcf1e/dhc8cdwtb0sq5k1dyaua.png",
+    "publicId":
+        "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
+    "_id": "627f58a17214269308fee944"
+  },
+  {
+    "imgUrl":
+        "https://res.cloudinary.com/dtnam302/image/upload/v1652607377/Thesis/6280c8573a8880eb07e58f86/6280c85b3a8880eb07e58f8c/zqjqkf78p0mgkn4idswz.png",
+    "publicId":
+        "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
+    "_id": "627f58a17214269308fee944"
+  }
+];
+List<dynamic> rawPosts = [
   {
     "province": {"id": 262, "name": "Bình Định"},
     "district": {"id": 1770, "name": "Huyện Phù Cát", "provinceId": 262},
@@ -436,7 +452,8 @@ List<dynamic> rawPosts =  [
     "_id": "62805845b0b0c32105430f3e",
     "area": 48,
     "price": 1730,
-    "desc": "Khu căn hộ Lexington Residence nằm ngay mặt tiền Mai Chí Thọ, đoạn đầu từ Xa lộ Hà Nội đi vào, thuận tiện di chuyển đến Quận 9, Bình Thạnh hay vào trung tâm thành phố chỉ trong 10 phút di chuyển. Bên cạnh đó, khu căn hộ còn tập hợp đầy đủ các tiện ích như hồ bơi, khu giải trí thư giãn ngoài trời, nhà hàng, cafe, sân vườn, công viên,...",
+    "desc":
+        "Khu căn hộ Lexington Residence nằm ngay mặt tiền Mai Chí Thọ, đoạn đầu từ Xa lộ Hà Nội đi vào, thuận tiện di chuyển đến Quận 9, Bình Thạnh hay vào trung tâm thành phố chỉ trong 10 phút di chuyển. Bên cạnh đó, khu căn hộ còn tập hợp đầy đủ các tiện ích như hồ bơi, khu giải trí thư giãn ngoài trời, nhà hàng, cafe, sân vườn, công viên,...",
     "address": "Số 12 đường Phạm Ngũ Lão",
     "isUsed": false,
     "isFavorite": true,
@@ -475,14 +492,12 @@ List<dynamic> rawPosts =  [
 ];
 List<Post> posts = rawPosts.map((post) => Post.fromJson(post)).toList();
 
-
-
-List<Img> thumbnails = List.of([
-  Img.fromJson(thumbnail),
-  Img.fromJson(thumbnail),
-  Img.fromJson(thumbnail),
-  Img.fromJson(thumbnail)
-]);
+// List<Img> thumbnails = List.of([
+//   Img.fromJson(thumbnail),
+//   Img.fromJson(thumbnail),
+//   Img.fromJson(thumbnail),
+//   Img.fromJson(thumbnail)
+// ]);
 
 const userRaw = {
   "_id": "625bd0648e18145a85211945",
@@ -510,22 +525,26 @@ User user = User.fromJson(userRaw);
 Post postDetail = Post.fromJson(postData);
 
 List<dynamic> bannerRaw = [
-            {
-                "title": "Rever",
-                "webUrl": "https://rever.vn/",
-                "imgUrl": "https://res.cloudinary.com/dtnam302/image/upload/v1652590903/samples/photo-1582407947304-fd86f028f716_cj8hcc.jpg",
-                "content": "Lựa chọn căn nhà ưng ý của bạn"
-            },
-            {
-                "title": "VN Express",
-                "webUrl": "https://vnexpress.net/kinh-doanh/bat-dong-san",
-                "imgUrl": "https://res.cloudinary.com/dtnam302/image/upload/v1652591016/samples/22838-perspectives-in-todays-real-estate-market_gettyimages-1205029788_1380x800-2_s6zbcz.jpg",
-                "content": "Thông tin bất động sản cập nhật mỗi ngày"
-            },
-            {
-                "title": "Bách Khoa",
-                "webUrl": "http://www.aao.hcmut.edu.vn/",
-                "imgUrl": "https://chamsockhachang.com/wp-content/uploads/truong-dai-hoc-bach-khoa-tp.-ho-chi-minh.jpg",
-                "content": "Giáo dục khai phóng, tiên phong trong chất lượng, sáng tạo và hội nhập"
-            }
-        ];
+  {
+    "title": "Rever",
+    "webUrl": "https://rever.vn/",
+    "imgUrl":
+        "https://res.cloudinary.com/dtnam302/image/upload/v1652590903/samples/photo-1582407947304-fd86f028f716_cj8hcc.jpg",
+    "content": "Lựa chọn căn nhà ưng ý của bạn"
+  },
+  {
+    "title": "VN Express",
+    "webUrl": "https://vnexpress.net/kinh-doanh/bat-dong-san",
+    "imgUrl":
+        "https://res.cloudinary.com/dtnam302/image/upload/v1652591016/samples/22838-perspectives-in-todays-real-estate-market_gettyimages-1205029788_1380x800-2_s6zbcz.jpg",
+    "content": "Thông tin bất động sản cập nhật mỗi ngày"
+  },
+  {
+    "title": "Bách Khoa",
+    "webUrl": "http://www.aao.hcmut.edu.vn/",
+    "imgUrl":
+        "https://chamsockhachang.com/wp-content/uploads/truong-dai-hoc-bach-khoa-tp.-ho-chi-minh.jpg",
+    "content":
+        "Giáo dục khai phóng, tiên phong trong chất lượng, sáng tạo và hội nhập"
+  }
+];

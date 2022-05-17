@@ -18,7 +18,7 @@ class Room {
   Img? removedImg;
   // List<String>? thumbnails;
   List<Img>? thumbnails;
-  List<Hotspot>? hotspots;
+  List<HotspotModel>? hotspots;
 
   factory Room.fromJson(Map<String, dynamic> json) => Room(
         postId: json['postId'],
@@ -38,7 +38,7 @@ class Room {
             : null,
         hotspots: json['hotspot'] != null
             ? List<Map<String, dynamic>>.from(json['hotspot'])
-                .map((e) => Hotspot.fromJson(e))
+                .map((e) => HotspotModel.fromJson(e))
                 .toList()
             : null,
       );

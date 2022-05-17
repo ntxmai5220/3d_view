@@ -5,12 +5,16 @@ class Hotspot {
     required this.name,
     this.latitude = 0.0,
     this.longitude = 0.0,
-    this.width = 32.0,
-    this.height = 32.0,
+    this.width = 60.0,
+    this.height = 85.0,
     required this.type,
-    required VoidCallback onTap,
+    VoidCallback? onTap,
     this.content,
-  }) : widget = HotspotBtn(icon: type.getChild, onPressed: onTap,);
+  }) : widget = HotspotBtn(
+          title: name,
+          icon: type.getChild,
+          onPressed: onTap,
+        );
 
   /// The name of this hotspot.
   String? name;
@@ -69,51 +73,38 @@ class HotspotBtn extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TextButton(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(CircleBorder()),
-            backgroundColor: MaterialStateProperty.all(Colors.black38),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
+        SizedBox(
+          height: 40,
+          width: 40,
+          child: TextButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(CircleBorder()),
+              backgroundColor: MaterialStateProperty.all(Colors.black54),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
+            child: Icon(icon),
+            onPressed: onPressed,
           ),
-          child: Icon(icon),
-          onPressed: onPressed,
         ),
         title != null
             ? Container(
-                padding: EdgeInsets.all(4.0),
+                margin: EdgeInsets.only(top: 3),
                 decoration: BoxDecoration(
-                    color: Colors.black38,
+                    color: Colors.black54,
                     borderRadius: BorderRadius.all(Radius.circular(4))),
-                child: Center(child: Text(title ?? '')),
-              )
-            : Container(),
+                child: Center(
+                  child: Text(title ?? '',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: title!.length >= 13 ? 11 : 16)),
+                ))
+            : Container(
+                height: 5,
+                color: Colors.black,
+              ),
       ],
     );
   }
-}
-
-Widget hotspotButton({String? text, IconData? icon, VoidCallback? onPressed}) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      TextButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(CircleBorder()),
-          backgroundColor: MaterialStateProperty.all(Colors.black38),
-          foregroundColor: MaterialStateProperty.all(Colors.white),
-        ),
-        child: Icon(icon),
-        onPressed: onPressed,
-      ),
-      text != null
-          ? Container(
-              padding: EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                  color: Colors.black38,
-                  borderRadius: BorderRadius.all(Radius.circular(4))),
-              child: Center(child: Text(text)),
-            )
-          : Container(),
-    ],
-  );
 }

@@ -6,10 +6,13 @@ class LoadingPlaceHolder extends StatelessWidget {
     Key? key,
     required this.width,
     required this.height,
+    this.mini = false,
   }) : super(key: key);
 
   final double width;
   final double height;
+
+  final bool mini;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,15 +26,15 @@ class LoadingPlaceHolder extends StatelessWidget {
               children: [
                 Image.asset(
                   AppAssets.appLogo,
-                  height: 60,
-                  width: 60,
+                  height: mini ? 25 : 60,
+                  width: mini ? 25 : 60,
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: mini ? 5 : 15),
                 Text(
                   '3D VIEW',
                   textAlign: TextAlign.center,
-                  style: TextStyles.labelTopic
-                      .copyWith(color: AppColors.darkPrimary),
+                  style: TextStyles.labelTopic.copyWith(
+                      color: AppColors.darkPrimary, fontSize: mini ? 12 : 20),
                 )
               ],
             ),

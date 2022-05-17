@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/pages/new_post/view/data_view/bloc/data_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/data_view/data_view.dart';
@@ -209,9 +210,13 @@ class NewPostPage extends StatelessWidget {
           isFavorite: false,
           desc: dataViewBloc.desc.text,
           address: dataViewBloc.address.text,
-          ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!],
-          district: dataViewBloc.state.districts?[dataViewBloc.state.district!],
-          province: dataViewBloc.state.provinces?[dataViewBloc.state.province!],
+          ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
+          district:
+              dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
+                  district,
+          province:
+              dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
+                  province,
           // rooms: ,
           // creatorId: '625bd0648e18145a85211945'
         );

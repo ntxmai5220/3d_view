@@ -6,7 +6,7 @@ class Hotspot {
     this.latitude = 0.0,
     this.longitude = 0.0,
     this.width = 60.0,
-    this.height = 80.0,
+    this.height = 85.0,
     required this.type,
     VoidCallback? onTap,
     this.content,
@@ -88,7 +88,7 @@ class HotspotBtn extends StatelessWidget {
         ),
         title != null
             ? Container(
-                // padding: EdgeInsets.all(4.0),
+                margin: EdgeInsets.only(top: 3),
                 decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.all(Radius.circular(4))),

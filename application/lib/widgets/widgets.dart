@@ -44,6 +44,7 @@ export './dialog/my_dialog.dart';
 export './dialog/notification_dialog.dart';
 export './dialog/yes_no_dialog.dart';
 export './dialog/hotspot_infor_dialog.dart';
+export './dialog/infof_dialog.dart';
 
 //list
 export './list/horizontal_list_mini_post.dart';

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
             labelColor: AppColors.white,
             unselectedLabelColor: AppColors.darkSecondary,
           ),
-          textTheme: const TextTheme(bodyMedium: TextStyles.normalContent),
+          textTheme: const TextTheme(bodyMedium: TextStyles.normalContent, bodySmall: TextStyles.tinyLabel),
           appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
           dialogTheme: const DialogTheme(
               shape: RoundedRectangleBorder(

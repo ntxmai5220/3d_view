@@ -3,7 +3,7 @@ export './response/response.dart';
 
 export './post.dart';
 export './room.dart';
-export './hotspot.dart';
+export 'hotspot_model.dart';
 export './img.dart';
 
 //address

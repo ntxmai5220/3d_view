@@ -95,7 +95,7 @@ class HotspotBtn extends StatelessWidget {
                 child: Center(
                   child: Text(title ?? '',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: title!.length >= 13 ? 11 : 16)),

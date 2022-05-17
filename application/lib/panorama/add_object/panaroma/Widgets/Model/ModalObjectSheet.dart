@@ -3,9 +3,9 @@ import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Image/DetailImag
 import 'package:flutter/material.dart';
 
 
-List<String> objectImagePath = ["assets/objects/chair/chair.jpg", "assets/objects/table/table.jpg","assets/objects/shelf/Shelving_origin.jpg"];
-List<String> objectPath = ["assets/objects/chair/chair.obj", "assets/objects/table/table.obj","assets/objects/shelf/Shelving_origin.obj"];
-List<String> objectNames = ["Ghế tựa", "Bàn làm việc", "Kệ sách"];
+List<String> objectImagePath = ["assets/objects/chair/chair.jpg", "assets/objects/table/table.jpg","assets/objects/shelf/Shelving_origin.jpg","assets/objects/bed/Bed_Pic.JPG", "assets/objects/frame/frame.jpg", "assets/objects/smallLocker/smallLocker.jpg"];
+List<String> objectPath = ["assets/objects/chair/chair.obj", "assets/objects/table/table.obj","assets/objects/shelf/Shelving_origin.obj", "assets/objects/bed/Bed.obj", "assets/objects/frame/frame.obj", "assets/objects/smallLocker/smallLocker.obj"];
+List<String> objectNames = ["Ghế tựa", "Bàn làm việc", "Kệ sách", "Giường ngủ", "Gương", " Tủ nhỏ"];
 List<String> getImageObjectPath(){
   return objectImagePath;
 }

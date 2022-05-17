@@ -57,6 +57,9 @@ flutter:
     - assets/objects/chair/
     - assets/objects/table/
     - assets/objects/shelf/
+    - assets/objects/bed/
+    - assets/objects/frame/
+    - assets/objects/smallLocker/
 
   fonts:
     - family: Baloo2

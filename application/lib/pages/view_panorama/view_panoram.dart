@@ -1,11 +1,6 @@
 import 'package:bk_3d_view/bottom_sheets/bottom_sheets.dart';
-import 'package:bk_3d_view/models/hotspot.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
-import 'package:bk_3d_view/widgets/app_bar/app_bar_text_title.dart';
-import 'package:bk_3d_view/widgets/app_bar/my_app_bar.dart';
-import 'package:bk_3d_view/widgets/button/icon_action_button.dart';
-import 'package:bk_3d_view/widgets/dialog/my_dialog.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

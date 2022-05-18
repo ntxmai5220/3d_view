@@ -107,6 +107,27 @@ class DataView extends StatelessWidget {
                         Radius.circular(AppConstants.borderRadius))),
               ),
             ),
+            const SizedBox(height: 15),
+            DefaultTabController(
+                length: 2,
+                animationDuration: const Duration(seconds: 0),
+                child: TabBar(
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  isScrollable: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  indicator: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(5)),
+                  labelStyle: TextStyles.normalLabel,
+                  tabs: const [
+                    Tab(
+                      text: 'Bán',
+                    ),
+                    Tab(
+                      text: 'Cho thuê',
+                    )
+                  ],
+                ))
           ],
         );
       },

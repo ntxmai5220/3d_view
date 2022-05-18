@@ -1,4 +1,7 @@
 import 'package:bk_3d_view/panorama/add_object/panaroma/AddObject.dart';
+import 'package:bk_3d_view/values/app_colors.dart';
+import 'package:bk_3d_view/widgets/app_bar/app_bar_text_title.dart';
+import 'package:bk_3d_view/widgets/app_bar/back_leading.dart';
 import 'package:flutter/material.dart';
 import 'package:panorama/module.dart';
 
@@ -24,7 +27,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     return Scaffold(
         appBar: AppBar(
-          title: Text("Panaroma app"),
+          title: AppBarTextTitle(title: widget.title),
+          leading: BackLeading(
+            color: AppColors.primary,
+          ),
         ),
         body: panaroma);
   }

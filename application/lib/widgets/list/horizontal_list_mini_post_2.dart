@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/scroll/custom_scroll.dart';
 import 'package:flutter/material.dart';
 
 import '../post_item.dart';
@@ -47,6 +48,8 @@ class HorizontalListMiniPost2 extends StatelessWidget {
                 SizedBox(
                   height: 343,
                   child: GridView.builder(
+                      physics: const CustomScrollPhysics(itemDimension: 322),
+                      itemCount: posts.length,
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppConstants.pageMarginHorizontal,
                           vertical: 5),

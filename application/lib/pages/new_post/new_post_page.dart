@@ -8,6 +8,7 @@ import 'package:bk_3d_view/pages/new_post/view/image_view/image_view.dart';
 import 'package:bk_3d_view/pages/new_post/view/remove_view/remove_view.dart';
 import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/bloc/thumbnail_view_bloc.dart';
 import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dart';
+import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
@@ -105,10 +106,12 @@ class NewPostPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: ActionButton(
-                              label: 'Xong',
-                              labelColor: AppColors.green,
-                              onTap: () {},
-                            ),
+                                label: 'Xong',
+                                labelColor: AppColors.green,
+                                onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const PostDetail(id: '')))),
                           )
                         ]
                       : null,

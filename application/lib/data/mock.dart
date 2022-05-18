@@ -39,11 +39,11 @@ const postData = {
   "rooms": [
     {
       "_id": "627f585b7214269308fee936",
-      "name": "Phòng 0",
+      "name": "Phòng khách",
       "thumbnail": [
         {
           "imgUrl":
-              "http://res.cloudinary.com/dtnam302/image/upload/v1652512928/Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj.png",
+              "http://res.cloudinary.com/dtnam302/image/upload/v1652661805/Thesis/62819e2aecb26147eaea244a/oxmv9tjtrt0chbaepqex.jpg",
           "publicId":
               "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
           "_id": "627f58a17214269308fee944"
@@ -62,7 +62,20 @@ const postData = {
           "_id": "627f58a37214269308fee949"
         }
       ]
-    }
+    },
+    {
+      "_id": "627f585b7214269308fee936",
+      "name": "Phòng 3",
+      "thumbnail": [
+        {
+          "imgUrl":
+              "http://res.cloudinary.com/dtnam302/image/upload/v1652512928/Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj.png",
+          "publicId":
+              "Thesis/627f58577214269308fee932/627f585b7214269308fee936/tc4djbgzthmaqj6johuj",
+          "_id": "627f58a17214269308fee944"
+        }
+      ]
+    },
   ],
   "favoriteCount": 0,
   "creatorId": "Đoàn Thanh Nam - 09xxxxxxxx",
@@ -526,6 +539,14 @@ Post postDetail = Post.fromJson(postData);
 
 List<dynamic> bannerRaw = [
   {
+    "title": "HCMUT",
+    "webUrl": "http://www.aao.hcmut.edu.vn/",
+    "imgUrl":
+        "https://chamsockhachang.com/wp-content/uploads/truong-dai-hoc-bach-khoa-tp.-ho-chi-minh.jpg",
+    "content":
+        "Giáo dục khai phóng, tiên phong trong chất lượng, sáng tạo và hội nhập"
+  },
+  {
     "title": "Rever",
     "webUrl": "https://rever.vn/",
     "imgUrl":
@@ -539,12 +560,4 @@ List<dynamic> bannerRaw = [
         "https://res.cloudinary.com/dtnam302/image/upload/v1652591016/samples/22838-perspectives-in-todays-real-estate-market_gettyimages-1205029788_1380x800-2_s6zbcz.jpg",
     "content": "Thông tin bất động sản cập nhật mỗi ngày"
   },
-  {
-    "title": "Bách Khoa",
-    "webUrl": "http://www.aao.hcmut.edu.vn/",
-    "imgUrl":
-        "https://chamsockhachang.com/wp-content/uploads/truong-dai-hoc-bach-khoa-tp.-ho-chi-minh.jpg",
-    "content":
-        "Giáo dục khai phóng, tiên phong trong chất lượng, sáng tạo và hội nhập"
-  }
 ];

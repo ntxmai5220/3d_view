@@ -16,3 +16,6 @@ class DataViewLoadEvent<T> extends DataViewEvent {
 }
 
 class DataViewCheckDataEvent extends DataViewEvent {}
+
+class DataViewSelectedTypeEvent extends DataViewEvent {
+}

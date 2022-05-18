@@ -49,7 +49,7 @@ class ViewPanorama extends StatelessWidget {
       }
     ];
     List<Room> listRoom = rooms.map((e) => Room.fromJson(e)).toList();
-    listRoom.removeAt(0);
+    listRoom.removeAt(2);
     List<Hotspot> list = lists
         .map((item) => Hotspot(
               name: item.title,
@@ -62,7 +62,7 @@ class ViewPanorama extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         title: AppBarTextTitle(
-          title: rooms[0]['name'] ?? '',
+          title: rooms[2]['name'] ?? '',
           color: AppColors.white,
         ),
         actions: [
@@ -79,9 +79,8 @@ class ViewPanorama extends StatelessWidget {
       ),
       body: Panorama(
           child: Image(
-              image: CachedNetworkImageProvider(rooms[0]['imgUrl'] ?? '')),
+              image: CachedNetworkImageProvider(rooms[2]['imgUrl'] ?? '')),
           hotspots: []
-
           // lists
           //     .map((item) => Hotspot(
           //         name: item.title,

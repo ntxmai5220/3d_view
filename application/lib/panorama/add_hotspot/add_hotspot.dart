@@ -161,24 +161,7 @@ class _AddHotspotState extends State<AddHotspot>
 
   bool isExtendBtn = true;
 
-  void _handleLongPressStart(LongPressStartDetails details) {
-    final Vector3 o =
-        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    widget.onLongPressStart!(degrees(o.x), degrees(-o.y), degrees(o.z));
-  }
-
-  void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
-    final Vector3 o =
-        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    widget.onLongPressMoveUpdate!(degrees(o.x), degrees(-o.y), degrees(o.z));
-  }
-
-  void _handleLongPressEnd(LongPressEndDetails details) {
-    final Vector3 o =
-        positionToLatLon(details.localPosition.dx, details.localPosition.dy);
-    widget.onLongPressEnd!(degrees(o.x), degrees(-o.y), degrees(o.z));
-  }
-
+  final List<Room> rooms = [];
   void _handleScaleStart(ScaleStartDetails details) {
     _lastFocalPoint = details.localFocalPoint;
     _lastZoom = null;
@@ -440,6 +423,11 @@ class _AddHotspotState extends State<AddHotspot>
     _streamController = StreamController<void>.broadcast();
     _stream = _streamController.stream;
 
+    rooms
+      ..addAll(widget.rooms ?? [])
+      ..removeWhere((room) => room.id == widget.currentRoom);
+    // widget.rooms?.removeWhere((room) => room.id == widget.currentRoom);
+
     _updateSensorControl();
 
     _controller = AnimationController(
@@ -504,7 +492,7 @@ class _AddHotspotState extends State<AddHotspot>
         if (type == true) {
           Room? nextRoom = await ShowBottomSheet.showBS(context,
               child: ChooseRoomBS(
-                rooms: widget.rooms,
+                rooms: rooms,
               ));
 
           if (nextRoom != null) {
@@ -515,7 +503,7 @@ class _AddHotspotState extends State<AddHotspot>
                 type: HotspotType.changeRoom));
             debugPrint(nextRoom.toString());
           }
-        } else {
+        } else if (type == false) {
           List<String>? result = await ShowMyDialog.show(context,
               dialog: const HotspotInforDialog());
           if (result != null) {
@@ -616,7 +604,7 @@ class _AddHotspotState extends State<AddHotspot>
                     icon: Icons.save_rounded,
                     padding: 5,
                     iconColor: AppColors.white,
-                    onTap: (){},
+                    onTap: () {},
                   )
                 ],
               ),

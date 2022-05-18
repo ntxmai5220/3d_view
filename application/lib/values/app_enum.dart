@@ -1,5 +1,4 @@
 import 'package:bk_3d_view/values/app_colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 enum NewPostStep {
@@ -19,6 +18,11 @@ enum HomeSection {
 enum DialogType {
   notification,
   warning,
+}
+
+enum PostType {
+  sell,
+  rent,
 }
 
 extension DialogTypeExtension on DialogType {

@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/img.dart';
+import 'package:bk_3d_view/panorama/add_object/testPana.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 import 'package:bk_3d_view/values/app_styles.dart';
@@ -55,7 +56,8 @@ class RoomDetail extends StatelessWidget {
                 horizontal: AppConstants.pageMarginHorizontal, vertical: 8),
             child: MyButton(
               'Đặt vật thể',
-              onClick: () {},
+              onClick: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => MyHomePage(title: 'Phòng khách'))),
               bgColor: AppColors.primary,
             ),
           )

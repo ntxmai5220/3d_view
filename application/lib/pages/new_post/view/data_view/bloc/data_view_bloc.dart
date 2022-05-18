@@ -12,6 +12,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   TextEditingController price = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController address = TextEditingController();
+  
   final NewPostRepository _repository;
   DataViewBloc({required NewPostRepository repository})
       : _repository = repository,

@@ -13,7 +13,7 @@ class InforDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DialogWrap(
-        bgColor: Colors.black.withOpacity(0.85),
+        bgColor: Colors.black.withOpacity(0.75),
         child: Container(
           alignment: Alignment.center,
           child: Column(

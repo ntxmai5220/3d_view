@@ -20,19 +20,47 @@ class HomePage extends StatelessWidget {
             controller: PageController(viewportFraction: 0.9),
             itemCount: 3,
             itemBuilder: (context, index) => Card(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.secondary,
-                      borderRadius:
-                          BorderRadius.circular(AppConstants.borderRadius),
-                      image: DecorationImage(
-                          image: NetworkImage(bannerRaw[index]["imgUrl"]),
-                          fit: BoxFit.cover),
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(AppConstants.borderRadius),
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            // color: AppColors.darkPrimary,
+                            borderRadius: BorderRadius.circular(
+                                AppConstants.borderRadius),
+                            image: DecorationImage(
+                                image: NetworkImage(bannerRaw[index]["imgUrl"]),
+                                fit: BoxFit.cover),
+                          ),
+                          // child: ,
+                        ),
+                        Container(
+                          color: Colors.black54,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // const SizedBox(height: 7),
+                                Text(bannerRaw[index]["title"],
+                                    style: TextStyles.buttonText
+                                        .copyWith(fontSize: 32)),
+                                Expanded(
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(bannerRaw[index]["content"],
+                                        style: TextStyles.normalContent
+                                            .copyWith(color: AppColors.white)),
+                                  ),
+                                )
+                              ]),
+                        )
+                      ],
                     ),
-                    child: Center(
-                        child: Text(bannerRaw[index]["title"],
-                            style:
-                                TextStyles.buttonText.copyWith(fontSize: 32))),
                   ),
                   shape: RoundedRectangleBorder(
                       borderRadius:
@@ -57,7 +85,7 @@ class HomePage extends StatelessWidget {
           );
         case HomeSection.recent:
           return HorizontalListMiniPost2(
-            title: 'Bài đăng yêu thích',
+            title: 'Được quan tâm',
             list: List.filled(8, 1),
             onTapPost: (id) => openPostDetail(context, id: id),
             onToggleFavorite: (id) => toggleFavorite(context, id: id),

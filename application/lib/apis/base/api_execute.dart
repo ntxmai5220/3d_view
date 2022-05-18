@@ -66,7 +66,7 @@ class ApiExecute {
         options: options,
       );
 
-return APIResponse.fromJson(response.data);
+      return APIResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??
           APIResponse.fromJson(e.response?.data).message ??

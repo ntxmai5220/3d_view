@@ -13,7 +13,7 @@ class AppBarTextTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(title,
-        style: TextStyles.screenTitle
+        style: TextStyles.labelTopic
             .copyWith(color: color ?? AppColors.darkPrimary));
   }
 }

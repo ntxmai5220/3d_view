@@ -33,10 +33,16 @@ class LoadingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 3),
+      padding: EdgeInsets.all(
+          (orientation == Orientation.portrait ? size.width : size.height) /
+              2.7),
       child: SizedBox.square(
-        dimension: MediaQuery.of(context).size.width / 3.2,
+        dimension:
+            (orientation == Orientation.portrait ? size.width : size.height) /
+                3.5,
         child: Image.asset(AppAssets.appGif),
       ),
       decoration: BoxDecoration(

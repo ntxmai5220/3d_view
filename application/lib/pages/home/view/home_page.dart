@@ -27,14 +27,10 @@ class HomePage extends StatelessWidget {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            // color: AppColors.darkPrimary,
-                            borderRadius: BorderRadius.circular(
-                                AppConstants.borderRadius),
                             image: DecorationImage(
                                 image: NetworkImage(bannerRaw[index]["imgUrl"]),
                                 fit: BoxFit.cover),
                           ),
-                          // child: ,
                         ),
                         Container(
                           color: Colors.black54,
@@ -46,9 +42,13 @@ class HomePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 // const SizedBox(height: 7),
-                                Text(bannerRaw[index]["title"],
-                                    style: TextStyles.buttonText
-                                        .copyWith(fontSize: 32)),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 15, top: 5),
+                                  child: Text(bannerRaw[index]["title"],
+                                      style: TextStyles.buttonText
+                                          .copyWith(fontSize: 32)),
+                                ),
                                 Expanded(
                                   child: Align(
                                     alignment: Alignment.centerLeft,

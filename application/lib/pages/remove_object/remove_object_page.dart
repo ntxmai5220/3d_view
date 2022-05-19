@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:bk_3d_view/pages/remove_object/bloc/remove_object_bloc.dart';
 import 'package:bk_3d_view/repositories/remove_object/remove_object_repository.dart';

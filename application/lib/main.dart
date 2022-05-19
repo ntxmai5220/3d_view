@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
             labelColor: AppColors.white,
             unselectedLabelColor: AppColors.darkSecondary,
           ),
-          textTheme: const TextTheme(bodyMedium: TextStyles.normalContent, bodySmall: TextStyles.tinyLabel),
+          textTheme: const TextTheme(
+              bodyMedium: TextStyles.normalContent,
+              bodySmall: TextStyles.tinyLabel),
           appBarTheme: const AppBarTheme(backgroundColor: Colors.white),
           dialogTheme: const DialogTheme(
               shape: RoundedRectangleBorder(
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
                 minWidth: 48,
               ),
               backgroundColor: AppColors.darkPrimary)),
-      home: MyHomePage(title: "1232",),
+      home: const MainPage(),
     );
   }
 }

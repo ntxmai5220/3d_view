@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bk_3d_view/bottom_sheets/bottom_sheets.dart';
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/pages/new_post/new_post_page.dart';
 import 'package:bk_3d_view/panorama/add_hotspot/bloc/add_hotspot_bloc.dart';
 
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -25,8 +26,8 @@ class AddHotspot extends StatefulWidget {
     this.maxLatitude = 90.0,
     this.minLongitude = -180.0,
     this.maxLongitude = 180.0,
-    this.minZoom = 0.7,
-    this.maxZoom = 5.0,
+    this.minZoom = 0.6,
+    this.maxZoom = 3.0,
     this.sensitivity = 1.0,
     this.animSpeed = 0.0,
     this.animReverse = true,
@@ -484,16 +485,21 @@ class _AddHotspotState extends State<AddHotspot>
 
       if (bloc.state.status == PanoramActionType.add) {
         bool? type = await ShowMyDialog.show(context,
-            dialog: const YesNoDialog(
+            dialog: const ConfirmDialog(
               content: 'Chọn loại hotspot',
               noLabel: 'Thông tin',
               yesLabel: 'Chuyển cảnh',
             ));
         if (type == true) {
-          Room? nextRoom = await ShowBottomSheet.showBS(context,
-              child: ChooseRoomBS(
-                rooms: rooms,
-              ));
+          late Room? nextRoom;
+          if (rooms.isNotEmpty) {
+            nextRoom = await ShowBottomSheet.showBS(context,
+                child: ChooseRoomBS(
+                  rooms: rooms,
+                ));
+          } else {
+            //show empty room to choose
+          }
 
           if (nextRoom != null) {
             bloc.add(AddHotspotAddEvent(
@@ -586,25 +592,49 @@ class _AddHotspotState extends State<AddHotspot>
           },
           listener: (context, state) async {
             if (state is AddHotspotLoading) {
-              ShowMyDialog.show(context,
-                  dialog: const LoadingDialog(content: 'Đang tải hình ảnh...'));
-            } else if (state is AddHotspotLoaded) {
-              Navigator.pop(context);
+              ShowMyDialog.show(context, dialog: const LoadingDialog());
+            } else if (state is AddHotspotLoaded ||
+                state is AddHotspotSaved ||
+                state is AddHotspotLeave) {
+              Navigator.of(context).pop();
+              if (state is AddHotspotLeave) {
+                Navigator.of(context).pop();
+              }
             }
           },
           builder: (context, state) {
+            var bloc = context.read<AddHotspotBloc>();
             return Scaffold(
               appBar: MyAppBar(
                 title: AppBarTextTitle(
                   title: state.room?.name ?? '',
                   color: AppColors.white,
                 ),
+                leading: BackLeading(
+                  onTap: () async {
+                    if (state is AddHotspotSaved || !state.isChanged) {
+                      Navigator.of(context).pop();
+                    } else {
+                      //show dialog
+                      var result = await ShowMyDialog.show(context,
+                          dialog: const ConfirmDialog(
+                              noLabelColor: AppColors.darkSecondary,
+                              content:
+                                  'Bạn có muốn lưu các tác vụ đã thực hiện trước khi rời khỏi đây?'));
+                      if (result == true) {
+                        bloc.add(AddHotspotSaveEvent(willLeave: true));
+                      } else if (result == false) {
+                        Navigator.of(context).pop();
+                      }
+                    }
+                  },
+                ),
                 actions: [
                   IconActionButton(
                     icon: Icons.save_rounded,
-                    padding: 5,
+                    padding: 8,
                     iconColor: AppColors.white,
-                    onTap: () {},
+                    onTap: () => bloc.add(AddHotspotSaveEvent()),
                   )
                 ],
               ),

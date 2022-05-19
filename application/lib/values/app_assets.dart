@@ -3,7 +3,8 @@ class AppAssets {
   static const String imgFolder = 'assets/images/';
   static const String background = imgFolder + 'city.png';
   static const String appLogo = imgFolder + 'hcmut.png';
-  static const String appGif = iconFolder + 'logo.gif';
+  static const String appGif = iconFolder + 'logo3.gif';
+  static const String appGif2 = iconFolder + 'logo2.gif';
   static const String ggCamera = iconFolder + 'gg-cam-icon.png';
 }
 

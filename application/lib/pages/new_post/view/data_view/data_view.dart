@@ -111,22 +111,27 @@ class DataView extends StatelessWidget {
             DefaultTabController(
                 length: 2,
                 animationDuration: const Duration(seconds: 0),
-                child: TabBar(
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  isScrollable: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  indicator: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(5)),
-                  labelStyle: TextStyles.normalLabel,
-                  tabs: const [
-                    Tab(
-                      text: 'Bán',
-                    ),
-                    Tab(
-                      text: 'Cho thuê',
-                    )
-                  ],
+                child: SizedBox(
+                  height: 40,
+                  child: TabBar(
+                    labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    isScrollable: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    indicator: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(5)),
+                    labelStyle: TextStyles.normalLabel,
+                    indicatorPadding: const EdgeInsets.all(0),
+                    tabs: const [
+                      Tab(
+                        text: 'Bán',
+                        // height: ,
+                      ),
+                      Tab(
+                        text: 'Cho thuê',
+                      )
+                    ],
+                  ),
                 ))
           ],
         );

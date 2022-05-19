@@ -42,7 +42,7 @@ export './dialog/pick_image_dialog.dart';
 export './dialog/loading_dialog.dart';
 export './dialog/my_dialog.dart';
 export './dialog/notification_dialog.dart';
-export './dialog/yes_no_dialog.dart';
+export 'dialog/confirm_dialog.dart';
 export './dialog/hotspot_infor_dialog.dart';
 export './dialog/infof_dialog.dart';
 

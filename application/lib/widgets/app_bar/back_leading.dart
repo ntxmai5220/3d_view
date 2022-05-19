@@ -5,12 +5,15 @@ class BackLeading extends StatelessWidget {
   const BackLeading({
     Key? key,
     this.color,
+    this.onTap,
   }) : super(key: key);
+
   final Color? color;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
+        onTap: onTap ?? () => Navigator.of(context).pop(),
         child: Icon(
           Icons.arrow_back_ios_rounded,
           size: 24,

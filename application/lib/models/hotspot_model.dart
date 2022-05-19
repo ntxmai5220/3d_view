@@ -40,7 +40,7 @@ class HotspotModel {
 
   Map<String, dynamic> toJson() {
     return {
-      '_id': id,
+      // '_id': id,
       'title': title,
       'latitude': latitude,
       'longitude': longitude,

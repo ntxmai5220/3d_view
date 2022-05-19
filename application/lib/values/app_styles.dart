@@ -39,6 +39,7 @@ class TextStyles {
       color: AppColors.darkSecondary,
       fontWeight: FontWeight.w500,
       fontSize: 16,
+      height: 1.4,
       letterSpacing: 0.2);
 
   static const normalLabel = TextStyle(

@@ -40,3 +40,10 @@ class AddHotspotDeleteEvent extends AddHotspotEvent {
     required this.item,
   });
 }
+
+class AddHotspotSaveEvent extends AddHotspotEvent {
+  final bool willLeave;
+  AddHotspotSaveEvent({
+    this.willLeave = false,
+  });
+}

@@ -36,8 +36,8 @@ class Room {
                 .map((e) => Img.fromJson(e))
                 .toList()
             : null,
-        hotspots: json['hotspot'] != null
-            ? List<Map<String, dynamic>>.from(json['hotspot'])
+        hotspots: json['hotspots'] != null
+            ? List<Map<String, dynamic>>.from(json['hotspots'])
                 .map((e) => HotspotModel.fromJson(e))
                 .toList()
             : null,

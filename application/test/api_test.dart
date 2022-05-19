@@ -60,21 +60,21 @@ void main() {
         "latitude": 123,
         "longitude": 456,
         "type": 0,
-        "currentRoom": "625a4f02130f9e6f90c31ce6",
-        "nextRoom": "625a4f03130f9e6f90c31ce7"
+        "currentRoom": "62861b2f934853c01d8a5128",
+        "nextRoom": "62861b2f934853c01d8a512a"
       },
       {
         "title": "Hotspot2",
         "latitude": 123,
         "longitude": 456,
         "type": 1,
-        "currentRoom": "625a4f02130f9e6f90c31ce6",
-        "nextRoom": "625a4f03130f9e6f90c31ce7"
+        "currentRoom": "62861b2f934853c01d8a5128",
+        "nextRoom": "62861b2f934853c01d8a512a"
       }
     ];
     PostServices services = PostServices();
     await services.addHotspot(
-        roomId: "625be882ba0392826c179527", hotspots: hotspots, token: token);
+        roomId: "62861b2f934853c01d8a5128", hotspots: hotspots);
   });
 
   test("upload thubmnail", () async {
@@ -94,12 +94,12 @@ void main() {
     final images = await getImage();
     PostServices services = PostServices();
     var result = await services.uploadRemoveImage(
-      roomId:
-          "627e139ec5d44f0fca3de5f1", //6275c370117a505b026e719b-6275c370117a505b026e719d
-      removeImage: images[0]
-      // token:
-      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
-    );
+        roomId:
+            "627e139ec5d44f0fca3de5f1", //6275c370117a505b026e719b-6275c370117a505b026e719d
+        removeImage: images[0]
+        // token:
+        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
+        );
     print(result);
   });
 
@@ -146,17 +146,12 @@ void main() {
 
   test("followPost", () async {
     String id = "625bd0648e18145a85211945";
-    const body = {
-    "postId": "627f3d20b08af56a9b99fcd8",
-    "isFavorite":false
-    };
+    const body = {"postId": "627f3d20b08af56a9b99fcd8", "isFavorite": false};
     PostServices services = PostServices();
     await services.follow(id: id, token: token, body: body);
   });
 
-  test("deletePost", () async {
-
-  });
+  test("deletePost", () async {});
 
   test("banners", () async {
     PostServices services = PostServices();
@@ -216,7 +211,6 @@ void main() {
 
   test("getAllUser", () async {
     UserServices userServices = UserServices();
-    await userServices.getById(id:"625bd0648e18145a85211945",token: token);
+    await userServices.getById(id: "625bd0648e18145a85211945", token: token);
   });
 }
-

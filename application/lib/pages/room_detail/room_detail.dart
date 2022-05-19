@@ -7,6 +7,7 @@ import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/widgets/app_bar/back_leading.dart';
 import 'package:bk_3d_view/widgets/button/my_button.dart';
 import 'package:bk_3d_view/widgets/images/net_image.dart';
+import 'package:bk_3d_view/widgets/scroll/custom_scroll.dart';
 import 'package:bk_3d_view/widgets/user/choose_item.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class RoomDetail extends StatelessWidget {
           "Phòng 0",
         ),
         backgroundColor: AppColors.primary,
-        leading: BackLeading(),
+        leading: const BackLeading(),
       ),
       body: ListView(
         children: [
@@ -43,10 +44,11 @@ class RoomDetail extends StatelessWidget {
           SizedBox(
             height: 200,
             child: ListView.separated(
+              physics: const CustomScrollPhysics(itemDimension: 388),
               itemBuilder: (context, index) =>
                   buildThumbnail(Img.fromJson(thumbnailss[index])),
               itemCount: thumbnailss.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 4),
+              separatorBuilder: (context, index) => const SizedBox(width: 8),
               scrollDirection: Axis.horizontal,
             ),
           ),

@@ -9,7 +9,7 @@ class FilterParam {
     this.isRentEQ,
     this.isFavoriteEQ,
     this.isHiddenEQ,
-  }) : _page = 0;
+  }) : _page = 1;
 
   int _page;
   int limit;
@@ -22,7 +22,7 @@ class FilterParam {
   bool? isFavoriteEQ;
   bool? isHiddenEQ;
 
-  void nextPage() => _page++;
+  void nextPage() => _page += 1;
 
   FilterParam updateFilter({
     String? creatorIdEQ,
@@ -83,7 +83,8 @@ class FilterParam {
   }
 
   Map<String, dynamic> toFilterParam() {
-    return {
+    Map<String, dynamic> json = {};
+    Map<String, dynamic> tmp = {
       'page': _page,
       'limit': limit,
       'creatorId[eq]': creatorIdEQ,
@@ -93,6 +94,13 @@ class FilterParam {
       'price[lte]': priceLTE,
       'isRent[eq]': isRentEQ,
     };
+
+    tmp.forEach((key, value) {
+      if (value != null) {
+        json[key] = value;
+      }
+    });
+    return json;
   }
 
   factory FilterParam.fromMap(Map<String, dynamic> map) {

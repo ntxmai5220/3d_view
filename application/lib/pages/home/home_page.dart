@@ -157,6 +157,7 @@ class HomePage extends StatelessWidget {
             body: BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 return SmartRefresher(
+                  key: key,
                   enablePullDown: true,
                   enablePullUp: false,
                   controller: context.read<HomeBloc>().controller,

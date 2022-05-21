@@ -116,8 +116,10 @@ void main() {
 
   test("getPostWithFilter", () async {
     Map<String, dynamic> params = {
-      "page": 2,
-      "limit": 1,
+      "page": 1,
+      "limit": 7,
+      "price[gte]": 2.0
+
       // "creatorId[eq]": "625bd0648e18145a85211945"
     };
     PostServices services = PostServices();

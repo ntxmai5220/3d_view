@@ -21,8 +21,33 @@ enum DialogType {
 }
 
 enum PostType {
+  all,
   sell,
   rent,
+}
+
+extension PostTypeExtension on PostType {
+  String get title {
+    switch (this) {
+      case PostType.rent:
+        return 'Cho thuê';
+      case PostType.sell:
+        return 'Bán';
+      default:
+        return 'Tất cả';
+    }
+  }
+
+  bool? get isRent {
+    switch (this) {
+      case PostType.rent:
+        return true;
+      case PostType.sell:
+        return false;
+      default:
+        return null;
+    }
+  }
 }
 
 extension DialogTypeExtension on DialogType {

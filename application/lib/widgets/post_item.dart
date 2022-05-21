@@ -51,10 +51,13 @@ class PostItem extends StatelessWidget {
               Expanded(
                 child: Stack(
                   children: [
-                    NetImage(
-                      imageUrl: post.rooms?[0].imgUrl ?? '',
-                      height: mini ? 225 : 260,
-                      width: 380,
+                    Positioned.fill(
+                      child: NetImage(
+                        imageUrl: post.rooms?[0].imgUrl ?? '',
+                        height: mini ? 228 : 260,
+                        width: 380,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     // Container(
                     //   // height: mini ? 225 : 260,
@@ -95,13 +98,14 @@ class PostItem extends StatelessWidget {
               ),
               //column for detail
               Container(
+                height: mini ? 380 - 260 : null,
                 // alignment: Alignment.center,
                 color: Colors.white,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

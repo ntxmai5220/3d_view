@@ -14,7 +14,7 @@ export 'register/view/register_page.dart';
 export 'home/home_page.dart';
 
 //search
-export 'search/view/search_page.dart';
+export 'search/search_page.dart';
 
 //followed
 export 'followed/view/followed_page.dart';

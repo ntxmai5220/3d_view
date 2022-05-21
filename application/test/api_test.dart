@@ -147,10 +147,10 @@ void main() {
   });
 
   test("followPost", () async {
-    String id = "625bd0648e18145a85211945";
-    const body = {"postId": "627f3d20b08af56a9b99fcd8", "isFavorite": false};
+    String id = "625bd0768e18145a85211947";
+    const body = {"postId": "625bd324fa9050c1dc04feb3", "isFavorite": true};
     PostServices services = PostServices();
-    await services.follow(id: id, token: token, body: body);
+    await services.follow(userId: id, token: token, body: body);
   });
 
   test("deletePost", () async {});

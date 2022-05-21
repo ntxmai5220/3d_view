@@ -174,9 +174,9 @@ class PostRequest {
     return DioRequest(path: "post/$id", options: options);
   }
 
-  static DioRequest follow({required String id, required String token, required Map<String, dynamic> body}){
+  static DioRequest follow({required String userId, required String token, required Map<String, dynamic> body}){
     Options options = OptionBuilder().jsonContent().authorizeToken(token).build();
-    return DioRequest(path: "user/follow/$id", options: options, body: jsonEncode(body));
+    return DioRequest(path: "user/follow/$userId", options: options, body: jsonEncode(body));
   }
 
   static DioRequest getBanner(){

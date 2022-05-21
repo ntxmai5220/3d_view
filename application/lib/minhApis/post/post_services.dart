@@ -126,10 +126,10 @@ class PostServices {
   }
 
   Future<dynamic> follow(
-      {required String id,
+      {required String userId,
       required String token,
       required Map<String, dynamic> body}) async {
-    DioRequest request = PostRequest.follow(id: id, token: token, body: body);
+    DioRequest request = PostRequest.follow(userId: userId, token: token, body: body);
     APIResponse data = await DioClient.put(
         path: request.path, options: request.options, data: request.body);
     print(data);

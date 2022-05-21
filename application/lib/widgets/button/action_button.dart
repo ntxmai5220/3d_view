@@ -22,7 +22,8 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
         color: background,
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8 + padding),
+        padding: EdgeInsets.symmetric(
+            vertical: 5 + padding, horizontal: 8 + padding),
         minSize: 25 + padding,
         child: Text(
           label,

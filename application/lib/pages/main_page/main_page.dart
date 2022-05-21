@@ -14,17 +14,31 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
+  List<Widget> pages = [
+    HomePage(
+      key: UniqueKey(),
+    ),
+    SearchPage(
+      key: UniqueKey(),
+    ),
+    FollowedPage(
+      key: UniqueKey(),
+    ),
+    MyPage(
+      key: UniqueKey(),
+    )
+  ];
+  late TabController tabController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    tabController = TabController(length: pages.length, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
-    const List<Widget> pages = [
-      HomePage(),
-      SearchPage(),
-      FollowedPage(),
-      MyPage()
-    ];
-
-    TabController tabController =
-        TabController(length: pages.length, vsync: this);
     const List<Map<String, dynamic>> tabs = [
       {'icon': Icons.home_rounded, 'name': 'Trang chủ'},
       {'icon': Icons.search_rounded, 'name': 'Tìm kiếm'},

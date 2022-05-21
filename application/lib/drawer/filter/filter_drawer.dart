@@ -1,37 +1,40 @@
+import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
+import 'package:bk_3d_view/drawer/filter/filter_type.dart';
+import 'package:bk_3d_view/pages/search/bloc/search_bloc.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
+import 'package:bk_3d_view/values/app_constants.dart';
+import 'package:bk_3d_view/values/app_styles.dart';
+import 'package:bk_3d_view/widgets/button/action_button.dart';
+
 import 'package:bk_3d_view/widgets/text/m_square.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterDrawer extends StatelessWidget {
   const FilterDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    Widget typeItem(String text, {Color textColor = AppColors.white}) =>
-        Container(
-          padding: const EdgeInsets.all(8.0),
-          height: 36,
-          color: textColor,
-          child: Center(child: Text(text)),
-        );
-    Widget buildFilterType() => Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [typeItem('Thuê'), typeItem('Bán'), typeItem('Tất cả', textColor: AppColors.lightSecondary)],
-        );
+    var bloc = context.read<FilterDrawerBloc>();
 
-    Widget buildRangeInput(String label) => Flexible(
+    Widget buildRangeInput(String label,
+            {required TextEditingController controller}) =>
+        Flexible(
             child: Row(
           children: [
-            Text(label),
-            const SizedBox(
-              width: 2,
+            Text(
+              label,
+              style: TextStyles.normalContent,
             ),
+            const SizedBox(width: 2),
             Flexible(
               child: TextFormField(
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                controller: controller,
+                style: TextStyles.normalContent,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: const InputDecoration(
                     isDense: true,
                     contentPadding: EdgeInsets.all(10),
@@ -42,14 +45,23 @@ class FilterDrawer extends StatelessWidget {
           ],
         ));
 
-    Widget buildFilterInRange(String title, Widget unit) => Column(
+    Widget buildFilterInRange(String title, Widget unit,
+            {required TextEditingController controller1,
+            required TextEditingController controller2}) =>
+        Column(
           children: [
             const SizedBox(
               height: 10,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text(title)],
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyles.normalLabel
+                      .copyWith(color: AppColors.darkSecondary),
+                )
+              ],
             ),
             const SizedBox(
               height: 10,
@@ -57,9 +69,8 @@ class FilterDrawer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                buildRangeInput("Từ: "),
-                const Text("  "),
-                buildRangeInput("Đến: "),
+                buildRangeInput("Từ ", controller: controller1),
+                buildRangeInput(" - ", controller: controller2),
                 unit,
               ],
             ),
@@ -69,17 +80,50 @@ class FilterDrawer extends StatelessWidget {
           ],
         );
 
-    Widget buildFilterAccept() => Center(
-          child: ElevatedButton(child: const Text("Lọc"), onPressed: () {}),
-        );
-    return Drawer(
-      child: ListView(
-        children: [
-          buildFilterType(),
-          buildFilterInRange("Diện tích", const MSquare()),
-          buildFilterInRange("Giá", const Text("  triệu ")),
-          buildFilterAccept()
-        ],
+    return SafeArea(
+      child: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.all(AppConstants.pageMarginHorizontal / 2),
+          children: [
+            // buildFilterType(),
+            const FilterType(),
+            buildFilterInRange(
+              "Diện tích",
+              const SizedBox(
+                width: 50,
+                child: MSquare(style: TextStyles.normalContent),
+              ),
+              controller1: bloc.area1,
+              controller2: bloc.area2,
+            ),
+            buildFilterInRange(
+              "Giá",
+              const SizedBox(
+                width: 50,
+                child: Text(" triệu", style: TextStyles.normalContent),
+              ),
+              controller1: bloc.price1,
+              controller2: bloc.price2,
+            ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: AppConstants.pageMarginHorizontal),
+              child: ActionButton(
+                  background: AppColors.primary,
+                  labelColor: AppColors.white,
+                  labelStyle: TextStyles.normalLabel,
+                  padding: 6,
+                  label: 'Lọc',
+                  onTap: () {
+                    context.read<FilterDrawerBloc>().add(FilterSaveEvent());
+                    context.read<SearchBloc>().add(SearchLoadEvent(
+                        params: context.read<FilterDrawerBloc>().state.params));
+                    Navigator.of(context).pop();
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

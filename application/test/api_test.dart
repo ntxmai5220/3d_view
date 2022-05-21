@@ -118,7 +118,7 @@ void main() {
     Map<String, dynamic> params = {
       "page": 2,
       "limit": 1,
-      "creatorId[eq]": "625bd0648e18145a85211945"
+      // "creatorId[eq]": "625bd0648e18145a85211945"
     };
     PostServices services = PostServices();
     await services.getPostWithFilter(params: params);

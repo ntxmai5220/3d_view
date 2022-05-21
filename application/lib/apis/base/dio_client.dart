@@ -84,6 +84,7 @@ class DioClient {
     try {
       Response response =
           await _dio.put(fullPath, data: data, options: options);
+          
       return APIResponse.fromAppJson(response.data);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??

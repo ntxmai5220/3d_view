@@ -1,7 +1,6 @@
 import 'package:bk_3d_view/values/app_assets.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
-import 'package:bk_3d_view/values/app_constants.dart';
-import 'package:bk_3d_view/widgets/dialog/dialog_wrap.dart';
+
 import 'package:flutter/material.dart';
 
 class LoadingDialog extends StatelessWidget {

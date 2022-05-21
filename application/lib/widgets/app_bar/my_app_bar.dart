@@ -10,13 +10,14 @@ class MyAppBar extends AppBar {
     required Widget title,
     Widget? leading,
     List<Widget>? actions,
+    bool centerTitle = true,
   }) : super(
-          key: key,
-          title: title,
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: backgroundColor ?? AppColors.darkPrimary,
-          leading: leading ?? const BackLeading(),
-          actions: actions,
-        );
+            key: key,
+            title: title,
+            centerTitle: centerTitle,
+            elevation: 0,
+            backgroundColor: backgroundColor ?? AppColors.darkPrimary,
+            leading: leading ?? const BackLeading(),
+            actions: actions,
+            automaticallyImplyLeading: false);
 }

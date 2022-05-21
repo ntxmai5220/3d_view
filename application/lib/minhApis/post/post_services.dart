@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:bk_3d_view/minhApis/apis.dart';
+import 'package:bk_3d_view/models/banner.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class PostServices {
@@ -81,12 +82,15 @@ class PostServices {
     return ObjectResponse(object: room);
   }
 
-  Future<dynamic> getPostWithFilter(
+  Future<ListResponse<Post>> getPostWithFilter(
       {required Map<String, dynamic> params}) async {
     DioRequest request = PostRequest.getPostWithFilter(params: params);
-    dynamic data =
+    APIResponse data =
         await DioClient.get(path: request.path, params: request.params);
-    print(data);
+    List<Post> list =
+        data.toList().map((banner) => Post.fromJson(banner)).toList();
+    print(data.toList());
+    return ListResponse(list: list);
   }
 
   Future<dynamic> getPostDetail({required String id}) async {
@@ -131,12 +135,15 @@ class PostServices {
     print(data);
   }
 
-  Future<dynamic> getBanners() async {
+  Future<ListResponse<Banner>> getBanners() async {
     DioRequest request = PostRequest.getBanner();
     APIResponse data = await DioClient.get(
         path: request.path,
         options: request.options,
         optionPath: request.optionPath);
+    List<Banner> list =
+        data.toList().map((banner) => Banner.fromJson(banner)).toList();
     print(data.toList());
+    return ListResponse(list: list);
   }
 }

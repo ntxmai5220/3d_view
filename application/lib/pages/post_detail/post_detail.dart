@@ -10,7 +10,7 @@ import 'package:bk_3d_view/widgets/app_bar/my_app_bar.dart';
 import 'package:bk_3d_view/widgets/button/my_button.dart';
 import 'package:bk_3d_view/widgets/images/net_image.dart';
 import 'package:bk_3d_view/widgets/scroll/custom_scroll.dart';
-import 'package:bk_3d_view/widgets/user/choose_item.dart';
+
 import 'package:flutter/material.dart';
 
 class PostDetail extends StatelessWidget {
@@ -34,7 +34,7 @@ class PostDetail extends StatelessWidget {
           ],
         ),
         padding: const EdgeInsets.symmetric(
-            horizontal: AppConstants.pageMarginHorizontal, vertical: 10),
+            horizontal: AppConstants.pageMarginHorizontal, vertical: 8),
       );
 
   Widget buildRoomItem(List<Img> thumbnails, String name, String roomId) =>
@@ -72,7 +72,7 @@ class PostDetail extends StatelessWidget {
           itemCount: rooms.length,
           physics: const CustomScrollPhysics(itemDimension: 300),
           separatorBuilder: (context, index) => const SizedBox(
-            width: 5,
+            width: 8,
           ),
           scrollDirection: Axis.horizontal,
         ),
@@ -94,7 +94,7 @@ class PostDetail extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
           title: const AppBarTextTitle(
-        title: '  Thông tin bài đăng',
+        title: 'Thông tin bài đăng',
         color: AppColors.white,
       )),
       // appBar: AppBar(
@@ -104,7 +104,7 @@ class PostDetail extends StatelessWidget {
       //   backgroundColor: AppColors.primary,
       // ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 30),
+        padding: const EdgeInsets.only(top: 15, bottom: 30),
         children: [
           buildDataInfo("Giá", postDetail.price.toString() + " triệu"),
           buildDataInfo("Diện tích", postDetail.area.toString() + " m^2"),

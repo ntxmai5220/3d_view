@@ -11,7 +11,7 @@ export 'forgot_password/view/forgot_page.dart';
 export 'register/view/register_page.dart';
 
 //home
-export 'home/view/home_page.dart';
+export 'home/home_page.dart';
 
 //search
 export 'search/view/search_page.dart';

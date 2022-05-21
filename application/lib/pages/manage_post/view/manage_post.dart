@@ -62,8 +62,8 @@ class ManagePost extends StatelessWidget {
                     .map((post) => PostItem(
                           post: post,
                           onTapPost: (id) => onClickPost(context, 0),
-                          onToggleFavorite: (id) =>
-                              onToggleFavorite(context, 0),
+                          // onToggleFavorite: (id) =>
+                          //     onToggleFavorite(context, 0),
                         ))
                     .toList()),
           ),

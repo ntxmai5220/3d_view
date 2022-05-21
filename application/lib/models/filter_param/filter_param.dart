@@ -23,6 +23,7 @@ class FilterParam {
   bool? isHiddenEQ;
 
   void nextPage() => _page += 1;
+  void resetPage() => _page = 1;
 
   FilterParam updateFilter({
     String? creatorIdEQ,

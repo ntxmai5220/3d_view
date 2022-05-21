@@ -48,7 +48,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         post: state.post..addAll(result.list), params: state.params));
   }
 
-  refresh(SearchRefreshEvent event, Emitter<SearchState> emit) {
-    add(SearchLoadEvent(params: state.params));
+  refresh(SearchRefreshEvent event, Emitter<SearchState> emit) async {
+    state.params.resetPage();
+    var result =
+        await _repository.getPostFilter(params: state.params.toFilterParam());
+    refreshController.refreshCompleted();
+    emit(SearchLoaded(post: result.list, params: state.params));
   }
 }

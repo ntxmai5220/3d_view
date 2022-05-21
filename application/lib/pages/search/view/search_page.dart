@@ -30,27 +30,25 @@ class SearchPage extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.pageMarginHorizontal / 1.5,
-                vertical: AppConstants.pageMarginHorizontal / 1.5),
-            child: Wrap(
-                // alignment: WrapAlignment.center,
-                runSpacing: 15,
-                spacing: 15,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: posts
-                    .map((post) => PostItem(
-                          post: post,
-                          onTapPost: (id) => onClickPost(context, 0),
-                          onToggleFavorite: (id) =>
-                              onToggleFavorite(context, 0),
-                        ))
-                    .toList()),
-          ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppConstants.pageMarginHorizontal / 1.5,
+              vertical: AppConstants.pageMarginHorizontal / 1.5),
+          child: Wrap(
+              // alignment: WrapAlignment.center,
+              runSpacing: 15,
+              spacing: 15,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: posts
+                  .map((post) => PostItem(
+                        post: post,
+                        onTapPost: (id) => onClickPost(context, 0),
+                        onToggleFavorite: (id) => onToggleFavorite(context, 0),
+                      ))
+                  .toList()),
         ),
+      ),
     );
-    
   }
 
   onClickPost(BuildContext context, int index) {
@@ -63,5 +61,4 @@ class SearchPage extends StatelessWidget {
   onToggleFavorite(BuildContext context, int index) {
     debugPrint('favor $index');
   }
-  
 }

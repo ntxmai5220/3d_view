@@ -23,7 +23,7 @@ class IconActionButton extends StatelessWidget {
     return CupertinoButton(
         color: background,
         padding: EdgeInsets.symmetric(
-            vertical: 8 + padding, horizontal: 8 + padding),
+            vertical: 5 + padding, horizontal: 5 + padding),
         minSize: 28 + padding,
         child: Icon(
           icon,

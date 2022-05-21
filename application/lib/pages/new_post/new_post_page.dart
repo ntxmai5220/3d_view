@@ -108,8 +108,8 @@ class NewPostPage extends StatelessWidget {
                             child: ActionButton(
                                 label: 'Xong',
                                 labelColor: AppColors.green,
-                                onTap: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
+                                onTap: () => Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
                                         builder: (_) =>
                                             const PostDetail(id: '')))),
                           )

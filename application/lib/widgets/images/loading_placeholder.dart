@@ -26,8 +26,8 @@ class LoadingPlaceHolder extends StatelessWidget {
               children: [
                 Image.asset(
                   AppAssets.appLogo,
-                  height: mini ? 25 : 60,
-                  width: mini ? 25 : 60,
+                  height: mini ? 30 : 60,
+                  width: mini ? 30 : 60,
                 ),
                 SizedBox(height: mini ? 5 : 15),
                 Text(
@@ -40,7 +40,7 @@ class LoadingPlaceHolder extends StatelessWidget {
             ),
             Positioned.fill(
                 child: Container(
-              color: AppColors.white80,
+              color: Colors.transparent,
             ))
           ],
         ));

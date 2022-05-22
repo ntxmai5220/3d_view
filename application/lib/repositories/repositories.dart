@@ -8,3 +8,5 @@ export './add_hotspot/add_hotspot_repository.dart';
 export './home/home_repository.dart';
 
 export './search/search_repository.dart';
+
+export './login/login_repository.dart';

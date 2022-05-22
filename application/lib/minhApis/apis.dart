@@ -22,5 +22,5 @@ export './room/room_request.dart';
 export './room/room_services.dart';
 
 //auth 
-export './auth/authRequest.dart';
-export './auth/authServices.dart';
+export 'auth/auth_request.dart';
+export 'auth/auth_services.dart';

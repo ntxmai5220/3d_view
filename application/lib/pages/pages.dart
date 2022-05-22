@@ -2,7 +2,7 @@
 export 'main_page/main_page.dart';
 
 //login
-export 'login/view/login_page.dart';
+export 'login/login_page.dart';
 
 //forgot
 export 'forgot_password/view/forgot_page.dart';

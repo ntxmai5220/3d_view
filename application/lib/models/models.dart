@@ -6,10 +6,10 @@ export './room.dart';
 export './hotspot_model.dart';
 export './img.dart';
 export './banner.dart';
+export './validator.dart';
 
 //address
 export './address/address.dart';
 export './address/district.dart';
 export './address/province.dart';
 export './address/ward.dart';
-

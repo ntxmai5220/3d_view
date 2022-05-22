@@ -30,6 +30,8 @@ class _MyInputTextState extends State<MyInputText> {
       obscureText: widget.pw && !isVisible,
       cursorColor: AppColors.darkSecondary,
       decoration: InputDecoration(
+        helperText: '',
+        helperStyle: TextStyles.tinyContent.copyWith(color: AppColors.red),
         filled: true,
         fillColor: AppColors.textfieldBg,
         hintText: widget.hint,

@@ -23,9 +23,9 @@ class RegisterPage extends StatelessWidget {
 
     _toLogin() {
       debugPrint('to register');
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (_) => const RegisterPage()));
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const LoginPage()));
+      // Navigator.pop(context);
     }
 
     _toMainPage() {
@@ -79,78 +79,89 @@ class RegisterPage extends StatelessWidget {
       }
     }
 
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: SafeArea(
+        body: SizedBox(
+          height: size.height,
+          width: size.width,
           child: Stack(
             children: [
               const BgOpacity(),
-              Form(
-                key: globalKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppConstants.pageMarginHorizontal),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 60,
-                        width: double.infinity,
+              SingleChildScrollView(
+                child: SafeArea(
+                  child: Form(
+                    key: globalKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.pageMarginHorizontal),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                            width: double.infinity,
+                          ),
+                          const HeaderLogo('Đăng ký'),
+                          const SizedBox(height: 70),
+                          MyInputText(
+                            hint: 'Tên',
+                            controller: _nameController,
+                            validator: validName,
+                          ),
+                          const SizedBox(height: 15),
+                          MyInputText(
+                            hint: 'Email',
+                            controller: _emailController,
+                            validator: validEmail,
+                          ),
+                          const SizedBox(height: 15),
+                          MyInputText(
+                            hint: 'Mật khẩu',
+                            controller: _pwController,
+                            validator: validPw,
+                            pw: true,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 20, bottom: 20),
+                            alignment: Alignment.centerRight,
+                          ),
+                          MyButton(
+                            'Đăng ký',
+                            bgColor: AppColors.primary,
+                            onClick: _login,
+                          ),
+                          const SizedBox(height: 20),
+                          const MyDivider(),
+                          const SizedBox(height: 20),
+                          GuestContinue(_toMainPage),
+                        ],
                       ),
-                      const HeaderLogo('Đăng ký'),
-                      const SizedBox(height: 70),
-                      MyInputText(
-                        hint: 'Tên',
-                        controller: _nameController,
-                        validator: validName,
-                      ),
-                      const SizedBox(height: 25),
-                      MyInputText(
-                        hint: 'Email',
-                        controller: _emailController,
-                        validator: validEmail,
-                      ),
-                      const SizedBox(height: 25),
-                      MyInputText(
-                        hint: 'Mật khẩu',
-                        controller: _pwController,
-                        validator: validPw,
-                        pw: true,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20, bottom: 35),
-                        alignment: Alignment.centerRight,
-                      ),
-                      MyButton(
-                        'Đăng ký',
-                        bgColor: AppColors.primary,
-                        onClick: _login,
-                      ),
-                      const SizedBox(height: 20),
-                      const MyDivider(),
-                      const SizedBox(height: 20),
-                      GuestContinue(_toMainPage),
-                      const Expanded(child: SizedBox(height: 100)),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Chưa đã có tài khoản? ',
-                          style: TextStyles.tinyContent,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Đăng nhập',
-                              style: TextStyles.normalLabel
-                                  .copyWith(color: AppColors.primary),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = _toLogin,
-                            ),
-                            const TextSpan(text: ' ngay')
-                          ],
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                left: 0,
+                bottom: 30,
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Chưa đã có tài khoản? ',
+                      style: TextStyles.tinyContent,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Đăng nhập',
+                          style: TextStyles.normalLabel
+                              .copyWith(color: AppColors.primary),
+                          recognizer: TapGestureRecognizer()..onTap = _toLogin,
                         ),
-                      ),
-                      const SizedBox(height: 40),
-                    ],
+                        const TextSpan(text: ' ngay')
+                      ],
+                    ),
                   ),
                 ),
               ),

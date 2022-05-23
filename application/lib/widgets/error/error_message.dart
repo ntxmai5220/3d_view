@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     Key? key,
-    this.content,
+    this.content = '',
   }) : super(key: key);
 
   final String? content;
@@ -14,7 +14,7 @@ class ErrorMessage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Center(
         child: Text(
-          content ?? ValidatorError.defaultError.error,
+          content!.isEmpty ? ValidatorError.defaultError.error : content!,
           maxLines: 2,
           style: TextStyles.tinyLabel.copyWith(color: AppColors.red),
         ),

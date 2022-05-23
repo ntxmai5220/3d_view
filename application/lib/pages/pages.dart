@@ -8,7 +8,7 @@ export 'login/login_page.dart';
 export 'forgot_password/view/forgot_page.dart';
 
 //register
-export 'register/view/register_page.dart';
+export 'register/register_page.dart';
 
 //home
 export 'home/home_page.dart';

@@ -1,30 +1,22 @@
-import 'package:bk_3d_view/pages/login/bloc/login_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/pages/register/bloc/register_bloc.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // final Size size = MediaQuery.of(context).size;
-
-    _toForgotPassword() {
-      debugPrint('to forgot');
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const ForgotPage()));
-    }
-
-    _toRegister() {
+    _toLogin() {
       debugPrint('to register');
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const RegisterPage()));
+          context, MaterialPageRoute(builder: (_) => const LoginPage()));
+      // Navigator.pop(context);
     }
 
     _toMainPage() {
@@ -36,33 +28,35 @@ class LoginPage extends StatelessWidget {
 
     Size size = MediaQuery.of(context).size;
     return RepositoryProvider(
-      create: (context) => LoginRepository(),
+      create: (context) => RegisterRepository(),
       child: BlocProvider(
-        create: (context) => LoginBloc(
-            repository: RepositoryProvider.of<LoginRepository>(context)),
-        child: BlocListener<LoginBloc, LoginState>(
-          listenWhen: (previous, current) {
-            return (previous is LoginLoading && current is! LoginLoading) ||
-                (previous is! LoginLoading && current is LoginLoading);
-          },
-          listener: (context, state) {
-            if (state is LoginFail) {
-              Navigator.of(context).pop();
-            } else if (state is LoginSuccess) {
-              // Navigator.pushReplacement(
-              //     context, MaterialPageRoute(builder: (_) => const MainPage()));
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const MainPage()),
-                  (route) => false);
-            } else {
-              ShowMyDialog.show(context, dialog: const LoadingDialog());
-            }
-          },
-          child: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        create: (context) => RegisterBloc(
+            repository: RepositoryProvider.of<RegisterRepository>(context)),
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: BlocListener<RegisterBloc, RegisterState>(
+            listenWhen: (previous, current) {
+              return (previous is RegisterLoading &&
+                      current is! RegisterLoading) ||
+                  (previous is! RegisterLoading && current is RegisterLoading);
+            },
+            listener: (context, state) {
+              // TODO: implement listener
+              if (state is RegisterFail) {
+                Navigator.of(context).pop();
+              } else if (state is RegisterSuccess) {
+                // Navigator.pushReplacement(
+                //     context, MaterialPageRoute(builder: (_) => const MainPage()));
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (_) => const MainPage()),
+                    (route) => false);
+              } else {
+                ShowMyDialog.show(context, dialog: const LoadingDialog());
+              }
+            },
             child: Scaffold(
-              resizeToAvoidBottomInset: false,
               backgroundColor: Colors.white,
+              resizeToAvoidBottomInset: false,
               body: SizedBox(
                 height: size.height,
                 width: size.width,
@@ -80,57 +74,57 @@ class LoginPage extends StatelessWidget {
                                 height: 50,
                                 width: double.infinity,
                               ),
-                              const HeaderLogo('Đăng nhập'),
-                              BlocBuilder<LoginBloc, LoginState>(
+                              const HeaderLogo('Đăng ký'),
+                              BlocBuilder<RegisterBloc, RegisterState>(
                                 builder: (context, state) {
                                   return Container(
                                     height: 85,
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 15),
-                                    child: state is LoginFail
+                                    child: state is RegisterFail
                                         ? ErrorMessage(content: state.error)
                                         : null,
                                   );
                                 },
                               ),
-                              BlocBuilder<LoginBloc, LoginState>(
+                              BlocBuilder<RegisterBloc, RegisterState>(
                                 builder: (context, state) {
                                   return MyInputText(
-                                    hint: 'Email',
-                                    controller: context.read<LoginBloc>().email,
+                                    hint: 'Tên',
+                                    controller:
+                                        context.read<RegisterBloc>().username,
                                   );
                                 },
                               ),
                               const SizedBox(height: 15),
-                              BlocBuilder<LoginBloc, LoginState>(
+                              BlocBuilder<RegisterBloc, RegisterState>(
+                                builder: (context, state) {
+                                  return MyInputText(
+                                    hint: 'Email',
+                                    controller:
+                                        context.read<RegisterBloc>().email,
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 15),
+                              BlocBuilder<RegisterBloc, RegisterState>(
                                 builder: (context, state) {
                                   return MyInputText(
                                     hint: 'Mật khẩu',
-                                    controller: context.read<LoginBloc>().pw,
+                                    controller: context.read<RegisterBloc>().pw,
                                     pw: true,
                                   );
                                 },
                               ),
-                              Container(
-                                margin:
-                                    const EdgeInsets.only(top: 5, bottom: 30),
-                                alignment: Alignment.centerRight,
-                                child: GestureDetector(
-                                  onTap: () => _toForgotPassword(),
-                                  child: const Text(
-                                    'Quên mật khẩu?',
-                                    style: TextStyles.tinyLabel,
-                                  ),
-                                ),
-                              ),
-                              BlocBuilder<LoginBloc, LoginState>(
+                              const SizedBox(height: 25),
+                              BlocBuilder<RegisterBloc, RegisterState>(
                                 builder: (context, state) {
                                   return MyButton(
-                                    'Đăng nhập',
+                                    'Đăng ký',
                                     bgColor: AppColors.primary,
                                     onClick: () => context
-                                        .read<LoginBloc>()
-                                        .add(LoginRequestEvent()),
+                                        .read<RegisterBloc>()
+                                        .add(RegisterRequestEvent()),
                                   );
                                 },
                               ),
@@ -150,15 +144,15 @@ class LoginPage extends StatelessWidget {
                       child: Center(
                         child: RichText(
                           text: TextSpan(
-                            text: 'Chưa có tài khoản? ',
+                            text: 'Chưa đã có tài khoản? ',
                             style: TextStyles.tinyContent,
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Đăng ký',
+                                text: 'Đăng nhập',
                                 style: TextStyles.normalLabel
                                     .copyWith(color: AppColors.primary),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = _toRegister,
+                                  ..onTap = _toLogin,
                               ),
                               const TextSpan(text: ' ngay')
                             ],

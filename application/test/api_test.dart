@@ -193,7 +193,10 @@ void main() {
       "password": "example123"
     };
     AuthServices authServices = AuthServices();
-    await authServices.signup(account: account);
+    await authServices.signup(
+        email: account['email'] ?? '',
+        pw: account['password'] ?? '',
+        name: 'mai');
   });
 
   // Room api

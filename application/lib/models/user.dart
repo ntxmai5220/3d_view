@@ -23,9 +23,10 @@ class User {
         username: map['username'],
         email: map['email'],
         isAdmin: map['isAdmin'],
-        posts: map['posts']!=null? List<String>.from(map['posts']):null,
+        posts: map['posts'] != null ? List<String>.from(map['posts']) : null,
         accessToken: map['accessToken'],
-        follows: List<String>.from(map['follows']));
+        follows:
+            map['follows'] != null ? List<String>.from(map['follows']) : null);
   }
 
   Map<String, dynamic> toJson() {

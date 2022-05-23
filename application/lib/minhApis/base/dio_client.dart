@@ -11,22 +11,24 @@ class DioClient {
     return baseUrl + path;
   }
 
-  static Future<APIResponse> get(
-      {required String path,
-      Map<String, dynamic>? params,
-      Options? options,
-      String? optionPath,
-      }) async {
+  static Future<APIResponse> get({
+    required String path,
+    Map<String, dynamic>? params,
+    Options? options,
+    String? optionPath,
+  }) async {
     String fullPath = optionPath ?? buildFullPath(path);
     print(fullPath);
     try {
       Response response =
           await _dio.get(fullPath, queryParameters: params, options: options);
-      return APIResponse.fromAppJson(response.data);
+      if (response.data['result'] != null) {
+        return APIResponse.fromAppJson(response.data);
+      } else {
+        return APIResponse.auth(response.data);
+      }
     } on DioError catch (e) {
-      throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+      throw APIResponse.fromAppJson(e.response?.data).message;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {
@@ -37,18 +39,21 @@ class DioClient {
     // return null;
   }
 
-  static Future<void> delete(
+  static Future<APIResponse> delete(
       {required String path,
       Map<String, dynamic>? params,
       Options? options}) async {
     String fullPath = buildFullPath(path);
     try {
-      Response response =
-          await _dio.delete(fullPath, queryParameters: params, options: options);
+      Response response = await _dio.delete(fullPath,
+          queryParameters: params, options: options);
+      if (response.data['result '] != null) {
+        return APIResponse.fromAppJson(response.data);
+      } else {
+        return APIResponse.auth(response.data);
+      }
     } on DioError catch (e) {
-      throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+      throw APIResponse.fromAppJson(e.response?.data).message;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {
@@ -65,12 +70,13 @@ class DioClient {
     try {
       Response response =
           await _dio.post(fullPath, data: data, options: options);
-      return APIResponse.fromAppJson(response.data);
+      if (response.data['result '] != null) {
+        return APIResponse.fromAppJson(response.data);
+      } else {
+        return APIResponse.auth(response.data);
+      }
     } on DioError catch (e) {
-      print(e.toString());
-      throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+      throw APIResponse.fromAppJson(e.response?.data).message ;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {
@@ -87,11 +93,13 @@ class DioClient {
     try {
       Response response =
           await _dio.put(fullPath, data: data, options: options);
-      return APIResponse.fromAppJson(response.data);
+      if (response.data['result '] != null) {
+        return APIResponse.fromAppJson(response.data);
+      } else {
+        return APIResponse.auth(response.data);
+      }
     } on DioError catch (e) {
-      throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+      throw APIResponse.fromAppJson(e.response?.data).message ;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {
@@ -101,5 +109,4 @@ class DioClient {
     }
     // return null;
   }
-
 }

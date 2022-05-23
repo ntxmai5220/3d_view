@@ -40,8 +40,7 @@ class ApiExecute {
           : APIResponse.fromAppJson(response.data);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+          APIResponse.fromJson(e.response?.data).message ;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {
@@ -69,8 +68,7 @@ class ApiExecute {
       return APIResponse.fromJson(response.data);
     } on DioError catch (e) {
       throw e.response?.statusMessage ??
-          APIResponse.fromJson(e.response?.data).message ??
-          'An unexpected error occurred.';
+          APIResponse.fromJson(e.response?.data).message;
     } on SocketException catch (e) {
       throw e.message;
     } on HttpException catch (e) {

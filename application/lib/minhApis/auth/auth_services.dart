@@ -1,14 +1,14 @@
 import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/models/user.dart';
+
 
 class AuthServices {
   Future<ObjectResponse<User>> login(
-      {required Map<String, String> account}) async {
-    DioRequest request = AuthRequest.login(account: account);
-    dynamic data = await DioClient.post(
+      {required String email, required String pw}) async {
+    DioRequest request = AuthRequest.login(account: {'email':email,'password':pw});
+    APIResponse response = await DioClient.post(
         path: request.path, data: request.body, options: request.options);
-    User user = User.fromJson(data);
+    User user = User.fromJson(response.data);
     print(user.toJson());
 
     return ObjectResponse(object: user);

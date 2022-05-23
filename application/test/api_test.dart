@@ -175,9 +175,15 @@ void main() {
   });
 
   test("login", () async {
-    const account = {"username": "mai", "password": "example1"};
+    const account = {"email": "mai@gmail.com", "password": "example1"};
     AuthServices authServices = AuthServices();
-    await authServices.login(account: account);
+    try {
+      var result = await authServices.login(
+          email: account['email'] ?? '', pw: account['password'] ?? '');
+      debugPrint(result.toString());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   });
 
   test("signup", () async {

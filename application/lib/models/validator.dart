@@ -8,4 +8,8 @@ class Validator {
   static bool validateEmail(String email) {
     return _emailRegExp.hasMatch(email);
   }
+
+  static bool validatePw(String pw) {
+    return pw.length >= 6;
+  }
 }

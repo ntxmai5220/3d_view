@@ -1,24 +1,32 @@
 class APIResponse {
   int? code;
-  String? message;
+  String message;
   dynamic data;
 
   APIResponse.address({
     this.code,
-    this.message,
+    required this.message,
     required this.data,
   });
 
-  APIResponse.app({required this.data});
+  APIResponse.app(
+      {required this.data, this.message = 'Đã xảy ra lỗi vui lòng thử lại'});
 
   factory APIResponse.fromJson(Map<String, dynamic> json) =>
       APIResponse.address(
         code: json['code'],
-        message: json['message'],
+        message: json['message'] ?? '',
         data: json['data'],
       );
-  factory APIResponse.fromAppJson(Map<String, dynamic> json) =>
-      APIResponse.app(data: json['result']);
+
+  factory APIResponse.auth(Map<String, dynamic> json) => APIResponse.app(
+        data: json,
+      );
+
+  factory APIResponse.fromAppJson(Map<String, dynamic> json) => APIResponse.app(
+        data: json['result'],
+        message: json['error'] ?? '',
+      );
 
   List<Map<String, dynamic>> toListAddress() {
     return List<Map<String, dynamic>>.from(data);

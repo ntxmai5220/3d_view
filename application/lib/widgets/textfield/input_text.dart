@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 class MyInputText extends StatefulWidget {
   final TextEditingController controller;
   final String hint;
-  final String? Function(String?)? validator;
+
   final bool pw;
   const MyInputText(
-      {Key? key,
-      required this.hint,
-      required this.controller,
-      this.validator,
-      this.pw = false})
+      {Key? key, required this.hint, required this.controller, this.pw = false})
       : super(key: key);
 
   @override
@@ -22,9 +18,9 @@ class _MyInputTextState extends State<MyInputText> {
   bool isVisible = false;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       textInputAction: widget.pw ? TextInputAction.done : TextInputAction.next,
-      validator: widget.validator,
+      // validator: widget.validator,
       controller: widget.controller,
       style: TextStyles.normalContent,
       obscureText: widget.pw && !isVisible,
@@ -40,7 +36,7 @@ class _MyInputTextState extends State<MyInputText> {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 12, horizontal: 25),
         suffixIcon: widget.pw
-            ? GestureDetector(
+            ? InkWell(
                 onTap: () {
                   setState(() {
                     isVisible = !isVisible;

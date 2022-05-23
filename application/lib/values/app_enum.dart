@@ -26,6 +26,28 @@ enum PostType {
   rent,
 }
 
+enum ValidatorError {
+  invalidEmail,
+  pwLength,
+  emptyField,
+  defaultError,
+}
+
+extension ValidatorErrorExtension on ValidatorError {
+  String get error {
+    switch (this) {
+      case ValidatorError.invalidEmail:
+        return 'Email không hợp lệ.';
+      case ValidatorError.pwLength:
+        return 'Mật khẩu phải có ít nhất 6 ký tự.';
+      case ValidatorError.emptyField:
+        return 'Vui lòng nhập đầy đủ thông tin';
+      default:
+        return 'Đã xảy ra lỗi vui lòng thử lại.';
+    }
+  }
+}
+
 extension PostTypeExtension on PostType {
   String get title {
     switch (this) {

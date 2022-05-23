@@ -15,12 +15,6 @@ class RegisterPage extends StatelessWidget {
     GlobalKey<FormState> globalKey = GlobalKey<FormState>();
     // final Size size = MediaQuery.of(context).size;
 
-    _toForgotPassword() {
-      debugPrint('to forgot');
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const ForgotPage()));
-    }
-
     _toLogin() {
       debugPrint('to register');
       Navigator.pushReplacement(
@@ -109,19 +103,16 @@ class RegisterPage extends StatelessWidget {
                           MyInputText(
                             hint: 'Tên',
                             controller: _nameController,
-                            validator: validName,
                           ),
                           const SizedBox(height: 15),
                           MyInputText(
                             hint: 'Email',
                             controller: _emailController,
-                            validator: validEmail,
                           ),
                           const SizedBox(height: 15),
                           MyInputText(
                             hint: 'Mật khẩu',
                             controller: _pwController,
-                            validator: validPw,
                             pw: true,
                           ),
                           Container(

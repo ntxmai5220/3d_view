@@ -12,3 +12,5 @@ export './search/search_repository.dart';
 export './login/login_repository.dart';
 
 export './register/register_repository.dart';
+
+export './followed/followed_repository.dart';

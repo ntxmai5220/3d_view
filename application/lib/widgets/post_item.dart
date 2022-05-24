@@ -145,7 +145,7 @@ class PostItem extends StatelessWidget {
                               .copyWith(color: AppColors.black),
                         ),
                         TextSpan(
-                          text: '${post.desc} ',
+                          text: '${post.desc}',
                           style: TextStyles.tinyContent
                               .copyWith(color: AppColors.darkSecondary),
                         ),

@@ -66,22 +66,22 @@ class FilterParam {
     };
   }
 
-  Map<String, dynamic> toMyParam() {
-    return isRentEQ != null
-        ? {
-            'page': _page,
-            'limit': limit,
-            'creatorId[eq]': creatorIdEQ,
-            'isHidden[eq]': false,
-            'isRent[eq]': isRentEQ,
-          }
-        : {
-            'page': _page,
-            'limit': limit,
-            'creatorId[eq]': creatorIdEQ,
-            'isHidden[eq]': false,
-          };
-  }
+  // Map<String, dynamic> toMyParam() {
+  //   return isRentEQ != null
+  //       ? {
+  //           'page': _page,
+  //           'limit': limit,
+  //           'creatorId[eq]': creatorIdEQ,
+  //           'isHidden[eq]': false,
+  //           'isRent[eq]': isRentEQ,
+  //         }
+  //       : {
+  //           'page': _page,
+  //           'limit': limit,
+  //           'creatorId[eq]': creatorIdEQ,
+  //           'isHidden[eq]': false,
+  //         };
+  // }
 
   Map<String, dynamic> toFilterParam() {
     Map<String, dynamic> json = {};
@@ -94,6 +94,7 @@ class FilterParam {
       'price[gte]': priceGTE,
       'price[lte]': priceLTE,
       'isRent[eq]': isRentEQ,
+      'isFavorite[eq]': isFavoriteEQ,
     };
 
     tmp.forEach((key, value) {

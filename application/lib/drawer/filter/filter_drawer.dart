@@ -1,5 +1,6 @@
 import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
 import 'package:bk_3d_view/drawer/filter/filter_type.dart';
+import 'package:bk_3d_view/models/filter_param/filter_param.dart';
 import 'package:bk_3d_view/pages/search/bloc/search_bloc.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
@@ -12,7 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterDrawer extends StatelessWidget {
-  const FilterDrawer({Key? key}) : super(key: key);
+  const FilterDrawer({
+    Key? key,
+    required this.onTapFilter,
+  }) : super(key: key);
+
+  final Function(FilterParam) onTapFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +123,9 @@ class FilterDrawer extends StatelessWidget {
                   label: 'Lọc',
                   onTap: () {
                     context.read<FilterDrawerBloc>().add(FilterSaveEvent());
-                    context.read<SearchBloc>().add(SearchLoadEvent(
-                        params: context.read<FilterDrawerBloc>().state.params));
+                    onTapFilter.call(context.read<FilterDrawerBloc>().state.params);
+                    // context.read<SearchBloc>().add(SearchLoadEvent(
+                    //     params: context.read<FilterDrawerBloc>().state.params));
                     Navigator.of(context).pop();
                   }),
             )

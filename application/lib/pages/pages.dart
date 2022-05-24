@@ -17,7 +17,7 @@ export 'home/home_page.dart';
 export 'search/search_page.dart';
 
 //followed
-export 'followed/view/followed_page.dart';
+export 'followed/followed_page.dart';
 
 //my page
 export 'my_page/view/my_page.dart';

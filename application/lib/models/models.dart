@@ -14,3 +14,5 @@ export './address/address.dart';
 export './address/district.dart';
 export './address/province.dart';
 export './address/ward.dart';
+
+export './filter_param/filter_param.dart';

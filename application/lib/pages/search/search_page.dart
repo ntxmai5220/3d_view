@@ -106,9 +106,9 @@ class SearchPage extends StatelessWidget {
                                     .map((post) => PostItem(
                                           post: post,
                                           onTapPost: (id) =>
-                                              onClickPost(context, 0),
+                                              onClickPost(context, id: id),
                                           onToggleFavorite: (id) =>
-                                              onToggleFavorite(context, 0),
+                                              onToggleFavorite(context, id: id),
                                         ))
                                     .toList()),
                           ),
@@ -122,14 +122,13 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  onClickPost(BuildContext context, int index) {
-    debugPrint('$index');
+  onClickPost(BuildContext context, {required String id}) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => PostDetail(id: index.toString())),
+      MaterialPageRoute(builder: (_) => PostDetail(id: id)),
     );
   }
 
-  onToggleFavorite(BuildContext context, int index) {
-    debugPrint('favor $index');
+  onToggleFavorite(BuildContext context, {required String id}) {
+    debugPrint('favor $id');
   }
 }

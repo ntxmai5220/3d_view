@@ -4,15 +4,20 @@ import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ChooseRoomBS extends StatelessWidget {
-  const ChooseRoomBS({Key? key, this.rooms = const []}) : super(key: key);
+  const ChooseRoomBS({
+    Key? key,
+    this.rooms = const [],
+
+  }) : super(key: key);
 
   final List<Room>? rooms;
+
 
   @override
   Widget build(BuildContext context) {
     itemBuilder(BuildContext context, Room room) {
       return GestureDetector(
-        onTap: () => Navigator.pop(context, room),
+        onTap: () => Navigator.pop(context, room.id),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
           child: Row(

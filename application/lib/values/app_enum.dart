@@ -149,3 +149,14 @@ extension PanoramaActionTypeExtension on PanoramActionType {
     }
   }
 }
+
+extension DoubleExtension on double {
+  String get checkPrice {
+    if (this > 1000) {
+      double tmp = this / 1000;
+      return '$tmp tỷ';
+    } else {
+      return '$this triệu';
+    }
+  }
+}

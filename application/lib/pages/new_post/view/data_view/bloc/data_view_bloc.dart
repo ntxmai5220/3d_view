@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -12,7 +14,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
   TextEditingController price = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController address = TextEditingController();
-  
+
   final NewPostRepository _repository;
   DataViewBloc({required NewPostRepository repository})
       : _repository = repository,
@@ -28,6 +30,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
     on<DataViewChangeAddressEvent<Ward>>(onChangeWard);
 
     on<DataViewCheckDataEvent>(validation);
+    on<DataViewSelectedTypeEvent>(onChangeType);
   }
 
   onChangeProvince(
@@ -116,7 +119,14 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
 
     print(currentState.ward != null);
     if (currentState is DataViewInitial) {
-      emit(currentState.valid(valid: true));
+      emit(currentState.valid(valid: valid));
+    }
+  }
+
+  onChangeType(DataViewSelectedTypeEvent event, Emitter<DataViewState> emit) {
+    var currentState = state;
+    if (currentState is DataViewInitial) {
+      emit(currentState.update(type: event.index));
     }
   }
 }

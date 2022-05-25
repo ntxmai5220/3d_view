@@ -54,7 +54,7 @@ class DioClient {
         queryParameters: params,
         options: options,
       );
-      if (response.data['result '] != null) {
+      if (response.data['result'] != null) {
         return APIResponse.fromAppJson(response.data);
       } else {
         return APIResponse.auth(response.data);
@@ -83,7 +83,7 @@ class DioClient {
         data: data,
         options: options,
       );
-      if (response.data['result '] != null) {
+      if (response.data['result'] != null) {
         return APIResponse.fromAppJson(response.data);
       } else {
         return APIResponse.auth(response.data);
@@ -112,7 +112,7 @@ class DioClient {
         data: data,
         options: options,
       );
-      if (response.data['result '] != null) {
+      if (response.data['result'] != null) {
         return APIResponse.fromAppJson(response.data);
       } else {
         return APIResponse.auth(response.data);

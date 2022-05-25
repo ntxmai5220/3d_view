@@ -122,6 +122,7 @@ class DataView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5)),
                     labelStyle: TextStyles.normalLabel,
                     indicatorPadding: const EdgeInsets.all(0),
+                    onTap: (index) => bloc.add(DataViewSelectedTypeEvent(index: index)),
                     tabs: const [
                       Tab(
                         text: 'Bán',

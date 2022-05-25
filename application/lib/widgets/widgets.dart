@@ -15,6 +15,7 @@ export './textfield/input_newpost.dart';
 
 //user
 export './user/choose_item.dart';
+export './user/user_infor.dart';
 
 export './post_item.dart';
 

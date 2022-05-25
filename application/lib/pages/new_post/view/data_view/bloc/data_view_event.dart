@@ -18,4 +18,9 @@ class DataViewLoadEvent<T> extends DataViewEvent {
 class DataViewCheckDataEvent extends DataViewEvent {}
 
 class DataViewSelectedTypeEvent extends DataViewEvent {
+  final int index;
+  DataViewSelectedTypeEvent({
+    required this.index,
+  });
+  
 }

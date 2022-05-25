@@ -110,8 +110,8 @@ class NewPostPage extends StatelessWidget {
                                 labelColor: AppColors.green,
                                 onTap: () => Navigator.of(context)
                                     .pushReplacement(MaterialPageRoute(
-                                        builder: (_) =>
-                                            const PostDetail(id: '')))),
+                                        builder: (_) => PostDetail(
+                                            id: bloc.state.post?.id ?? '')))),
                           )
                         ]
                       : null,
@@ -211,6 +211,7 @@ class NewPostPage extends StatelessWidget {
           isUsed: false,
           isHidden: false,
           isFavorite: false,
+          isRent: dataViewBloc.state.type == 1,
           desc: dataViewBloc.desc.text,
           address: dataViewBloc.address.text,
           ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
@@ -220,6 +221,7 @@ class NewPostPage extends StatelessWidget {
           province:
               dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
                   province,
+
           // rooms: ,
           // creatorId: '625bd0648e18145a85211945'
         );

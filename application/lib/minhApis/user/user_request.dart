@@ -5,8 +5,10 @@ class UserRequest{
   UserRequest._();
 
   // Path : user/:id
-  static DioRequest getById({required String id, required String token }){
-    Options options = OptionBuilder().authorizeToken(token).build();
+  static DioRequest getUserById({required String id,
+    String? token,
+  }){
+    Options options = OptionBuilder().authorizeToken(token??'example1').build();
     return DioRequest(path: "user/$id", options: options);
   }
 

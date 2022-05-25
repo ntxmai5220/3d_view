@@ -3,7 +3,6 @@ import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 import 'package:bk_3d_view/values/app_styles.dart';
 import 'package:bk_3d_view/widgets/button/icon_action_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserInfo extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:bk_3d_view/minhApis/apis.dart';
-import 'package:bk_3d_view/models/banner.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class PostServices {
@@ -21,8 +20,7 @@ class PostServices {
     APIResponse data = await DioClient.post(
         path: request.path, data: request.body, options: request.options);
     Post post = Post.fromJson(data.toObject());
-    print(post.province?.toJson().toString());
-    print('done');
+
     return ObjectResponse(object: post);
     // print(data);
   }
@@ -93,10 +91,13 @@ class PostServices {
     return ListResponse(list: list);
   }
 
-  Future<dynamic> getPostDetail({required String id}) async {
+  Future<ObjectResponse<Post>> getPostDetail({required String id}) async {
     DioRequest request = PostRequest.getPostDetail(id: id);
-    dynamic data = await DioClient.get(path: request.path);
+    APIResponse data = await DioClient.get(path: request.path);
+
+    Post post = Post.fromJson(data.toObject());
     print(data);
+    return ObjectResponse(object: post);
   }
 
   Future<dynamic> updateAllPost(
@@ -129,7 +130,8 @@ class PostServices {
       {required String userId,
       required String token,
       required Map<String, dynamic> body}) async {
-    DioRequest request = PostRequest.follow(userId: userId, token: token, body: body);
+    DioRequest request =
+        PostRequest.follow(userId: userId, token: token, body: body);
     APIResponse data = await DioClient.put(
         path: request.path, options: request.options, data: request.body);
     print(data);

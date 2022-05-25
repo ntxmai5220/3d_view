@@ -144,7 +144,7 @@ class PostDetail extends StatelessWidget {
                         "Xem ở chế độ panaroma",
                         onClick: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (_) => const ViewPanorama())),
+                                builder: (_) => ViewPanorama(rooms: post.rooms??[],))),
                         bgColor: AppColors.darkPrimary,
                       ),
                     ),

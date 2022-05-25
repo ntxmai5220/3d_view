@@ -111,7 +111,7 @@ class FollowedPage extends StatelessWidget {
                                           onTapPost: (id) =>
                                               onClickPost(context, id),
                                           onToggleFavorite: (id) =>
-                                              onToggleFavorite(context, 0),
+                                              onToggleFavorite(context, id),
                                         ))
                                     .toList()),
                           ),
@@ -132,7 +132,7 @@ class FollowedPage extends StatelessWidget {
     );
   }
 
-  onToggleFavorite(BuildContext context, int index) {
-    debugPrint('favor $index');
+  onToggleFavorite(BuildContext context, String id) {
+    debugPrint('favor $id');
   }
 }

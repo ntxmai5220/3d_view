@@ -84,6 +84,7 @@ class PostItem extends StatelessWidget {
                                   if (id != null) {
                                     onToggleFavorite?.call(id);
                                   }
+                                  post.isFavorite = true;
                                 },
                                 child: FollowIcon(
                                   mini: mini,

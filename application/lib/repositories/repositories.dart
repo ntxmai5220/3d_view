@@ -14,3 +14,5 @@ export './login/login_repository.dart';
 export './register/register_repository.dart';
 
 export './followed/followed_repository.dart';
+
+export './post_detail/post_detail_repository.dart';

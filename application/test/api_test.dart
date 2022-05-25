@@ -127,7 +127,7 @@ void main() {
   });
   test("getPost", () async {
     PostServices services = PostServices();
-    await services.getPostDetail(id: "625bd215fa9050c1dc04fdb4");
+    await services.getPostDetail(id: "62870f20ceb04ae1d9e98506");
   });
 
   test("updateAllPost", () async {
@@ -222,6 +222,6 @@ void main() {
 
   test("getAllUser", () async {
     UserServices userServices = UserServices();
-    await userServices.getById(id: "625bd0648e18145a85211945", token: token);
+    await userServices.getUserById(id: "625bd0648e18145a85211945");
   });
 }

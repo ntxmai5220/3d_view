@@ -1,4 +1,3 @@
-import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/drawer/drawer.dart';
 import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
 import 'package:bk_3d_view/models/models.dart';

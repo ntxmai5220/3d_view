@@ -1,4 +1,3 @@
-import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -24,6 +23,7 @@ class PostItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (id != null) {
+          debugPrint(id);
           onTapPost?.call(id);
         }
       },
@@ -53,8 +53,8 @@ class PostItem extends StatelessWidget {
                   children: [
                     Positioned.fill(
                       child: NetImage(
-                        imageUrl: post.rooms?[0].imgUrl ?? '',
-                        height: mini ? 228 : 260,
+                        imageUrl: post.rooms?[0].imgUrl ?? AppConstants.noImage,
+                        height: mini ? 240 : 260,
                         width: 380,
                         fit: BoxFit.cover,
                       ),
@@ -69,7 +69,7 @@ class PostItem extends StatelessWidget {
                     // ),
                     onToggleFavorite != null
                         ? Positioned(
-                            right: 20,
+                            right: mini ? 12 : 20,
                             child: Container(
                               padding: const EdgeInsets.only(top: 5),
                               height: mini ? 55 : 59,
@@ -93,12 +93,35 @@ class PostItem extends StatelessWidget {
                             ),
                           )
                         : Container(),
+
+                    Positioned(
+                        left: mini ? 7 : 10,
+                        top: mini ? 7 : 10,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(4),
+                          elevation: 2,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: mini ? 5 : 7,
+                                horizontal: mini ? 7 : 10),
+                            decoration: BoxDecoration(
+                                color: post.isRent ?? false
+                                    ? AppColors.darkPrimary
+                                    : AppColors.red,
+                                borderRadius: BorderRadius.circular(4)),
+                            child: Text(
+                              post.getPostStatus(),
+                              style: TextStyles.tinyLabel
+                                  .copyWith(color: AppColors.white),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               ),
               //column for detail
               Container(
-                height: mini ? 380 - 260 : null,
+                // height: mini ? 380 - 265 : null,
                 // alignment: Alignment.center,
                 color: Colors.white,
                 padding:
@@ -111,7 +134,7 @@ class PostItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$ ' + checkPrice(post.price ?? 0),
+                          '\$ ${post.price?.checkPrice}',
                           style: TextStyles.normalLabel
                               .copyWith(color: AppColors.black),
                         ),
@@ -159,14 +182,5 @@ class PostItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String checkPrice(double price) {
-    if (price > 1000) {
-      double tmp = price / 1000;
-      return '$tmp tỷ';
-    } else {
-      return '$price triệu';
-    }
   }
 }

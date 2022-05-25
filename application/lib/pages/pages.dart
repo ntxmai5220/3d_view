@@ -39,3 +39,7 @@ export 'list_thumbnail/list_thumbnail.dart';
 
 //
 export 'view_panorama/view_panoram.dart';
+
+//other user profile
+export 'other_profile/other_profile.dart';
+

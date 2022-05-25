@@ -23,14 +23,12 @@ class FollowedPage extends StatelessWidget {
         providers: [
           BlocProvider(
               create: (context) => FilterDrawerBloc()
-                ..add(
-                    FilterInitEvent(params: FilterParam(isFavoriteEQ: true)))),
+                ..add(FilterInitEvent(params: FilterParam()))),
           BlocProvider(
               create: (context) => FollowedBloc(
                   repository:
                       RepositoryProvider.of<FollowedRepository>(context))
-                ..add(FollowedLoadEvent(
-                    params: FilterParam(isFavoriteEQ: true)))),
+                ..add(FollowedLoadEvent(params: FilterParam()))),
         ],
         child: Scaffold(
           key: globalKey,

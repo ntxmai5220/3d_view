@@ -74,9 +74,9 @@ class PostItem extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 5),
                               height: mini ? 55 : 59,
                               width: mini ? 45 : 49,
-                              decoration: const BoxDecoration(
-                                  color: AppColors.lightSecondary88,
-                                  borderRadius: BorderRadius.vertical(
+                              decoration: BoxDecoration(
+                                  color: AppColors.black.withOpacity(0.4),
+                                  borderRadius: const BorderRadius.vertical(
                                       bottom: Radius.circular(
                                           AppConstants.borderRadius))),
                               child: GestureDetector(

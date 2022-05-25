@@ -142,9 +142,11 @@ class PostDetail extends StatelessWidget {
                           vertical: 10),
                       child: MyButton(
                         "Xem ở chế độ panaroma",
-                        onClick: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (_) => ViewPanorama(rooms: post.rooms??[],))),
+                        onClick: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => ViewPanorama(
+                                      rooms: post.rooms ?? [],
+                                    ))),
                         bgColor: AppColors.darkPrimary,
                       ),
                     ),
@@ -182,6 +184,7 @@ class PostDetail extends StatelessWidget {
       );
 
   toUserProfile(BuildContext context, {required String id}) {
-    debugPrint(id);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => OtherProfile(userId: id)));
   }
 }

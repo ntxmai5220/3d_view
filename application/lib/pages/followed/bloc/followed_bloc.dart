@@ -21,13 +21,14 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
 
   loadData(FollowedLoadEvent event, Emitter<FollowedState> emit) async {
     // emit(FollowedLoading(post: state.post));
-    // event.params.resetPage();
+    event.params.resetPage();
     if (state is FollowedLoaded) {
       emit(FollowedLoading(post: state.post, params: event.params));
     }
     var result =
-        await _repository.getPostFilter(params: event.params.toFilterParam());
+        await _repository.getListFollowed(params: event.params.toFilterParam());
     // scrollController.jumpTo(0);
+    // refreshController.refreshCompleted();
     emit(FollowedLoaded(post: result.list, params: event.params));
   }
 
@@ -37,7 +38,7 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
 
     state.params.nextPage();
     var result =
-        await _repository.getPostFilter(params: state.params.toFilterParam());
+        await _repository.getListFollowed(params: state.params.toFilterParam());
     if (result.list.isEmpty) {
       refreshController.loadNoData();
     }
@@ -49,7 +50,7 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
   refresh(FollowedRefreshEvent event, Emitter<FollowedState> emit) async {
     state.params.resetPage();
     var result =
-        await _repository.getPostFilter(params: state.params.toFilterParam());
+        await _repository.getListFollowed(params: state.params.toFilterParam());
     refreshController.refreshCompleted();
     emit(FollowedLoaded(post: result.list, params: state.params));
   }

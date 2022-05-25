@@ -14,4 +14,21 @@ class UserServices {
     print(data.toObject());
     return ObjectResponse(object: user);
   }
+
+  Future<ListResponse<Post>> getListFollowed(
+      {required Map<String, dynamic> params}) async {
+    DioRequest request = UserRequest.getListFollowed(
+        userId: '625bd0648e18145a85211945', params: params);
+    APIResponse response = await DioClient.get(
+      path: request.path,
+      options: request.options,
+      params: request.params,
+    );
+
+    List<Post> list = response
+        .toList()
+        .map((post) => Post.fromJson(post, isFavorite: true))
+        .toList();
+    return ListResponse(list: list);
+  }
 }

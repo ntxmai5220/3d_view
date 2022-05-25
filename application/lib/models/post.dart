@@ -39,13 +39,13 @@ class Post {
   String? creatorId;
   DateTime? createdAt;
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
+  factory Post.fromJson(Map<String, dynamic> json,{bool? isFavorite}) => Post(
         id: json['_id'],
         area: json['area']?.toDouble(),
         price: json['price']?.toDouble(),
         isUsed: json['isUsed'],
         isRent: json["isRent"],
-        isFavorite: json['isFavorite'],
+        isFavorite:isFavorite?? json['isFavorite'],
         isHidden: json['isHidden'],
         desc: json['desc'],
         address: json['address'],

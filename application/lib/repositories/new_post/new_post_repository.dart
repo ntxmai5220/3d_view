@@ -53,4 +53,10 @@ class NewPostRepository {
         images: images,
         token: token,
       );
+
+  //delete post when click huy
+  Future<dynamic> deletePost({
+    required String id,
+  }) =>
+      postServices.deletePost(id: id);
 }

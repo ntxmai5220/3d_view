@@ -41,3 +41,7 @@ class NewPostUploadThumbnailsEvent extends NewPostEvent {
     required this.thumbnails,
   });
 }
+
+class NewPostDiscardEvent extends NewPostEvent{
+  
+}

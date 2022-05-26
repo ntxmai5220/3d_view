@@ -120,10 +120,14 @@ class PostServices {
     print(data);
   }
 
-  Future<dynamic> deletePost(
-      {required String id, required String token}) async {
-    DioRequest request = PostRequest.deletePost(id: id, token: token);
-    await DioClient.delete(path: request.path, options: request.options);
+  Future<dynamic> deletePost({
+    required String id,
+  }) async {
+    DioRequest request = PostRequest.deletePost(id: id);
+    await DioClient.delete(
+      path: request.path,
+      options: request.options,
+    );
   }
 
   Future<dynamic> follow(

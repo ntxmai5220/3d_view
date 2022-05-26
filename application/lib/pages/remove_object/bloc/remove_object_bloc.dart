@@ -1,4 +1,4 @@
-import 'dart:async';
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -11,7 +11,7 @@ part 'remove_object_event.dart';
 part 'remove_object_state.dart';
 
 class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
-  RemoveObjectRepository _repository;
+  final RemoveObjectRepository _repository;
   PainterController painterController;
 
   RemoveObjectBloc({

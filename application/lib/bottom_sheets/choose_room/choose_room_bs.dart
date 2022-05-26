@@ -17,7 +17,7 @@ class ChooseRoomBS extends StatelessWidget {
   Widget build(BuildContext context) {
     itemBuilder(BuildContext context, Room room) {
       return GestureDetector(
-        onTap: () => Navigator.pop(context, room.id),
+        onTap: () => Navigator.pop(context, room),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
           child: Row(

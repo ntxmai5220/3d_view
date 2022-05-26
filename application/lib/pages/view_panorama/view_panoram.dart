@@ -57,24 +57,23 @@ class ViewPanorama extends StatelessWidget {
                     iconColor: AppColors.white,
                     padding: 8,
                     onTap: () async {
-                      String? id = await ShowBottomSheet.showBS(context,
+                      Room? nextRoom = await ShowBottomSheet.showBS(context,
                           child: ChooseRoomBS(
                             rooms: [...rooms]..removeAt(state.currentRoom),
                           ));
-                      if (id != null) {
-                        context
-                            .read<ViewPanoramaBloc>()
-                            .add(ViewPanoramaChangeByIdEvent(id: id));
+                      if (nextRoom != null) {
+                        context.read<ViewPanoramaBloc>().add(
+                            ViewPanoramaChangeByIdEvent(id: nextRoom.id ?? ''));
                       }
                     },
                   )
                 ],
               ),
               body: Panorama(
-                  animSpeed: 4,
+                  animSpeed: 3.5,
                   child: Image(
                       image: CachedNetworkImageProvider(
-                          state.rooms[state.currentRoom].imgUrl ?? '')),
+                          state.rooms[state.currentRoom].imgUrl!)),
                   hotspots: state.rooms[state.currentRoom].hotspots
                           ?.map((item) => Hotspot(
                               name: item.title,

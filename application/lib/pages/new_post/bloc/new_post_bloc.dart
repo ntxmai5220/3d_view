@@ -17,7 +17,9 @@ class NewPostBloc extends Bloc<NewPostEvent, NewPostState> {
   TextEditingController price = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController address = TextEditingController();
+
   final NewPostRepository _repository;
+
   NewPostBloc({required NewPostRepository repository})
       : _repository = repository,
         super(const NewPostInitial(currentStep: 0)) {
@@ -29,6 +31,7 @@ class NewPostBloc extends Bloc<NewPostEvent, NewPostState> {
     on<NewPostCreateEvent>(onCreatePost);
     on<NewPostUploadThumbnailEvent>(uploadThumbnail);
     on<NewPostUploadThumbnailsEvent>(uploadListThumbnail);
+    on<NewPostDiscardEvent>(discardPost);
   }
 
   onNextStep(NewPostNextEvent event, Emitter<NewPostState> emit) {
@@ -120,5 +123,18 @@ class NewPostBloc extends Bloc<NewPostEvent, NewPostState> {
 
     emit(NewPostInitial(currentStep: state.currentStep, post: state.post));
     add(NewPostNextEvent());
+  }
+
+  discardPost(NewPostDiscardEvent event, Emitter<NewPostState> emit) async {
+    if (state.post?.id != null) {
+      emit(NewPostLoading(currentStep: state.currentStep, post: state.post));
+
+      try {
+        await _repository.deletePost(id: state.post!.id!);
+        emit(NewPostDiscard(currentStep: state.currentStep, post: state.post));
+      } catch (e) {
+        emit(NewPostError(currentStep: state.currentStep, post: state.post));
+      }
+    }
   }
 }

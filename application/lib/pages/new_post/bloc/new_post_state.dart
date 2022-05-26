@@ -20,3 +20,17 @@ class NewPostLoading extends NewPostState {
     Post? post,
   }) : super(currentStep: currentStep, post: post);
 }
+
+class NewPostError extends NewPostState {
+  const NewPostError({
+    required int currentStep,
+    required Post? post,
+  }) : super(currentStep: currentStep, post: post);
+}
+
+class NewPostDiscard extends NewPostState {
+  const NewPostDiscard({
+    required int currentStep,
+    required Post? post,
+  }) : super(currentStep: currentStep, post: post);
+}

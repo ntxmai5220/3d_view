@@ -43,7 +43,7 @@ class ConfirmDialog extends StatelessWidget {
           children: [
             ActionButton(
                 label: noLabel ?? 'Không',
-                labelColor: noLabelColor ?? AppColors.darkPrimary,
+                labelColor: noLabelColor ?? AppColors.darkSecondary,
                 onTap: () => Navigator.of(context).pop(false)),
             ActionButton(
               label: yesLabel ?? 'Có',

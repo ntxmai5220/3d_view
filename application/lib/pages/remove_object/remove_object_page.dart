@@ -145,7 +145,7 @@ class RemoveObjectPage extends StatelessWidget {
                       child: state is RemoveObjectReceivedMask
                           ? InteractiveViewer(
                               child: Image.memory(base64Decode(state.mask)))
-                          : state.background != null
+                          : (state.background != null
                               ? Center(
                                   child: AspectRatio(
                                   aspectRatio: state.background!.width /
@@ -154,16 +154,18 @@ class RemoveObjectPage extends StatelessWidget {
                                       ? FlutterPainter(
                                           controller: bloc.painterController,
                                         )
-                                      : Image(
-                                          image:
-                                              CachedNetworkImageProvider(url)),
+                                      : NetImage(
+                                          imageUrl: url,
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                        ),
                                 ))
                               : Container(
                                   color: AppColors.white80,
                                   child: const Center(
                                     child: LoadingPlaceHolder(
                                         width: 200, height: 200),
-                                  )),
+                                  ))),
                     ),
                     Container(
                       width: 48,

@@ -169,8 +169,8 @@ class PostRequest {
         path: "post/$id", body: jsonEncode(updateInfo), options: options);
   }
 
-  static DioRequest deletePost({required String id, required String token}){
-    Options options = OptionBuilder().authorizeToken(token).build();
+  static DioRequest deletePost({required String id ,String? token}){
+    Options options = OptionBuilder().authorizeToken(token??'example1').build();
     return DioRequest(path: "post/$id", options: options);
   }
 

@@ -69,19 +69,29 @@ class NewPostPage extends StatelessWidget {
           child: BlocConsumer<NewPostBloc, NewPostState>(
             listenWhen: (previous, current) {
               return (previous is NewPostLoading &&
-                      current is NewPostInitial) ||
-                  (previous is NewPostInitial && current is NewPostLoading);
+                      current is! NewPostLoading) ||
+                  (previous is! NewPostLoading && current is NewPostLoading);
             },
             listener: (context, state) {
               if (state is NewPostLoading) {
                 ShowMyDialog.show(context, dialog: const LoadingDialog());
               } else {
                 Navigator.pop(context);
+                if (state is NewPostDiscard) {
+                  Navigator.pop(context);
+                } else if (state is NewPostError) {
+                  ShowMyDialog.show(context,
+                      dialog: NotificationDialog(
+                        content: ValidatorError.defaultError.error,
+                        type: DialogType.warning,
+                      ));
+                }
               }
             },
             builder: (context, state) {
               NewPostBloc bloc = context.read<NewPostBloc>();
               debugPrint(bloc.state.currentStep.toString());
+
               return Scaffold(
                 backgroundColor: AppColors.white,
                 appBar: AppBar(
@@ -98,7 +108,16 @@ class NewPostPage extends StatelessWidget {
                     child: ActionButton(
                       label: 'Hủy',
                       labelColor: AppColors.red,
-                      onTap: () => Navigator.of(context).pop(),
+                      onTap: () async {
+                        var result = await ShowMyDialog.show(context,
+                            dialog: const ConfirmDialog(
+                                content: 'Bạn muốn hủy việc tạo bài viết'));
+                        if (result == true) {
+                          state.post?.id != null
+                              ? bloc.add(NewPostDiscardEvent())
+                              : Navigator.of(context).pop();
+                        }
+                      },
                     ),
                   ),
                   actions: bloc.state.currentStep == steps.length - 1
@@ -147,7 +166,7 @@ class NewPostPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          bloc.state.currentStep != 0
+          bloc.state.currentStep != 0 && bloc.state.currentStep != 2
               ? GestureDetector(
                   onTap: () => bloc.add(NewPostBackEvent()),
                   child: const Icon(
@@ -197,7 +216,7 @@ class NewPostPage extends StatelessWidget {
     }
   }
 
-  nextStep(BuildContext context, {required NewPostStep currentStep}) {
+  nextStep(BuildContext context, {required NewPostStep currentStep}) async {
     NewPostBloc bloc = context.read<NewPostBloc>();
     DataViewBloc dataViewBloc = context.read<DataViewBloc>();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -205,30 +224,37 @@ class NewPostPage extends StatelessWidget {
       case NewPostStep.image:
         //call api create post
         // FocusManager.instance.primaryFocus?.unfocus();
-        Post post = Post(
-          area: double.tryParse(dataViewBloc.area.text),
-          price: double.tryParse(dataViewBloc.price.text),
-          isUsed: false,
-          isHidden: false,
-          isFavorite: false,
-          isRent: dataViewBloc.state.type == 1,
-          desc: dataViewBloc.desc.text,
-          address: dataViewBloc.address.text,
-          ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
-          district:
-              dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
-                  district,
-          province:
-              dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
-                  province,
 
-          // rooms: ,
-          // creatorId: '625bd0648e18145a85211945'
-        );
-        bloc.add(NewPostCreateEvent(
-          post: post,
-          rooms: context.read<ImageViewBloc>().state.rooms,
-        ));
+        var result = await ShowMyDialog.show(context,
+            dialog: const ConfirmDialog(
+                content:
+                    'Bạn sẽ không được quay lại bước này. Bạn vẫn muốn tiếp tục bước 3.'));
+        if (result == true) {
+          Post post = Post(
+            area: double.tryParse(dataViewBloc.area.text),
+            price: double.tryParse(dataViewBloc.price.text),
+            isUsed: false,
+            isHidden: false,
+            isFavorite: false,
+            isRent: dataViewBloc.state.type == 1,
+            desc: dataViewBloc.desc.text,
+            address: dataViewBloc.address.text,
+            ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
+            district:
+                dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
+                    district,
+            province:
+                dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
+                    province,
+
+            // rooms: ,
+            // creatorId: '625bd0648e18145a85211945'
+          );
+          bloc.add(NewPostCreateEvent(
+            post: post,
+            rooms: context.read<ImageViewBloc>().state.rooms,
+          ));
+        }
         break;
       case NewPostStep.data:
         dataViewBloc.add(DataViewCheckDataEvent());
@@ -238,8 +264,10 @@ class NewPostPage extends StatelessWidget {
         break;
       case NewPostStep.thumbnail:
         //call api
+
         bloc.add(NewPostUploadThumbnailsEvent(
             thumbnails: context.read<ThumbnailViewBloc>().state.capture));
+
         break;
       default:
         bloc.add(NewPostNextEvent());

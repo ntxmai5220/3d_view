@@ -495,7 +495,7 @@ class _AddHotspotState extends State<AddHotspot>
           if (rooms.isNotEmpty) {
             nextRoom = await ShowBottomSheet.showBS(context,
                 child: ChooseRoomBS(
-                  rooms: rooms,
+                  rooms: rooms
                 ));
           } else {
             //show empty room to choose

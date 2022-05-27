@@ -1,6 +1,5 @@
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/user_info/user_info.dart';
-import 'package:bk_3d_view/panorama/add_object/testPana.dart';
 
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -15,9 +14,7 @@ class MyPage extends StatelessWidget {
       debugPrint('Profile');
       //MyHomePage(title: 'Flutter Demo Home Page')
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (_) => UserInfo(userId: "1312")));
+          context, MaterialPageRoute(builder: (_) => UserInfo(userId: "1312")));
     }
 
     void toPostManagement() {
@@ -26,9 +23,15 @@ class MyPage extends StatelessWidget {
           context, MaterialPageRoute(builder: (_) => const ManagePost()));
     }
 
+    void toCreatePost() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const NewPostPage()));
+    }
+
     List<Map<String, dynamic>> items = [
       {'label': 'Thông tin cá nhân', 'funct': toProfile},
       {'label': 'Quản lý bài đăng', 'funct': toPostManagement},
+      {'label': 'Tạo bài viết', 'funct': toCreatePost},
     ];
     return SafeArea(
       child: Scaffold(

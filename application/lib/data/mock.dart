@@ -1,5 +1,4 @@
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/models/user.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 
 Room room = Room(id: '1', imgUrl: AppConstants.imgTemp);
@@ -40,6 +39,8 @@ const postData = {
     {
       "_id": "627f585b7214269308fee936",
       "name": "Phòng khách",
+      "imgUrl":
+          "http://res.cloudinary.com/dtnam302/image/upload/v1652608641/Thesis/6280ce803a8880eb07e58fb6/jajrx4bxcskdaa0fs2wj.jpg",
       "thumbnail": [
         {
           "imgUrl":

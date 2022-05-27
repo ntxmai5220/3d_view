@@ -1,9 +1,5 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:bk_3d_view/widgets/dialog/loading_dialog.dart';
 import 'package:bk_3d_view/widgets/dialog/my_dialog.dart';
-import 'package:bk_3d_view/widgets/images/net_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -70,7 +66,7 @@ class CaptureThumbnail extends StatelessWidget {
       //     ),
       //   ),
       // );
-      final ui.Image image = await boundary.toImage(pixelRatio: 1);
+      final ui.Image image = await boundary.toImage(pixelRatio: 1.5);
 
       // final ByteData? byteData =
       //     await image.toByteData(format: ui.ImageByteFormat.png);

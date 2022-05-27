@@ -13,13 +13,13 @@ class Img {
     return {
       'imgUrl': imgUrl,
       'id': id,
-      'publicId':publicId,
+      'publicId': publicId,
     };
   }
 
   factory Img.fromJson(Map<String, dynamic> map) {
     return Img(
-      imgUrl: map['imgUrl'],
+      imgUrl: map['imgUrl'] ?? '',
       publicId: map['publicId'],
       id: map['_id'],
     );

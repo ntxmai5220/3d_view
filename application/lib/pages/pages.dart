@@ -43,3 +43,5 @@ export 'view_panorama/view_panoram.dart';
 //other user profile
 export 'other_profile/other_profile.dart';
 
+export './add_object/add_object_page.dart';
+

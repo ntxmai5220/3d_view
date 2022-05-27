@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+
 import 'package:motion_sensors/motion_sensors.dart';
-import 'package:panorama/components.dart';
-import 'package:panorama/hotspot.dart/hotspot.dart';
+
+import 'package:panorama/module.dart';
 
 enum SensorControl {
   /// No sensor

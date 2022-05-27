@@ -7,7 +7,8 @@ import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:panorama/hotspot.dart/hotspot.dart';
+import 'package:panorama/module.dart';
+
 import 'package:panorama/panorama.dart';
 
 class ViewPanorama extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/room_detail/bloc/room_detail_bloc.dart';
 
-import 'package:bk_3d_view/panorama/add_object/add_object.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -17,7 +17,7 @@ class RoomDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-   return RepositoryProvider(
+    return RepositoryProvider(
       create: (context) => RoomDetailRepository(),
       child: BlocProvider(
         create: (context) => RoomDetailBloc(
@@ -27,8 +27,10 @@ class RoomDetail extends StatelessWidget {
             appBar: AppBar(
               title: BlocBuilder<RoomDetailBloc, RoomDetailState>(
                 builder: (context, state) {
-                  return Text(
-                    state is RoomDetailLoaded ? state.room.name ?? '' : '',
+                  return AppBarTextTitle(
+                    color: AppColors.white,
+                    title:
+                        state is RoomDetailLoaded ? state.room.name ?? '' : '',
                   );
                 },
               ),
@@ -334,7 +336,6 @@ class RoomDetail extends StatelessWidget {
           }).then((_) {
         popupIsActive = false;
       });
-      
     }
   }
 }

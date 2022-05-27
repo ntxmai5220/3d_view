@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_cube: ^0.1.1
   motion_sensors: ^0.1.0
   path_provider: ^2.0.9
 

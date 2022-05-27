@@ -18,3 +18,5 @@ export './followed/followed_repository.dart';
 export './post_detail/post_detail_repository.dart';
 
 export './view_panorama/view_panorama_repository.dart';
+
+export './room_detail/room_detail_repository.dart';

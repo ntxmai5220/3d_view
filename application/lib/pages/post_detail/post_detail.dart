@@ -1,4 +1,3 @@
-import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/post_detail/bloc/post_detail_bloc.dart';
@@ -173,8 +172,9 @@ class PostDetail extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           decoration: BoxDecoration(
-              color:
-                  post.isRent ?? false ? AppColors.darkPrimary : AppColors.red,
+              color: post.isRent ?? false
+                  ? AppColors.darkPrimary.withOpacity(0.8)
+                  : AppColors.red.withOpacity(0.8),
               borderRadius: BorderRadius.circular(4)),
           child: Text(
             post.getPostStatus(),

@@ -1,13 +1,8 @@
 import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/pages/new_post/view/data_view/bloc/data_view_bloc.dart';
-import 'package:bk_3d_view/pages/new_post/view/data_view/data_view.dart';
-import 'package:bk_3d_view/pages/new_post/view/hotspot_view/hotspot_view.dart';
-import 'package:bk_3d_view/pages/new_post/view/image_view/bloc/image_view_bloc.dart';
-import 'package:bk_3d_view/pages/new_post/view/image_view/image_view.dart';
-import 'package:bk_3d_view/pages/new_post/view/remove_view/remove_view.dart';
-import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/bloc/thumbnail_view_bloc.dart';
-import 'package:bk_3d_view/pages/new_post/view/thumbnail_view/thumbnail_view.dart';
+import 'package:bk_3d_view/pages/new_post/blocs.dart';
+import 'package:bk_3d_view/pages/new_post/view/view.dart';
+
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/repositories/new_post/new_post_repository.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -16,29 +11,13 @@ import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/new_post_bloc.dart';
-
-Province p = Province(id: 1, name: 'A');
-District d = District(id: 1, name: 'district', provinceId: 1);
-// var list= [1,2,3,4];
-
-List<Province> provinces = List.filled(1, p);
-List<District> districts = List.filled(20, d);
-
 class NewPostPage extends StatelessWidget {
   const NewPostPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var steps = NewPostStep.values;
-    // List<NewPostStep> steps = [
-    //   NewPostStep.data,
-    //   NewPostStep.image,
-    //   // NewPostStep.thumbnail,
-    //   // NewPostStep.hotspot,
-    //   NewPostStep.remove,
-    // ];
-    // Size size = MediaQuery.of(context).size;
+
     return WillPopScope(
       onWillPop: () async => false,
       child: RepositoryProvider(

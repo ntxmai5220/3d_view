@@ -5,7 +5,6 @@ import 'package:bk_3d_view/repositories/remove_object/remove_object_repository.d
 import 'package:bk_3d_view/values/values.dart';
 
 import 'package:bk_3d_view/widgets/widgets.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

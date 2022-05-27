@@ -1,7 +1,6 @@
 import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
 import 'package:bk_3d_view/drawer/filter/filter_type.dart';
 import 'package:bk_3d_view/models/filter_param/filter_param.dart';
-import 'package:bk_3d_view/pages/search/bloc/search_bloc.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 import 'package:bk_3d_view/values/app_styles.dart';
@@ -123,7 +122,8 @@ class FilterDrawer extends StatelessWidget {
                   label: 'Lọc',
                   onTap: () {
                     context.read<FilterDrawerBloc>().add(FilterSaveEvent());
-                    onTapFilter.call(context.read<FilterDrawerBloc>().state.params);
+                    onTapFilter
+                        .call(context.read<FilterDrawerBloc>().state.params);
                     // context.read<SearchBloc>().add(SearchLoadEvent(
                     //     params: context.read<FilterDrawerBloc>().state.params));
                     Navigator.of(context).pop();

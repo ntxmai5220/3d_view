@@ -3,18 +3,17 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Image/DetailImage.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/widgets/bottom_sheet/add_object_bs.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/widgets/button/ext_object_fab.dart';
+import 'package:bk_3d_view/panorama/add_object/panaroma/widgets/button/object_fab.dart';
 
-import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/Model/ModalObjectSheet.dart';
-import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/ObjectAdding/ExtObjectFAB.dart';
-import 'package:bk_3d_view/panorama/add_object/panaroma/Widgets/ObjectAdding/ObjectFAB.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:panorama/module.dart';
 import 'flutter_cube/flutter_cube.dart';
 
 class AddObject extends StatefulWidget {
-  AddObject({
+  const AddObject({
     Key? key,
     this.latitude = 0,
     this.longitude = 0,
@@ -37,7 +36,6 @@ class AddObject extends StatefulWidget {
     this.onViewChanged,
     this.child,
     this.hotspots,
-    this.onHotspotChange,
   }) : super(key: key);
 
   /// The initial latitude, in degrees, between -90 and 90. default to 0 (the vertical center of the image).
@@ -97,11 +95,9 @@ class AddObject extends StatefulWidget {
   /// This event will be called when the view direction has changed, it contains latitude and longitude about the current view.
   final Function(double longitude, double latitude, double tilt)? onViewChanged;
 
-  /// Pass hostpot data when changing
-  Function(Map<int, List<Hotspot>> listHotspot)? onHotspotChange;
-
   /// Specify an Image(equirectangular image) widget to the panorama.
-  final List<DetailImage>? child;
+
+  final Image? child;
 
   /// Place widgets in the panorama.
 
@@ -135,12 +131,11 @@ class _AddObjectState extends State<AddObject>
   Vector3 orientation = Vector3(0, radians(90), 0);
   StreamSubscription? _orientationSubscription;
   StreamSubscription? _screenOrientSubscription;
-  late StreamController<Null> _streamController;
-  Stream<Null>? _stream;
+  late StreamController<void> _streamController;
+
   ImageStream? _imageStream;
   double zoom = 1;
-  int current_index = 0;
-  Map<int, List<Hotspot>> listHotspot = new Map<int, List<Hotspot>>();
+
   List<Hotspot> hotspots = [];
   Object? currentObj;
   bool isFAB = false;
@@ -203,13 +198,6 @@ class _AddObjectState extends State<AddObject>
     obj.updateTransform();
   }
 
-  // FabTapFunction
-  void _toggleFabMode() {
-    setState(() {
-      this.mode = this.mode != 1 ? 1 : 0;
-    });
-  }
-
   void _handleTapUp(TapUpDetails details) {
     final Vector3 o =
         positionToLatLon(details.localPosition.dx, details.localPosition.dy);
@@ -218,11 +206,10 @@ class _AddObjectState extends State<AddObject>
   }
 
   void _handleAddObject(double longitude, double latitude, double tilt) async {
-    String? objPath = await ModalObjectSheet(context);
+    String? objPath = await modalObjectSheet(context);
     if (objPath == null) return;
     double trueXdeg = -longitude + math.pi / 2;
     double trueYdeg = latitude;
-    double trueZdeg = tilt;
     Object newObj = Object(
       name: objPath,
       fileName: objPath,
@@ -243,10 +230,6 @@ class _AddObjectState extends State<AddObject>
     setCurrentColor(currentObj!.light.color);
   }
 
-  void _onHotspotChange() {
-    widget.onHotspotChange!(listHotspot);
-  }
-
   void changeCorlorObjectRec(Object obj, Color color, int index) {
     obj.light.setColor(color, 1, 2, 2);
     obj.light.position.setFrom(Vector3(0, 0, -10));
@@ -257,7 +240,7 @@ class _AddObjectState extends State<AddObject>
   }
 
   void changeColor(Color color) {
-    changeCorlorObjectRec(this.currentObj!, color, 1);
+    changeCorlorObjectRec(currentObj!, color, 1);
     setColorPicker(color);
   }
 
@@ -288,16 +271,15 @@ class _AddObjectState extends State<AddObject>
         math.pi *
         offset.dx /
         scene!.camera.viewportHeight;
-    if (_lastZoom == null) {
-      _lastZoom = scene!.camera.zoom;
-    }
+    _lastZoom ??= scene!.camera.zoom;
     zoomDelta += _lastZoom! * details.scale - (scene!.camera.zoom + zoomDelta);
     if (!_controller.isAnimating) {
       _controller.reset();
       if (widget.animSpeed != 0) {
         _controller.repeat();
-      } else
+      } else {
         _controller.forward();
+      }
     }
   }
 
@@ -310,22 +292,22 @@ class _AddObjectState extends State<AddObject>
   }
 
   void moveRight(Object obj, double angle) {
-    Vector3 axis = new Vector3(0, 1, 0);
+    Vector3 axis = Vector3(0, 1, 0);
 
-    Quaternion q = new Quaternion.axisAngle(axis, angle);
-    Vector3 camera_point = scene!.camera.position;
+    Quaternion q = Quaternion.axisAngle(axis, angle);
+    Vector3 cameraPoint = scene!.camera.position;
 
-    Vector3 obj_position = obj.position;
-    Vector3 point = obj_position - camera_point;
+    Vector3 objPosition = obj.position;
+    Vector3 point = objPosition - cameraPoint;
     q.rotate(point);
-    point += camera_point;
+    point += cameraPoint;
     obj.position.setFrom(point);
     obj.updateTransform();
     scene!.update();
   }
 
   void moveUp(Object obj, double angle) {
-    Vector3 obj_position = obj.position;
+    Vector3 objPosition = obj.position;
     obj.position.add(Vector3(0, angle, 0));
     obj.updateTransform();
     scene!.update();
@@ -336,10 +318,11 @@ class _AddObjectState extends State<AddObject>
     if (sceneObj == null) return;
 
     /// update fab
-    if (!isFAB)
+    if (!isFAB) {
       setState(() {
         if (latitude.abs() > 0.05 || longitude.abs() > 0.5) isFAB = true;
       });
+    }
     // auto rotate
     longitudeDelta += 0.001 * widget.animSpeed;
     // animate vertical rotating
@@ -385,10 +368,11 @@ class _AddObjectState extends State<AddObject>
         longitude = (lon + longitude < minLon ? minLon : maxLon) - lon;
         // reverse rotation when reaching the boundary
         if (widget.animSpeed != 0) {
-          if (widget.animReverse)
+          if (widget.animReverse) {
             _animateDirection *= -1.0;
-          else
+          } else {
             _controller.stop();
+          }
         }
       }
     }
@@ -430,7 +414,7 @@ class _AddObjectState extends State<AddObject>
   void _loadTexture(ImageProvider? provider) {
     if (provider == null) return;
     _imageStream?.removeListener(ImageStreamListener(_updateTexture));
-    _imageStream = provider.resolve(ImageConfiguration());
+    _imageStream = provider.resolve(const ImageConfiguration());
     ImageStreamListener listener = ImageStreamListener(_updateTexture);
     _imageStream!.addListener(listener);
   }
@@ -446,15 +430,15 @@ class _AddObjectState extends State<AddObject>
           croppedFullWidth: widget.croppedFullWidth,
           croppedFullHeight: widget.croppedFullHeight);
       surface = Object(name: 'surface', mesh: mesh, backfaceCulling: false);
-
-      _loadTexture(widget.child![current_index].getImage().image);
+      _loadTexture(widget.child!.image);
+      // _loadTexture(widget.child![current_index].getImage().image);
 
       scene.world.add(surface!);
     }
   }
 
   void _onSceneCreatedObj(Scene scene) {
-    this.sceneObj = scene;
+    sceneObj = scene;
     scene.light.position.setFrom(Vector3(0, 0, -10));
 
     _updateView();
@@ -534,14 +518,14 @@ class _AddObjectState extends State<AddObject>
     super.initState();
     latitude = degrees(widget.latitude);
     longitude = degrees(widget.longitude);
-    _streamController = StreamController<Null>.broadcast();
-    _stream = _streamController.stream;
+    _streamController = StreamController<void>.broadcast();
+    // _stream = _streamController.stream;
 
-    if (listHotspot[current_index] == null) listHotspot[current_index] = [];
-    this.hotspots = listHotspot[current_index]!;
+    // if (listHotspot[current_index] == null) listHotspot[current_index] = [];
+    // this.hotspots = listHotspot[current_index]!;
 
     _controller = AnimationController(
-        duration: Duration(milliseconds: 60000), vsync: this)
+        duration: const Duration(milliseconds: 600), vsync: this)
       ..addListener(_updateView);
     if (widget.animSpeed != 0) _controller.repeat();
   }
@@ -574,17 +558,23 @@ class _AddObjectState extends State<AddObject>
           croppedFullWidth: widget.croppedFullWidth,
           croppedFullHeight: widget.croppedFullHeight);
     }
-    if (widget.child![current_index].getImage().image !=
-        oldWidget.child![current_index].getImage().image) {
-      _loadTexture(widget.child![current_index].getImage().image);
+    if (widget.child?.image != oldWidget.child?.image) {
+      _loadTexture(widget.child?.image);
     }
+    // if (widget.sensorControl != oldWidget.sensorControl) {
+    //   _updateSensorControl();
+    // }
+    // if (widget.child![current_index].getImage().image !=
+    //     oldWidget.child![current_index].getImage().image) {
+    //   _loadTexture(widget.child![current_index].getImage().image);
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    Container moveContainer = Container(
+    Widget moveContainer() => SizedBox(
         width: size.width / 4,
         child: Wrap(
           children: [
@@ -592,45 +582,45 @@ class _AddObjectState extends State<AddObject>
               onPressed: () {
                 moveUp(currentObj!, 3.14 / 20);
               },
-              child: Icon(Icons.arrow_upward),
+              child: const Icon(Icons.arrow_upward),
             ),
             ElevatedButton(
               onPressed: () {
                 moveRight(currentObj!, -3.14 / 20);
               },
-              child: Icon(Icons.arrow_back),
+              child: const Icon(Icons.arrow_back),
             ),
             ElevatedButton(
               onPressed: () {
                 moveRight(currentObj!, 3.14 / 20);
               },
-              child: Icon(Icons.arrow_forward),
+              child: const Icon(Icons.arrow_forward),
             ),
             ElevatedButton(
               onPressed: () {
                 moveUp(currentObj!, -3.14 / 20);
               },
-              child: Icon(Icons.arrow_downward),
+              child: const Icon(Icons.arrow_downward),
             ),
             ElevatedButton(
               onPressed: () {
                 zoomIn(currentObj!, 1.1);
               },
-              child: Icon(Icons.zoom_in),
+              child: const Icon(Icons.zoom_in),
             ),
             ElevatedButton(
               onPressed: () {
                 zoomIn(currentObj!, 0.9);
               },
-              child: Icon(Icons.zoom_out),
+              child: const Icon(Icons.zoom_out),
             ),
             ElevatedButton(
               onPressed: changePrevObject,
-              child: Text("Prev"),
+              child: const Text("Trước"),
             ),
             ElevatedButton(
               onPressed: changeNextObject,
-              child: Text("Next"),
+              child: const Text("Sau"),
             ),
             ElevatedButton(
               onPressed: () {
@@ -638,7 +628,7 @@ class _AddObjectState extends State<AddObject>
                 sceneObj!.world.children.remove(currentObj);
                 changePrevObject();
               },
-              child: Text("Remove"),
+              child: const Text("Xóa"),
             ),
           ],
         ));
@@ -647,7 +637,7 @@ class _AddObjectState extends State<AddObject>
       children: [
         Positioned(
           child: Visibility(
-            child: moveContainer,
+            child: moveContainer(),
             visible: objectToolVisible,
           ),
           bottom: 150,
@@ -663,7 +653,7 @@ class _AddObjectState extends State<AddObject>
                   children: [
                     GestureDetector(
                       child: Container(
-                        margin: EdgeInsets.only(left: 15),
+                        margin: const EdgeInsets.only(left: 15),
                         width: 70,
                         height: 30,
                         color: currentColor,
@@ -733,20 +723,14 @@ class _AddObjectState extends State<AddObject>
           child: Column(
             children: [
               isFAB
-                  ? ObjectFAB(onAddingFABCLicked, mode)
-                  : ExtObjectFAB(onAddingFABCLicked, mode),
-              SizedBox(
+                  ? objectFAB(onAddingFABCLicked, mode)
+                  : extObjectFAB(onAddingFABCLicked, mode),
+              const SizedBox(
                 height: 20,
               )
             ],
           ),
         ),
-        StreamBuilder(
-          stream: _stream,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return buildHotspotWidgets(hotspots);
-          },
-        )
       ],
     );
 

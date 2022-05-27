@@ -107,8 +107,8 @@ class PostItem extends StatelessWidget {
                                 horizontal: mini ? 7 : 10),
                             decoration: BoxDecoration(
                                 color: post.isRent ?? false
-                                    ? AppColors.darkPrimary
-                                    : AppColors.red,
+                                    ? AppColors.darkPrimary.withOpacity(0.8)
+                                    : AppColors.red.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(4)),
                             child: Text(
                               post.getPostStatus(),

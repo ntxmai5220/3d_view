@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+
 import 'dart:ui' as ui;
 import 'dart:math' as math;
+
+import 'package:panorama/flutter_cube/flutter_cube.dart';
 
 enum SensorControl {
   /// No sensor used.

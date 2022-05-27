@@ -28,7 +28,6 @@ List<String> objectNames = [
   "Tủ nhỏ"
 ];
 
-
 String convertImageObjtoObjPath(String imageObj) {
   int imageIndex = objectPath.indexOf(imageObj);
 
@@ -37,15 +36,21 @@ String convertImageObjtoObjPath(String imageObj) {
 
 Future<String?> modalObjectSheet(context) async {
   itemBuilder(context, {required int index}) => ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         onTap: () {
           Navigator.pop(context, objectPath[index]);
         },
         leading: SizedBox(
-            height: 70,
-            width: 70,
+            width: 75,
+            height: 80,
             child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(objectImagePath[index]))),
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                objectImagePath[index],
+                fit: BoxFit.cover,
+              ),
+            )),
         title: Text(
           objectNames[index],
           style: TextStyles.normalLabel.copyWith(color: AppColors.black),
@@ -62,9 +67,8 @@ Future<String?> modalObjectSheet(context) async {
             // ...rooms?.map((room) => itemBuilder(context, room)) ?? [],
             ...objectNames.map((name) =>
                 itemBuilder(context, index: objectNames.indexOf(name))),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
           ],
         ),
       ));
 }
-

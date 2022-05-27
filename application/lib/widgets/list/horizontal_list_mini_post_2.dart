@@ -71,7 +71,7 @@ class HorizontalListMiniPost2 extends StatelessWidget {
                   height: 343,
                   child: GridView.builder(
                       physics: const CustomScrollPhysics(itemDimension: 321),
-                      itemCount: posts.length,
+                      itemCount: list.length,
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppConstants.pageMarginHorizontal,
                           vertical: 5),

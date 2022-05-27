@@ -33,6 +33,11 @@ enum ValidatorError {
   defaultError,
 }
 
+enum BackgroundType {
+  origin,
+  removed,
+}
+
 extension ValidatorErrorExtension on ValidatorError {
   String get error {
     switch (this) {

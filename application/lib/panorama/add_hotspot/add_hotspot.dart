@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:bk_3d_view/bottom_sheets/bottom_sheets.dart';
-import 'package:bk_3d_view/data/mock.dart';
+
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/pages/new_post/new_post_page.dart';
+
 import 'package:bk_3d_view/panorama/add_hotspot/bloc/add_hotspot_bloc.dart';
 
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -12,7 +12,8 @@ import 'package:bk_3d_view/values/app_enum.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cube/flutter_cube.dart';
+
+
 import 'package:motion_sensors/motion_sensors.dart';
 import 'package:panorama/module.dart';
 

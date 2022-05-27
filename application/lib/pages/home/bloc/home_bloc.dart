@@ -1,4 +1,3 @@
-import 'package:bk_3d_view/models/filter_param/filter_param.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/home/home_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -29,7 +28,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeLoaded(
           banners: banners, newPost: state.newPost, hotPost: state.hotPost));
       controller.refreshCompleted();
-      FilterParam param = FilterParam(limit: 10);
+      FilterParam param = FilterParam(limit: 8);
       var response2 =
           await _repository.getPostFilter(params: param.toHomeParam());
       var newPost = response2.list;

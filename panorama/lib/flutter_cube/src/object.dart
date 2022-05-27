@@ -1,5 +1,5 @@
-import 'dart:ui';
-import 'package:bk_3d_view/panorama/add_object/panaroma/flutter_cube/src/light.dart';
+
+import 'package:panorama/flutter_cube/src/light.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'scene.dart';
 import 'mesh.dart';

@@ -49,6 +49,16 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: '3D VIEW',
         theme: ThemeData(
+            sliderTheme: SliderThemeData(
+              activeTrackColor: AppColors.white,
+              inactiveTrackColor: AppColors.white.withOpacity(0.3),
+              thumbColor: AppColors.white,
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    // textStyle: TextStyles.buttonText,
+                    primary: AppColors.primary.withOpacity(0.85))),
             tabBarTheme: const TabBarTheme(
               labelColor: AppColors.white,
               unselectedLabelColor: AppColors.darkSecondary,

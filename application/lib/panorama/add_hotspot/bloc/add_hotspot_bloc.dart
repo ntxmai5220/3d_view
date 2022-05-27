@@ -4,8 +4,9 @@ import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/app_enum.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:panorama/module.dart';
 
-import 'package:panorama/hotspot.dart/hotspot.dart';
+
 
 part 'add_hotspot_event.dart';
 part 'add_hotspot_state.dart';

@@ -7,6 +7,6 @@ class PostDetailRepository {
   Future<ObjectResponse<Post>> getPostDetail({required String id}) =>
       postServices.getPostDetail(id: id);
 
-  Future<ObjectResponse<User>> getUserById({required String id}) =>
+  Future<ObjectResponse<User>> getUserById({String? id}) =>
       userServices.getUserById(id: id);
 }

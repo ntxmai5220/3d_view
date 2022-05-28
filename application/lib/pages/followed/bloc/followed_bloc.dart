@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
@@ -21,15 +22,20 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
 
   loadData(FollowedLoadEvent event, Emitter<FollowedState> emit) async {
     // emit(FollowedLoading(post: state.post));
-    event.params.resetPage();
-    if (state is FollowedLoaded) {
-      emit(FollowedLoading(post: state.post, params: event.params));
+    var isLogin = await HelperSharedPreferences.getUserLogin();
+    if (isLogin == true) {
+      event.params.resetPage();
+      if (state is FollowedLoaded) {
+        emit(FollowedLoading(post: state.post, params: event.params));
+      }
+      var result = await _repository.getListFollowed(
+          params: event.params.toFilterParam());
+      // scrollController.jumpTo(0);
+      // refreshController.refreshCompleted();
+      emit(FollowedLoaded(post: result.list, params: event.params));
+    } else {
+      emit(FollowdNotLogin(params: state.params));
     }
-    var result =
-        await _repository.getListFollowed(params: event.params.toFilterParam());
-    // scrollController.jumpTo(0);
-    // refreshController.refreshCompleted();
-    emit(FollowedLoaded(post: result.list, params: event.params));
   }
 
   loadMore(FollowedLoadMoreEvent event, Emitter<FollowedState> emit) async {

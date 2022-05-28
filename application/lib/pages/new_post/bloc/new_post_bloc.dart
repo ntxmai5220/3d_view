@@ -65,7 +65,6 @@ class NewPostBloc extends Bloc<NewPostEvent, NewPostState> {
     }
 
     var response = await _repository.createPost(
-      userId: '625bd0648e18145a85211945',
       images: images,
       imageDescription:
           event.rooms.map((room) => 'Phòng ${room.name}').toList(),

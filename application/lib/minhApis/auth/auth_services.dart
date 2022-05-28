@@ -18,7 +18,6 @@ class AuthServices {
     );
 
     User user = User.fromJson(response.data);
-    print(user.toJson());
 
     return ObjectResponse(object: user);
   }
@@ -41,6 +40,7 @@ class AuthServices {
     );
 
     User user = User.fromJson(response.data);
+
     return ObjectResponse(object: user);
   }
 }

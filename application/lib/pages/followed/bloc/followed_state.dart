@@ -29,3 +29,13 @@ class FollowedLoaded extends FollowedState {
     required FilterParam params,
   }) : super(post: post, params: params);
 }
+
+class FollowedError extends FollowedState {
+  FollowedError({required List<Post> post, required FilterParam params})
+      : super(post: post, params: params);
+}
+
+class FollowdNotLogin extends FollowedState {
+  FollowdNotLogin({List<Post> post = const [], required FilterParam params})
+      : super(post: post, params: params);
+}

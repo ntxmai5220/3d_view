@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:typed_data';
 
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/minhApis/apis.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:dio/dio.dart';
@@ -13,12 +14,8 @@ class PostRequest {
   static DioRequest createAnoPost({
     required String userId,
     required Post post,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .jsonContent()
-        .authorizeToken(token ?? 'example1')
-        .build();
+    Options options = OptionBuilder().jsonContent().authorizeToken().build();
     return DioRequest(
         path: "post/anopost/$userId",
         options: options,
@@ -27,14 +24,11 @@ class PostRequest {
 
   // Path: post/:id
   static DioRequest createPost({
-    required String userId,
     required List<MapEntry<String, Uint8List>> images,
     required List<String> imageDescription,
     required Map<String, String> landInfo,
-    String? token,
   }) {
-    Options options =
-        OptionBuilder().authorizeToken(token ?? 'example1').build();
+    Options options = OptionBuilder().authorizeToken().build();
 
     FormData form = FormData();
     for (var image in images) {
@@ -48,19 +42,15 @@ class PostRequest {
     }
     form.fields.addAll(landInfo.entries);
     print(form.fields);
-    return DioRequest(path: "post/$userId", options: options, body: form);
+    return DioRequest(path: "post/${HelperSharedPreferences.savedUserId}", options: options, body: form);
   }
 
   // Path: post/uploadhotspot/:id
   static DioRequest addHotspot({
     required String roomId,
     required List<Map<String, dynamic>> hotspots,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .jsonContent()
-        .authorizeToken(token ?? 'example1')
-        .build();
+    Options options = OptionBuilder().jsonContent().authorizeToken().build();
 
     return DioRequest(
         path: "post/uploadhotspot/$roomId",
@@ -72,10 +62,8 @@ class PostRequest {
   static DioRequest uploadThumbnail({
     required String roomId,
     required List<MapEntry<String, Uint8List>> images,
-    String? token,
   }) {
-    Options options =
-        OptionBuilder().authorizeToken(token ?? 'example1').build();
+    Options options = OptionBuilder().authorizeToken().build();
     FormData form = FormData();
     for (var image in images) {
       String name = image.key;
@@ -92,12 +80,8 @@ class PostRequest {
   static DioRequest uploadMainThumbnail({
     required String roomId,
     required Map<String, String> mainThumbnail,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .jsonContent()
-        .authorizeToken(token ?? 'example1')
-        .build();
+    Options options = OptionBuilder().jsonContent().authorizeToken().build();
     return DioRequest(
         path: "post/uploadmainthumbnail/$roomId",
         body: jsonEncode(mainThumbnail),
@@ -108,12 +92,8 @@ class PostRequest {
   static DioRequest uploadRemoveImage({
     required String roomId,
     required MapEntry<String, Uint8List> removeImage,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .jsonContent()
-        .authorizeToken(token ?? 'example1')
-        .build();
+    Options options = OptionBuilder().jsonContent().authorizeToken().build();
 
     FormData form = FormData();
 
@@ -125,9 +105,7 @@ class PostRequest {
     // var formData =
     //     MapEntry("image", MultipartFile.fromBytes(data, filename: name));
     return DioRequest(
-        path: "post/uploadremovedimg/$roomId",
-        body: form,
-        options: options);
+        path: "post/uploadremovedimg/$roomId", body: form, options: options);
   }
 
   // Path: /post
@@ -146,12 +124,8 @@ class PostRequest {
 
   static DioRequest updateAllPost({
     required Map<String, dynamic> updateInfo,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .authorizeToken(token ?? 'example1')
-        .jsonContent()
-        .build();
+    Options options = OptionBuilder().authorizeToken().jsonContent().build();
     return DioRequest(
         path: "post", body: jsonEncode(updateInfo), options: options);
   }
@@ -159,28 +133,29 @@ class PostRequest {
   static DioRequest updatePost({
     required String id,
     required Map<String, dynamic> updateInfo,
-    String? token,
   }) {
-    Options options = OptionBuilder()
-        .authorizeToken(token ?? 'example1')
-        .jsonContent()
-        .build();
+    Options options = OptionBuilder().authorizeToken().jsonContent().build();
     return DioRequest(
         path: "post/$id", body: jsonEncode(updateInfo), options: options);
   }
 
-  static DioRequest deletePost({required String id ,String? token}){
-    Options options = OptionBuilder().authorizeToken(token??'example1').build();
+  static DioRequest deletePost({required String id}) {
+    Options options = OptionBuilder().authorizeToken().build();
     return DioRequest(path: "post/$id", options: options);
   }
 
-  static DioRequest follow({required String userId, required String token, required Map<String, dynamic> body}){
-    Options options = OptionBuilder().jsonContent().authorizeToken(token).build();
-    return DioRequest(path: "user/follow/$userId", options: options, body: jsonEncode(body));
+  static DioRequest follow({
+    required String userId,
+    required Map<String, dynamic> body,
+  }) {
+    Options options = OptionBuilder().jsonContent().authorizeToken().build();
+    return DioRequest(
+        path: "user/follow/${HelperSharedPreferences.savedUserId}", options: options, body: jsonEncode(body));
   }
 
-  static DioRequest getBanner(){
-    String path = "https://6280872d7532b4920f704090.mockapi.io/v1/3dview/banners";
+  static DioRequest getBanner() {
+    String path =
+        "https://6280872d7532b4920f704090.mockapi.io/v1/3dview/banners";
     return DioRequest(path: "", optionPath: path);
-  } 
+  }
 }

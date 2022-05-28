@@ -45,11 +45,10 @@ void main() {
     };
     List<String> imageDescription = ["test1", "test2"];
     var result = await services.createPost(
-        userId: "625bd0648e18145a85211945",
-        images: images,
-        imageDescription: imageDescription,
-        landInfo: post.toFormData(),
-        token: token);
+      images: images,
+      imageDescription: imageDescription,
+      landInfo: post.toFormData(),
+    );
     debugPrint(result.object.toFormData().toString());
   });
 
@@ -108,10 +107,9 @@ void main() {
     final mainThumbnail = {"mainThumbnail": "duong link dan toi Thumbnail"};
     PostServices services = PostServices();
     await services.uploadMainThumbnail(
-        roomId: "625be882ba0392826c179527",
-        mainThumbnail: mainThumbnail,
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw");
+      roomId: "625be882ba0392826c179527",
+      mainThumbnail: mainThumbnail,
+    );
   });
 
   test("getPostWithFilter", () async {
@@ -134,23 +132,24 @@ void main() {
     Map<String, dynamic> update = {"desc": "123"};
     PostServices services = PostServices();
     await services.updateAllPost(
-        updateInfo: update,
-        token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNmE2ZWIzODAzYjFlMjIxZGQyYzJjYiIsImlzQWRtaW4iOnRydWUsInNlc3Npb25Ub2tlbiI6IjYyNmE2ZWJiODAzYjFlMjIxZGQyYzJjZSIsImlhdCI6MTY1MTE0MjMzMSwiZXhwIjoxNjUzNzM0MzMxfQ.BkGKAAAa6sFJPQ1vTn9zQg59E0Cd7eRznFECbgeCn5k");
+      updateInfo: update,
+    );
   });
 
   test("updatePost", () async {
     Map<String, dynamic> update = {"desc": "123"};
     PostServices services = PostServices();
     await services.updatePost(
-        id: "625a6ae0c313e60d2f3836e6", updateInfo: update, token: "example1");
+      id: "625a6ae0c313e60d2f3836e6",
+      updateInfo: update,
+    );
   });
 
   test("followPost", () async {
     String id = "625bd0768e18145a85211947";
     const body = {"postId": "625bd324fa9050c1dc04feb3", "isFavorite": true};
     PostServices services = PostServices();
-    await services.follow(userId: id, token: token, body: body);
+    await services.follow(body: body);
   });
 
   test("deletePost", () async {});
@@ -205,23 +204,27 @@ void main() {
     const room = {"name": "test Name"};
     RoomServices roomServices = RoomServices();
     String id = "625a6ae0c313e60d2f3836e6";
-    await roomServices.updateRoom(id: id, token: token, body: room);
+    await roomServices.updateRoom(id: id, body: room);
   });
 
   test("getRoom", () async {
     String id = "625a6ae0c313e60d2f3836e6";
     RoomServices roomServices = RoomServices();
-    await roomServices.getRoom(id: id, token: token);
+    await roomServices.getRoom(
+      id: id,
+    );
   });
 
   test("deleteRoom", () async {
     String id = "625a6ae0c313e60d2f3836e6";
     RoomServices roomServices = RoomServices();
-    await roomServices.deleteRoom(id: id, token: token);
+    await roomServices.deleteRoom(
+      id: id,
+    );
   });
 
   test("getAllUser", () async {
     UserServices userServices = UserServices();
-    await userServices.getUserById(id: "625bd0648e18145a85211945");
+    await userServices.getUserById();
   });
 }

@@ -52,29 +52,36 @@ class ViewPanorama extends StatelessWidget {
                   title: state.rooms[state.currentRoom].name ?? '',
                   color: AppColors.white,
                 ),
-                actions: [
-                  IconActionButton(
-                    icon: Icons.change_circle_rounded,
-                    iconColor: AppColors.white,
-                    padding: 8,
-                    onTap: () async {
-                      Room? nextRoom = await ShowBottomSheet.showBS(context,
-                          child: ChooseRoomBS(
-                            rooms: [...rooms]..removeAt(state.currentRoom),
-                          ));
-                      if (nextRoom != null) {
-                        context.read<ViewPanoramaBloc>().add(
-                            ViewPanoramaChangeByIdEvent(id: nextRoom.id ?? ''));
-                      }
-                    },
-                  )
-                ],
+                actions: rooms.length > 1
+                    ? [
+                        IconActionButton(
+                          icon: Icons.change_circle_rounded,
+                          iconColor: AppColors.white,
+                          padding: 8,
+                          onTap: () async {
+                            Room? nextRoom =
+                                await ShowBottomSheet.showBS(context,
+                                    child: ChooseRoomBS(
+                                      rooms: [...rooms]
+                                        ..removeAt(state.currentRoom),
+                                    ));
+                            if (nextRoom != null) {
+                              context.read<ViewPanoramaBloc>().add(
+                                  ViewPanoramaChangeByIdEvent(
+                                      id: nextRoom.id ?? ''));
+                            }
+                          },
+                        )
+                      ]
+                    : null,
               ),
               body: Panorama(
                   // animSpeed: 3.5,
                   child: Image(
+                      //   image: NetworkImage(state.rooms[state.currentRoom].imgUrl!),
+                      // ),
                       image: CachedNetworkImageProvider(
-                          state.rooms[state.currentRoom].imgUrl!)),
+                          rooms[state.currentRoom].imgUrl!)),
                   hotspots: state.rooms[state.currentRoom].hotspots
                           ?.map((item) => Hotspot(
                               name: item.title,

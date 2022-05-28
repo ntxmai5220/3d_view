@@ -47,10 +47,11 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
         await _repository.getListFollowed(params: state.params.toFilterParam());
     if (result.list.isEmpty) {
       refreshController.loadNoData();
+    } else {
+      refreshController.loadComplete();
+      emit(FollowedLoaded(
+          post: state.post..addAll(result.list), params: state.params));
     }
-    refreshController.loadComplete();
-    emit(FollowedLoaded(
-        post: state.post..addAll(result.list), params: state.params));
   }
 
   refresh(FollowedRefreshEvent event, Emitter<FollowedState> emit) async {

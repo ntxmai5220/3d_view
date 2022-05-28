@@ -3,7 +3,7 @@ import 'package:bk_3d_view/models/models.dart';
 
 class InPaintingServices {
   String token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2tleV9pZCI6NDcsImV4cCI6MTY1NDEwMTQwMywiaWF0IjoxNjUxNTA5NDAzfQ.AXP-Mkdf4qhuV78uah0MllfWBk4WnmejdOHZ_NyyH2M";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2tleV9pZCI6NDgsImV4cCI6MTY1NjMyMzk1MywiaWF0IjoxNjUzNzMxOTUzfQ.b0rsFdRtNnocIJQrzW7i4JrsuviqX35BnMKW5c7azGQ";
   Future<ObjectResponse<String?>> removeWithMask(
       {required String base64Image, required String base64Mask}) async {
     DioRequest request = InPaintingRequest.removeWithMask(

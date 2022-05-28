@@ -7,8 +7,8 @@ class HelperSharedPreferences {
   static const String isLogin = 'isLogin';
   static const String isAdmin = 'isAdmin';
 
-  static late final String? savedToken;
-  static late final String? savedUserId;
+  static late String? savedToken;
+  static late String? savedUserId;
 
   ////////////////////---SET---////////////////////
   static Future<bool> saveUserId(String id) async {

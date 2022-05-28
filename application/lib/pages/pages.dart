@@ -23,7 +23,7 @@ export 'followed/followed_page.dart';
 export 'my_page/my_page.dart';
 
 //manage post
-export 'manage_post/view/manage_post.dart';
+export 'manage_post/manage_post.dart';
 
 //post_detail
 export 'post_detail/post_detail.dart';

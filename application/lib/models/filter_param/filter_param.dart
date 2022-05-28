@@ -58,12 +58,18 @@ class FilterParam {
   }
 
   Map<String, dynamic> toUserParam() {
-    return {
-      'page': _page,
-      'limit': limit,
-      'creatorId[eq]': creatorIdEQ,
-      'isHidden[eq]': false,
-    };
+    return isHiddenEQ != null
+        ? {
+            'page': _page,
+            'limit': limit,
+            'creatorId[eq]': creatorIdEQ,
+            'isHidden[eq]': isHiddenEQ,
+          }
+        : {
+            'page': _page,
+            'limit': limit,
+            'creatorId[eq]': creatorIdEQ,
+          };
   }
 
   // Map<String, dynamic> toMyParam() {

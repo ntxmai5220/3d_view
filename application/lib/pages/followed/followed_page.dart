@@ -47,11 +47,17 @@ class FollowedPage extends StatelessWidget {
                 style:
                     TextStyles.screenTitle.copyWith(color: AppColors.primary)),
             actions: [
-              IconActionButton(
-                icon: Icons.filter_list_alt,
-                iconColor: AppColors.darkSecondary,
-                padding: 10,
-                onTap: () => globalKey.currentState?.openEndDrawer(),
+              BlocBuilder<FollowedBloc, FollowedState>(
+                builder: (context, state) {
+                  return state is FollowedLoaded
+                      ? IconActionButton(
+                          icon: Icons.filter_list_alt,
+                          iconColor: AppColors.darkSecondary,
+                          padding: 10,
+                          onTap: () => globalKey.currentState?.openEndDrawer(),
+                        )
+                      : const SizedBox();
+                },
               )
             ],
             backgroundColor: Colors.white,
@@ -75,6 +81,8 @@ class FollowedPage extends StatelessWidget {
                   child: LoadingPlaceHolder(
                       height: double.maxFinite, width: double.maxFinite),
                 );
+              } else if (state is FollowdNotLogin) {
+                return const LoginRequired();
               } else {
                 return SmartRefresher(
                   key: key,

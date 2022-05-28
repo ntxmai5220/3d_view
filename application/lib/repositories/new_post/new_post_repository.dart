@@ -14,44 +14,44 @@ class NewPostRepository {
   Future<ListResponse<Province>> getProvince() =>
       AddressService(apiExecute: _apiExecute).getProvinces();
 
-  Future<ListResponse<District>> getDistrict({required int provinceId}) =>
+  Future<ListResponse<District>> getDistrict({
+    required int provinceId,
+  }) =>
       AddressService(apiExecute: _apiExecute)
           .getDistricts(provinceId: provinceId);
 
-  Future<ListResponse<Ward>> getWard({required int districtId}) =>
+  Future<ListResponse<Ward>> getWard({
+    required int districtId,
+  }) =>
       AddressService(apiExecute: _apiExecute).getWards(districtId: districtId);
 
-  Future<Response<dynamic>> downloadCamera(
-          {required String urlPath,
-          required String savePath,
-          ProgressCallback? onReceivedData}) =>
+  Future<Response<dynamic>> downloadCamera({
+    required String urlPath,
+    required String savePath,
+    ProgressCallback? onReceivedData,
+  }) =>
       Dio().download(urlPath, savePath, onReceiveProgress: onReceivedData);
 
   //create post
   Future<ObjectResponse<Post>> createPost({
-    required String userId,
     required List<MapEntry<String, Uint8List>> images,
     required List<String> imageDescription,
     required Map<String, String> landInfo,
-    String? token,
   }) =>
       postServices.createPost(
-        userId: userId,
         images: images,
         imageDescription: imageDescription,
         landInfo: landInfo,
-        token: token,
       );
 
   //upload thumbnail
-  Future<ObjectResponse<Room>> uploadThumbnail(
-          {required String roomId,
-          required List<MapEntry<String, Uint8List>> images,
-          String? token}) =>
+  Future<ObjectResponse<Room>> uploadThumbnail({
+    required String roomId,
+    required List<MapEntry<String, Uint8List>> images,
+  }) =>
       postServices.uploadThumbnail(
         roomId: roomId,
         images: images,
-        token: token,
       );
 
   //delete post when click huy

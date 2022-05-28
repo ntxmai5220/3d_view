@@ -21,7 +21,7 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
       var currentState = state;
       if (currentState is PostDetailLoaded) {
         var user = await _repository.getUserById(
-            id: currentState.post.creatorId ?? '');
+            id: currentState.post.creatorId);
         emit(PostDetailLoaded(post: currentState.post, user: user.object));
       }
     } catch (e) {

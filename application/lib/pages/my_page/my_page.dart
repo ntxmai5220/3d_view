@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/user_info/user_info.dart';
 
@@ -26,6 +27,13 @@ class MyPage extends StatelessWidget {
     void toCreatePost() {
       Navigator.push(
           context, MaterialPageRoute(builder: (_) => const NewPostPage()));
+    }
+
+    void logout() async {
+      await HelperSharedPreferences.clearAll();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const LoginPage()),
+          (route) => false);
     }
 
     List<Map<String, dynamic>> items = [
@@ -91,7 +99,7 @@ class MyPage extends StatelessWidget {
                     horizontal: AppConstants.pageMarginHorizontal,
                     vertical: 15),
                 child: MyButton('Đăng xuất',
-                    bgColor: AppColors.red, onClick: () {}))
+                    bgColor: AppColors.red, onClick: logout))
           ],
         ),
       ),

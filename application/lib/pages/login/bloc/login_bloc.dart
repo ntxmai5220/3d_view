@@ -1,8 +1,9 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
-import 'package:bk_3d_view/repositories/login/login_repository.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
+
 import 'package:bk_3d_view/values/app_enum.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'login_event.dart';
@@ -31,6 +32,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               await _repository.login(email: email.text, pw: pw.text);
 
           User user = response.object;
+          if (user.accessToken != null && user.id != null) {
+            await HelperSharedPreferences.saveToken(user.accessToken!);
+
+            var a =await  HelperSharedPreferences.getToken();
+            await HelperSharedPreferences.saveUserId(user.id!);
+            await HelperSharedPreferences.saveAdmin(user.isAdmin ?? false);
+            await HelperSharedPreferences.saveUserLogin(true);
+            debugPrint(a);
+          } else {
+            emit(LoginFail());
+          }
+
           debugPrint(user.toJson().toString());
           emit(LoginSuccess());
         } catch (e) {

@@ -39,8 +39,7 @@ class PostItem extends StatelessWidget {
             //       color: AppColors.lightSecondary45)
             // ],
             border: Border.all(color: AppColors.lightSecondary),
-            borderRadius: const BorderRadius.all(
-                Radius.circular(AppConstants.borderRadius + 1))),
+            borderRadius: BorderRadius.circular(AppConstants.borderRadius)),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(
               Radius.circular(AppConstants.borderRadius)),

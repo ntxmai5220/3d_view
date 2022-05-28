@@ -26,14 +26,17 @@ class ViewPanoramaBloc extends Bloc<ViewPanoramaEvent, ViewPanoramaState> {
       var response =
           await _repository.getRoom(id: state.rooms.elementAt(0).id ?? '');
       state.rooms[0] = response.object;
-      emit(ViewPanoramaLoaded(
-          currentRoom: state.currentRoom, rooms: event.rooms));
+      // add(ViewPanoramaChangeByIdEvent(id: state.rooms[0].id!));
+      // emit(ViewPanoramaLoaded(
+      //     currentRoom: state.currentRoom, rooms: event.rooms));
       for (int i = 1; i < state.rooms.length; i++) {
         getRoomDetail(index: i);
+        //  var response =
+        //     await _repository.getRoom(id: state.rooms[i].id ?? '');
+        // // int index = state.rooms.indexWhere((element) => element.id == id);
+        // state.rooms[i] = response.object;
       }
-      // for (var room in state.rooms) {
-
-      // }
+      await Future.delayed(const Duration(seconds: 2));
       emit(ViewPanoramaLoaded(
           currentRoom: state.currentRoom, rooms: event.rooms));
     } catch (e) {

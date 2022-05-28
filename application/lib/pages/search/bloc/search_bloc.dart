@@ -44,9 +44,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (result.list.isEmpty) {
       refreshController.loadNoData();
     }
-    refreshController.loadComplete();
-    emit(SearchLoaded(
-        post: state.post..addAll(result.list), params: state.params));
+    else{
+      refreshController.loadComplete();
+      emit(SearchLoaded(
+          post: state.post..addAll(result.list), params: state.params));
+    }
   }
 
   refresh(SearchRefreshEvent event, Emitter<SearchState> emit) async {

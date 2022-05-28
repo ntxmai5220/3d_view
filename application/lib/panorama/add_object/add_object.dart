@@ -146,6 +146,9 @@ class _AddObjectState extends State<AddObject>
   bool objectToolVisible = false;
   // DelTapFunction
 
+  //Object scale
+  double lastObjectScale=0;
+
   void changePrevObject() {
     int length = sceneObj!.world.children.length;
     if (length == 0) {
@@ -202,10 +205,11 @@ class _AddObjectState extends State<AddObject>
   }
 
   void _handleAddObject(double longitude, double latitude, double tilt) async {
+    
     String? objPath = await modalObjectSheet(context);
     if (objPath == null) return;
     double trueXdeg = -longitude + math.pi / 2;
-    double trueYdeg = latitude;
+
     Object newObj = Object(
       name: objPath,
       fileName: objPath,
@@ -215,12 +219,11 @@ class _AddObjectState extends State<AddObject>
       backfaceCulling: false,
       scale: Vector3(6, 6, 6),
       parent: surface,
-      position: Vector3(0, 0, 0),
+      position: Vector3(0, math.tan(latitude)*10, 0),
     );
     currentObj = newObj;
     // rotate object position
     moveRight(newObj, trueXdeg);
-    moveUp(newObj, trueYdeg);
     sceneObj!.world.add(newObj);
     _updateView();
     setCurrentColor(currentObj!.light.color);
@@ -246,6 +249,39 @@ class _AddObjectState extends State<AddObject>
 
   void setCurrentColor(Color color) {
     setState(() => currentColor = color);
+  }
+
+  Vector3 calculateTouchPosition(Vector3 location){
+    double coordinate_y = math.tan(-location.y)*10;
+    double trueXdeg = location.x+ math.pi / 2;
+    return moveRightVector(Vector3(0,coordinate_y,0),trueXdeg);
+  }
+
+  bool isCanZoom(Vector3 touchPosition, Object object){
+    Vector3 objectPostion = object.position;
+    double distanceDelta = math.sqrt(math.pow(touchPosition.x-objectPostion.x,2)+ math.pow(touchPosition.y-objectPostion.y,2));
+    return distanceDelta < 0.5*object.scale.x*(zoom-0.2);
+  }
+
+  void _handleScaleObjectUpdate(ScaleUpdateDetails details){
+    
+    final Vector3 location = positionToLatLon(details.localFocalPoint.dx, details.localFocalPoint.dy);
+    
+    if (currentObj != null) {
+      if (!isCanZoom(calculateTouchPosition(location), currentObj!)) return  _handleScaleUpdate(details);
+
+      if (details.scale != 1) {
+        if (details.scale - lastObjectScale > 0) {
+          zoomIn(currentObj!, 1.01);
+        } else {
+          zoomIn(currentObj!, 0.99);
+        }
+      }
+      lastObjectScale = details.scale;
+    } else {
+      _handleScaleUpdate(details);
+    }
+
   }
 
   void _handleScaleStart(ScaleStartDetails details) {
@@ -281,23 +317,36 @@ class _AddObjectState extends State<AddObject>
 
   void zoomIn(Object obj, double scale) {
     Vector3 currentScale = obj.scale;
+
+    double minScale = 2;
+    double scale_x  =currentScale.x * scale;
+    double scale_y = currentScale.y * scale;
+    double scale_z = currentScale.z * scale;
+    
     obj.scale.setValues(
-        currentScale.x * scale, currentScale.y * scale, currentScale.z * scale);
+        scale_x < minScale ? minScale : scale_x, 
+        scale_y < minScale ? minScale: scale_y,  
+        scale_z < minScale ? minScale: scale_z);
     obj.updateTransform();
     scene!.update();
   }
 
-  void moveRight(Object obj, double angle) {
+  Vector3 moveRightVector(Vector3 vector, double angle){
     Vector3 axis = Vector3(0, 1, 0);
 
     Quaternion q = Quaternion.axisAngle(axis, angle);
     Vector3 cameraPoint = scene!.camera.position;
 
-    Vector3 objPosition = obj.position;
+    Vector3 objPosition = vector;
     Vector3 point = objPosition - cameraPoint;
     q.rotate(point);
     point += cameraPoint;
-    obj.position.setFrom(point);
+    return point;
+  }
+
+  void moveRight(Object obj, double angle) {
+    Vector3 objPosition = obj.position;
+    obj.position.setFrom(moveRightVector(objPosition, angle));
     obj.updateTransform();
     scene!.update();
   }
@@ -521,7 +570,7 @@ class _AddObjectState extends State<AddObject>
     // this.hotspots = listHotspot[current_index]!;
 
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this)
+        duration: const Duration(milliseconds: 60000), vsync: this)
       ..addListener(_updateView);
     if (widget.animSpeed != 0) _controller.repeat();
   }
@@ -557,13 +606,6 @@ class _AddObjectState extends State<AddObject>
     if (widget.child?.image != oldWidget.child?.image) {
       _loadTexture(widget.child?.image);
     }
-    // if (widget.sensorControl != oldWidget.sensorControl) {
-    //   _updateSensorControl();
-    // }
-    // if (widget.child![current_index].getImage().image !=
-    //     oldWidget.child![current_index].getImage().image) {
-    //   _loadTexture(widget.child![current_index].getImage().image);
-    // }
   }
 
   @override
@@ -576,39 +618,27 @@ class _AddObjectState extends State<AddObject>
           children: [
             ElevatedButton(
               onPressed: () {
-                moveUp(currentObj!, 3.14 / 20);
+                moveUp(currentObj!, 3.14 / 30);
               },
               child: const Icon(Icons.arrow_upward),
             ),
             ElevatedButton(
               onPressed: () {
-                moveRight(currentObj!, -3.14 / 20);
+                moveRight(currentObj!, -3.14 / 30);
               },
               child: const Icon(Icons.arrow_back),
             ),
             ElevatedButton(
               onPressed: () {
-                moveRight(currentObj!, 3.14 / 20);
+                moveRight(currentObj!, 3.14 / 30);
               },
               child: const Icon(Icons.arrow_forward),
             ),
             ElevatedButton(
               onPressed: () {
-                moveUp(currentObj!, -3.14 / 20);
+                moveUp(currentObj!, -3.14 / 30);
               },
               child: const Icon(Icons.arrow_downward),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                zoomIn(currentObj!, 1.1);
-              },
-              child: const Icon(Icons.zoom_in),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                zoomIn(currentObj!, 0.9);
-              },
-              child: const Icon(Icons.zoom_out),
             ),
             ElevatedButton(
               onPressed: changePrevObject,
@@ -656,17 +686,9 @@ class _AddObjectState extends State<AddObject>
 
     Stack objectToolKit = Stack(
       children: [
-        // Positioned(
-        //   child: Visibility(
-        //     child: moveContainer(),
-        //     visible: objectToolVisible,
-        //   ),
-        //   bottom: 150,
-        // ),
         Positioned(
             bottom: 10,
             right: 0,
-            // right: size.width / 3,
             left: 0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -740,26 +762,19 @@ class _AddObjectState extends State<AddObject>
       children: [
         Cube(interactive: false, onSceneCreated: _onSceneCreated),
         Cube(interactive: false, onSceneCreated: _onSceneCreatedObj),
-        // Positioned(
-        //   bottom: 30,
-        //   right: 20,
-        //   child: isFAB
-        //       ? objectFAB(onAddingFABCLicked, mode)
-        //       : extObjectFAB(onAddingFABCLicked, mode),
-        // ),
       ],
     );
 
     return Stack(children: [
       GestureDetector(
-        onScaleStart: _handleScaleStart,
-        onScaleUpdate: _handleScaleUpdate,
-        onTapUp: _handleTapUp,
+        // onScaleStart: _handleScaleStart,
+        // onScaleUpdate: _handleScaleUpdate,
+        // onTapUp: _handleTapUp,
         child: Cube(interactive: false, onSceneCreated: _onSceneCreated),
       ),
       GestureDetector(
         onScaleStart: _handleScaleStart,
-        onScaleUpdate: _handleScaleUpdate,
+        onScaleUpdate: _handleScaleObjectUpdate,
         onTapUp: _handleTapUp,
         child: Cube(interactive: false, onSceneCreated: _onSceneCreatedObj),
       ),

@@ -42,6 +42,8 @@ class ViewPanorama extends StatelessWidget {
             }
           },
           builder: (context, state) {
+            List<Room> listRoom = state.rooms;
+            int current = state.currentRoom;
             if (state is ViewPanoramaInitial) {
               return const LoadingPlaceHolder(
                   width: double.maxFinite, height: double.maxFinite);
@@ -49,7 +51,7 @@ class ViewPanorama extends StatelessWidget {
             return Scaffold(
               appBar: MyAppBar(
                 title: AppBarTextTitle(
-                  title: state.rooms[state.currentRoom].name ?? '',
+                  title: listRoom[current].name ?? '',
                   color: AppColors.white,
                 ),
                 actions: rooms.length > 1
@@ -78,11 +80,11 @@ class ViewPanorama extends StatelessWidget {
               body: Panorama(
                   // animSpeed: 3.5,
                   child: Image(
-                      //   image: NetworkImage(state.rooms[state.currentRoom].imgUrl!),
-                      // ),
-                      image: CachedNetworkImageProvider(
-                          rooms[state.currentRoom].imgUrl!)),
-                  hotspots: state.rooms[state.currentRoom].hotspots
+                 
+                  image: CachedNetworkImageProvider(
+                      listRoom[current].imgUrl!)),
+                  hotspots: listRoom[current]
+                          .hotspots
                           ?.map((item) => Hotspot(
                               name: item.title,
                               type: type[item.type ?? 0],

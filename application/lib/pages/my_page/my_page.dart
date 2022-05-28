@@ -1,6 +1,6 @@
 import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/pages/pages.dart';
-import 'package:bk_3d_view/pages/user_info/user_info.dart';
+
 
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
@@ -15,7 +15,7 @@ class MyPage extends StatelessWidget {
       debugPrint('Profile');
       //MyHomePage(title: 'Flutter Demo Home Page')
       Navigator.push(
-          context, MaterialPageRoute(builder: (_) => UserInfo(userId: "1312")));
+          context, MaterialPageRoute(builder: (_) => MyProfile(userId: "1312")));
     }
 
     void toPostManagement() {

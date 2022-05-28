@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
@@ -33,7 +34,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               email: email.text, pw: pw.text, name: username.text);
 
           User user = response.object;
-          debugPrint(user.toJson().toString());
+          if (user.accessToken != null && user.id != null) {
+            await HelperSharedPreferences.saveToken(user.accessToken!);
+
+            var a = await HelperSharedPreferences.getToken();
+            await HelperSharedPreferences.saveUserId(user.id!);
+            await HelperSharedPreferences.saveAdmin(user.isAdmin ?? false);
+            await HelperSharedPreferences.saveUserLogin(true);
+            debugPrint(a);
+          } else {
+            emit(RegisterFail());
+          }
+
           emit(RegisterSuccess());
         } catch (e) {
           emit(RegisterFail(error: e.toString()));

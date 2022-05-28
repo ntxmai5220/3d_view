@@ -26,31 +26,31 @@ void main() {
     return images;
   }
 
-  test("createAnoPost", () async {
-    PostServices services = PostServices();
-    final images = await getImage();
-    final landInfo = {
-      'area': '357',
-      'price': '123',
-      'address': 'saacvd',
-      'desc': 'minh',
-      'province[id]': '35',
-      'province[name]': 'TP HCM',
-      'district[id]': '80',
-      'district[name]': 'Thu Duc',
-      'district[provinceId]': '35',
-      'ward[code]': '77',
-      'ward[name]': 'Phuong 9',
-      'ward[districtId]': '80'
-    };
-    List<String> imageDescription = ["test1", "test2"];
-    var result = await services.createPost(
-      images: images,
-      imageDescription: imageDescription,
-      landInfo: post.toFormData(),
-    );
-    debugPrint(result.object.toFormData().toString());
-  });
+  // test("createAnoPost", () async {
+  //   PostServices services = PostServices();
+  //   final images = await getImage();
+  //   final landInfo = {
+  //     'area': '357',
+  //     'price': '123',
+  //     'address': 'saacvd',
+  //     'desc': 'minh',
+  //     'province[id]': '35',
+  //     'province[name]': 'TP HCM',
+  //     'district[id]': '80',
+  //     'district[name]': 'Thu Duc',
+  //     'district[provinceId]': '35',
+  //     'ward[code]': '77',
+  //     'ward[name]': 'Phuong 9',
+  //     'ward[districtId]': '80'
+  //   };
+  //   List<String> imageDescription = ["test1", "test2"];
+  //   var result = await services.createPost(
+  //     images: images,
+  //     imageDescription: imageDescription,
+  //     landInfo: post.toFormData(),
+  //   );
+  //   debugPrint(result.object.toFormData().toString());
+  // });
 
   test("add hotpost", () async {
     List<Map<String, dynamic>> hotspots = [

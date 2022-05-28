@@ -20,7 +20,7 @@ export 'search/search_page.dart';
 export 'followed/followed_page.dart';
 
 //my page
-export 'my_page/view/my_page.dart';
+export 'my_page/my_page.dart';
 
 //manage post
 export 'manage_post/view/manage_post.dart';

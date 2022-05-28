@@ -1,18 +1,11 @@
-import 'package:bk_3d_view/values/app_colors.dart';
-import 'package:bk_3d_view/values/app_constants.dart';
-import 'package:bk_3d_view/values/app_enum.dart';
-import 'package:bk_3d_view/values/app_styles.dart';
-import 'package:bk_3d_view/widgets/button/my_button.dart';
+import 'package:bk_3d_view/pages/login/login_page.dart';
+import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class MyErrorWidget extends StatelessWidget {
-  const MyErrorWidget({
-    Key? key,
-    this.content,
-    this.onTap,
-  }) : super(key: key);
-  final String? content;
-  final Function()? onTap;
+class LoginRequired extends StatelessWidget {
+  const LoginRequired({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,13 +20,13 @@ class MyErrorWidget extends StatelessWidget {
           Center(
             child: Icon(
               Icons.warning_amber_rounded,
-              color: AppColors.red.withOpacity(0.7),
+              color: AppColors.yellow,
               size: size.width / 3,
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            content ?? ValidatorError.defaultError.error,
+            'Bạn cần đăng nhập\nđể sử dụng tính năng này',
             style:
                 TextStyles.buttonText.copyWith(color: AppColors.darkSecondary),
             textAlign: TextAlign.center,
@@ -43,8 +36,10 @@ class MyErrorWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               vertical: AppConstants.pageMarginHorizontal,
             ),
-            child:
-                MyButton('Tải lại', bgColor: AppColors.primary, onClick: onTap),
+            child: MyButton('Đăng nhập',
+                bgColor: AppColors.primary,
+                onClick: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const LoginPage()))),
           ),
           // const Spacer(),
         ],

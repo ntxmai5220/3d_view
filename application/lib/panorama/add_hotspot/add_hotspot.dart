@@ -13,7 +13,6 @@ import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 import 'package:motion_sensors/motion_sensors.dart';
 import 'package:panorama/module.dart';
 
@@ -490,16 +489,18 @@ class _AddHotspotState extends State<AddHotspot>
               content: 'Chọn loại hotspot',
               noLabel: 'Thông tin',
               yesLabel: 'Chuyển cảnh',
+              noLabelColor: AppColors.primary,
             ));
         if (type == true) {
           late Room? nextRoom;
           if (rooms.isNotEmpty) {
             nextRoom = await ShowBottomSheet.showBS(context,
-                child: ChooseRoomBS(
-                  rooms: rooms
-                ));
+                child: ChooseRoomBS(rooms: rooms));
           } else {
             //show empty room to choose
+            ShowMyDialog.show(context,
+                dialog: const NotificationDialog(
+                    content: 'Không có phòng khác để chuyển cảnh'));
           }
 
           if (nextRoom != null) {

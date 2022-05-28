@@ -304,7 +304,7 @@ class RoomDetail extends StatelessWidget {
     if (images.length > 1) {
       bool popupIsActive = true;
 
-      Future.delayed(const Duration(seconds: 4), () {
+      Future.delayed(const Duration(seconds: 2), () {
         if (popupIsActive) Navigator.of(context).pop();
       });
       showDialog(

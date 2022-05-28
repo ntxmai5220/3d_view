@@ -203,36 +203,43 @@ class NewPostPage extends StatelessWidget {
       case NewPostStep.image:
         //call api create post
         // FocusManager.instance.primaryFocus?.unfocus();
+        if (context.read<ImageViewBloc>().state.rooms.isEmpty) {
+          ShowMyDialog.show(context,
+              dialog: const NotificationDialog(
+                content: 'Bạn phải tạo ảnh.',
+                type: DialogType.warning,
+              ));
+        } else {
+          var result = await ShowMyDialog.show(context,
+              dialog: const ConfirmDialog(
+                  content:
+                      'Bạn sẽ không được quay lại bước này. Bạn vẫn muốn tiếp tục bước 3.'));
+          if (result == true) {
+            Post post = Post(
+              area: double.tryParse(dataViewBloc.area.text),
+              price: double.tryParse(dataViewBloc.price.text),
+              isUsed: false,
+              isHidden: false,
+              isFavorite: false,
+              isRent: dataViewBloc.state.type == 1,
+              desc: dataViewBloc.desc.text,
+              address: dataViewBloc.address.text,
+              ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
+              district:
+                  dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
+                      district,
+              province:
+                  dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
+                      province,
 
-        var result = await ShowMyDialog.show(context,
-            dialog: const ConfirmDialog(
-                content:
-                    'Bạn sẽ không được quay lại bước này. Bạn vẫn muốn tiếp tục bước 3.'));
-        if (result == true) {
-          Post post = Post(
-            area: double.tryParse(dataViewBloc.area.text),
-            price: double.tryParse(dataViewBloc.price.text),
-            isUsed: false,
-            isHidden: false,
-            isFavorite: false,
-            isRent: dataViewBloc.state.type == 1,
-            desc: dataViewBloc.desc.text,
-            address: dataViewBloc.address.text,
-            ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
-            district:
-                dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
-                    district,
-            province:
-                dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
-                    province,
-
-            // rooms: ,
-            // creatorId: '625bd0648e18145a85211945'
-          );
-          bloc.add(NewPostCreateEvent(
-            post: post,
-            rooms: context.read<ImageViewBloc>().state.rooms,
-          ));
+              // rooms: ,
+              // creatorId: '625bd0648e18145a85211945'
+            );
+            bloc.add(NewPostCreateEvent(
+              post: post,
+              rooms: context.read<ImageViewBloc>().state.rooms,
+            ));
+          }
         }
         break;
       case NewPostStep.data:

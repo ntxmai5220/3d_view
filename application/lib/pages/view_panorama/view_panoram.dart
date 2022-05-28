@@ -71,7 +71,7 @@ class ViewPanorama extends StatelessWidget {
                 ],
               ),
               body: Panorama(
-                  animSpeed: 3.5,
+                  // animSpeed: 3.5,
                   child: Image(
                       image: CachedNetworkImageProvider(
                           state.rooms[state.currentRoom].imgUrl!)),

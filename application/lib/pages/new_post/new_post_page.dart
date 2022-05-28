@@ -224,13 +224,11 @@ class NewPostPage extends StatelessWidget {
               isRent: dataViewBloc.state.type == 1,
               desc: dataViewBloc.desc.text,
               address: dataViewBloc.address.text,
-              ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!] ?? ward,
+              ward: dataViewBloc.state.wards?[dataViewBloc.state.ward!],
               district:
-                  dataViewBloc.state.districts?[dataViewBloc.state.district!] ??
-                      district,
+                  dataViewBloc.state.districts?[dataViewBloc.state.district!] ,
               province:
-                  dataViewBloc.state.provinces?[dataViewBloc.state.province!] ??
-                      province,
+                  dataViewBloc.state.provinces?[dataViewBloc.state.province!] ,
 
               // rooms: ,
               // creatorId: '625bd0648e18145a85211945'

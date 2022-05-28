@@ -35,7 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (user.accessToken != null && user.id != null) {
             await HelperSharedPreferences.saveToken(user.accessToken!);
 
-            var a =await  HelperSharedPreferences.getToken();
+            var a = await HelperSharedPreferences.getToken();
             await HelperSharedPreferences.saveUserId(user.id!);
             await HelperSharedPreferences.saveAdmin(user.isAdmin ?? false);
             await HelperSharedPreferences.saveUserLogin(true);

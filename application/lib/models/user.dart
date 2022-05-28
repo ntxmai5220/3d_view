@@ -3,6 +3,7 @@ class User {
     this.id,
     this.username,
     this.email,
+    this.phone,
     this.isAdmin,
     this.posts,
     this.accessToken,
@@ -12,6 +13,7 @@ class User {
   String? id;
   String? username;
   String? email;
+  String? phone;
   bool? isAdmin;
   List<String>? posts;
   String? accessToken;
@@ -22,6 +24,7 @@ class User {
         id: map['_id'],
         username: map['username'],
         email: map['email'],
+        phone: map['phone'],
         isAdmin: map['isAdmin'],
         posts: map['posts'] != null ? List<String>.from(map['posts']) : null,
         accessToken: map['accessToken'],
@@ -34,12 +37,11 @@ class User {
       'id': id,
       'username': username,
       'email': email,
+      'phone': phone,
       'isAdmin': isAdmin,
       'posts': posts,
       'accessToken': accessToken,
       "follows": follows,
     };
   }
-
-  
 }

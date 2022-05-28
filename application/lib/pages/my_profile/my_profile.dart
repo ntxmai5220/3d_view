@@ -3,8 +3,6 @@ import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/app_colors.dart';
 import 'package:bk_3d_view/values/app_constants.dart';
 import 'package:bk_3d_view/values/app_styles.dart';
-import 'package:bk_3d_view/widgets/app_bar/app_bar_text_title.dart';
-import 'package:bk_3d_view/widgets/button/icon_action_button.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,20 +20,19 @@ class MyProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('$label: ',
+              Text(label,
                   style:
-                      TextStyles.normalLabel.copyWith(color: AppColors.black)),
+                      TextStyles.buttonText.copyWith(color: AppColors.black)),
               Expanded(
                   child: Wrap(children: [
                 Text(
                   data.toString(),
-                  style: TextStyles.normalContent,
+                  style: TextStyles.normalLabel,
                 )
               ]))
             ],
           ),
-          padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.pageMarginHorizontal, vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 8),
         );
 
     return Scaffold(
@@ -55,33 +52,58 @@ class MyProfile extends StatelessWidget {
       body: RepositoryProvider(
         create: (context) => MyProfileRepository(),
         child: BlocProvider(
-          create: (context) => MyProfileBloc(repository: RepositoryProvider.of(context)),
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: SizedBox.square(
-                  dimension: 75,
-                  child: CircleAvatar(
-                    backgroundColor: null,
-                    // user.username == null ? AppColors.lightSecondary45 : null,
-                    child: Text(
-                      'N',
-                      // user.username?[0].toUpperCase() ?? '',
-                      style: TextStyles.screenTitle
-                          .copyWith(color: AppColors.white, fontSize: 28),
+          create: (context) =>
+              MyProfileBloc(repository: RepositoryProvider.of(context))
+                ..add(MyProfileInitEvent()),
+          child: BlocBuilder<MyProfileBloc, MyProfileState>(
+            builder: (context, state) {
+              if (state is Error) {
+                return const MyErrorWidget();
+              }
+              return ListView(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppConstants.pageMarginHorizontal),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: SizedBox.square(
+                      dimension: 75,
+                      child: CircleAvatar(
+                        backgroundColor: state.user == null
+                            ? AppColors.lightSecondary45
+                            : null,
+                        child: Text(
+                          state.user?.username?[0].toUpperCase() ?? '',
+                          style: TextStyles.screenTitle
+                              .copyWith(color: AppColors.white, fontSize: 28),
+                        ),
+                        radius: 24,
+                      ),
                     ),
-                    radius: 24,
                   ),
-                ),
-              ),
-              buildDataInfo("Họ và tên: ", 'Nam'),
-              buildDataInfo("Số điện thoại: ", "09xxxxxxx"),
-              buildDataInfo("Email: ", "nam.doan302@hcmut.edu.vn"),
-            ],
+                  state.user != null
+                      ? buildDataInfo("Tên: ", state.user!.username)
+                      : tempWidget(),
+                  state.user != null
+                      ? buildDataInfo("Số điện thoại: ", state.user!.phone)
+                      : tempWidget(),
+                  state.user != null
+                      ? buildDataInfo("Email: ", state.user!.email)
+                      : tempWidget(),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
+
+  tempWidget() => Container(
+        height: 28,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+            color: AppColors.lightSecondary45,
+            borderRadius: BorderRadius.circular(AppConstants.borderRadius)),
+      );
 }

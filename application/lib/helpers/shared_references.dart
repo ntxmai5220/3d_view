@@ -73,5 +73,8 @@ class HelperSharedPreferences {
     await preferences.remove(token);
     await preferences.remove(isLogin);
     await preferences.remove(isAdmin);
+    savedToken= null;
+    savedUserId= null;
+    savedlistFollow = [];
   }
 }

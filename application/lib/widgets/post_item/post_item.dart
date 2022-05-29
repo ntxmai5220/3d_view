@@ -67,7 +67,7 @@ class PostItem extends StatelessWidget {
                     //           image: NetworkImage(post.rooms?[0].imgUrl ?? ''),
                     //           fit: BoxFit.cover)),
                     // ),
-                    onToggleFavorite != null && HelperSharedPreferences.savedUserId!=null
+                    onToggleFavorite != null && HelperSharedPreferences.savedUserId !=null
                         ? Positioned(
                             right: mini ? 12 : 20,
                             child: Container(

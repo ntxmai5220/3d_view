@@ -39,6 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await HelperSharedPreferences.saveUserId(user.id!);
             await HelperSharedPreferences.saveAdmin(user.isAdmin ?? false);
             await HelperSharedPreferences.saveUserLogin(true);
+            await HelperSharedPreferences.saveListFollow(user.follows ?? []);
             debugPrint(a);
           } else {
             emit(LoginFail());

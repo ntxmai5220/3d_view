@@ -1,5 +1,11 @@
+import 'package:bk_3d_view/models/filter_param/filter_param.dart';
+import 'package:bk_3d_view/pages/followed/bloc/followed_bloc.dart';
+import 'package:bk_3d_view/pages/home/bloc/home_bloc.dart';
 import 'package:bk_3d_view/pages/main_page/bloc/main_page_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
+import 'package:bk_3d_view/pages/search/bloc/search_bloc.dart';
+import 'package:bk_3d_view/repositories/home/home_repository.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
 
 import 'package:bk_3d_view/values/values.dart';
 import 'package:flutter/material.dart';
@@ -53,40 +59,69 @@ class _MainPageState extends State<MainPage>
             ))
         .toList();
 
-    return BlocProvider(
-      create: (context) => MainPageBloc(controller: tabController),
-      child: Scaffold(
-        backgroundColor: AppColors.lightPrimary,
-        body: SafeArea(
-          child: BlocBuilder<MainPageBloc, int>(
-            builder: (context, state) => IndexedStack(
-              index: state,
-              children: pages,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => HomeRepository()),
+        RepositoryProvider(create: (context) => SearchRepository()),
+        RepositoryProvider(create: (context) => FollowedRepository()),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => MainPageBloc(controller: tabController),
+          ),
+          BlocProvider(
+            create: (context) => FollowedBloc(
+                repository: RepositoryProvider.of<FollowedRepository>(context))
+              ..add(FollowedLoadEvent(params: FilterParam())),
+          ),
+          BlocProvider(
+            create: (context) => HomeBloc(
+                repository: RepositoryProvider.of<HomeRepository>(context),
+                followedBloc: BlocProvider.of<FollowedBloc>(context))
+              ..add(HomeLoadDataEvent()),
+          ),
+          BlocProvider(
+            create: (context) => SearchBloc(
+                repository: RepositoryProvider.of<SearchRepository>(context))
+              ..add(SearchLoadEvent(params: FilterParam())),
+          ),
+        ],
+        child: Scaffold(
+          backgroundColor: AppColors.lightPrimary,
+          body: SafeArea(
+            child: BlocBuilder<MainPageBloc, int>(
+              builder: (context, state) => IndexedStack(
+                index: state,
+                children: pages,
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
-          builder: (context, state) {
-            return Container(
-              height: 52,
-              decoration: const BoxDecoration(
-                  color: AppColors.black,
-                  boxShadow: [BoxShadow(offset: Offset(0, 0), blurRadius: 3)]),
-              child: TabBar(
-                  controller: context.read<MainPageBloc>().tabController,
-                  labelStyle: TextStyles.selectedTab,
-                  unselectedLabelStyle: TextStyles.unselectedTab,
-                  labelColor: AppColors.white,
-                  unselectedLabelColor: AppColors.darkSecondary,
-                  indicatorWeight: 1,
-                  indicatorColor: AppColors.white70,
-                  onTap: (int index) {
-                    BlocProvider.of<MainPageBloc>(context)
-                        .add(OnChangePage(index));
-                  },
-                  tabs: items),
-            );
-          },
+          bottomNavigationBar: BlocBuilder<MainPageBloc, int>(
+            builder: (context, state) {
+              return Container(
+                height: 52,
+                decoration: const BoxDecoration(
+                    color: AppColors.black,
+                    boxShadow: [
+                      BoxShadow(offset: Offset(0, 0), blurRadius: 3)
+                    ]),
+                child: TabBar(
+                    controller: context.read<MainPageBloc>().tabController,
+                    labelStyle: TextStyles.selectedTab,
+                    unselectedLabelStyle: TextStyles.unselectedTab,
+                    labelColor: AppColors.white,
+                    unselectedLabelColor: AppColors.darkSecondary,
+                    indicatorWeight: 1,
+                    indicatorColor: AppColors.white70,
+                    onTap: (int index) {
+                      BlocProvider.of<MainPageBloc>(context)
+                          .add(OnChangePage(index));
+                    },
+                    tabs: items),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -162,20 +162,22 @@ class PostServices {
     );
   }
 
-  Future<dynamic> follow({
-    required Map<String, dynamic> body,
+  Future<ObjectResponse<bool>> follow({
+    String? postId,
+    required bool isFavorite,
   }) async {
-    String? userId = await HelperSharedPreferences.getUserId();
     DioRequest request = PostRequest.follow(
-      userId: userId??'',
-      body: body,
+      body: {
+        "postId": postId,
+        "isFavorite": isFavorite,
+      },
     );
-    APIResponse data = await DioClient.put(
+    APIResponse response = await DioClient.put(
       path: request.path,
       options: request.options,
       data: request.body,
     );
-    print(data);
+    return ObjectResponse(object: response.toObject()['message'] == 'ok');
   }
 
   Future<ListResponse<Banner>> getBanners() async {

@@ -13,3 +13,12 @@ class FollowedLoadEvent extends FollowedEvent {
 }
 
 class FollowedLoadMoreEvent extends FollowedEvent {}
+
+class FollowedToggleFavoriteEvent extends FollowedEvent {
+  final String postId;
+  final bool isFavorite;
+  FollowedToggleFavoriteEvent({
+    required this.postId,
+    required this.isFavorite,
+  });
+}

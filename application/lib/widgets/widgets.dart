@@ -17,7 +17,7 @@ export './textfield/input_newpost.dart';
 export './user/choose_item.dart';
 export './user/user_infor.dart';
 
-export './post_item.dart';
+export 'post_item/post_item.dart';
 
 export './follow_icon.dart';
 

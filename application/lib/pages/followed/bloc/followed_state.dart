@@ -39,3 +39,5 @@ class FollowdNotLogin extends FollowedState {
   FollowdNotLogin({List<Post> post = const [], required FilterParam params})
       : super(post: post, params: params);
 }
+
+

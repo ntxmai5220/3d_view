@@ -79,6 +79,7 @@ class ViewPanorama extends StatelessWidget {
               ),
               body: Panorama(
                   // animSpeed: 3.5,
+                  zoom: 0.9,
                   child: Image(
                  
                   image: CachedNetworkImageProvider(

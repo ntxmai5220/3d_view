@@ -13,3 +13,12 @@ class SearchLoadEvent extends SearchEvent {
 }
 
 class SearchLoadMoreEvent extends SearchEvent {}
+
+class SearchToggleFavoriteEvent extends SearchEvent {
+  final String postId;
+  final bool isFavorite;
+  SearchToggleFavoriteEvent({
+    required this.postId,
+    required this.isFavorite,
+  });
+}

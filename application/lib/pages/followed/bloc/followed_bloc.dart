@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -18,6 +20,7 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
     on<FollowedLoadEvent>(loadData);
     on<FollowedLoadMoreEvent>(loadMore);
     on<FollowedRefreshEvent>(refresh);
+    on<FollowedToggleFavoriteEvent>(toggleFavorite);
   }
 
   loadData(FollowedLoadEvent event, Emitter<FollowedState> emit) async {
@@ -60,5 +63,25 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
         await _repository.getListFollowed(params: state.params.toFilterParam());
     refreshController.refreshCompleted();
     emit(FollowedLoaded(post: result.list, params: state.params));
+  }
+
+  toggleFavorite(
+      FollowedToggleFavoriteEvent event, Emitter<FollowedState> emit) async {
+    try {
+      if (!event.isFavorite) {
+        HelperSharedPreferences.savedlistFollow.add(event.postId);
+      } else {
+        HelperSharedPreferences.savedlistFollow.remove(event.postId);
+      }
+      var result = await _repository.follow(
+          postId: event.postId, isFavorite: !event.isFavorite);
+
+      state.post.removeWhere((element) => element.id == event.postId);
+      // state.post.where((element) => element.id == event.postId).first.isFavorite =
+      //     !event.isFavorite;
+      emit(FollowedLoaded(post: state.post, params: state.params));
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

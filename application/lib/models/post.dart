@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 
 class Post {
@@ -39,13 +40,16 @@ class Post {
   String? creatorId;
   DateTime? createdAt;
 
-  factory Post.fromJson(Map<String, dynamic> json,{bool? isFavorite}) => Post(
+  factory Post.fromJson(Map<String, dynamic> json, {bool? isFavorite}) => Post(
         id: json['_id'],
         area: json['area']?.toDouble(),
         price: json['price']?.toDouble(),
         isUsed: json['isUsed'],
         isRent: json["isRent"],
-        isFavorite:isFavorite?? json['isFavorite'],
+        isFavorite: isFavorite ??
+            HelperSharedPreferences.savedlistFollow
+                .where((element) => element == json['_id'])
+                .isNotEmpty, // json['isFavorite'],
         isHidden: json['isHidden'],
         desc: json['desc'],
         address: json['address'],
@@ -74,10 +78,10 @@ class Post {
         // 'id': id ?? '',
         'area': area?.toString() ?? '',
         'price': price?.toString() ?? '',
-        'isUsed': isUsed?.toString()??'false',
+        'isUsed': isUsed?.toString() ?? 'false',
         'isRent': isRent?.toString() ?? 'false',
-        'isFavorite':isFavorite?.toString() ?? 'false',
-        'isHidden':isHidden?.toString() ?? 'false',
+        'isFavorite': isFavorite?.toString() ?? 'false',
+        'isHidden': isHidden?.toString() ?? 'false',
         'province[id]': province?.id.toString() ?? '',
         'province[name]': province?.name ?? '',
         'district[id]': district?.id.toString() ?? '',
@@ -96,14 +100,13 @@ class Post {
         // 'creationTime': creationTime?.toIso8601String() ?? '',
       };
 
-      String getAddress(){
-        return "$address, ${ward?.name}, ${district?.name}, ${province?.name}";
-      }
+  String getAddress() {
+    return "$address, ${ward?.name}, ${district?.name}, ${province?.name}";
+  }
 
-      String getCreatedDate(){
-        return createdAt.toString().split(" ").first;
-      }
+  String getCreatedDate() {
+    return createdAt.toString().split(" ").first;
+  }
 
-      String getPostStatus() => isRent! ? "Cho thuê" : "Bán" ;
-
+  String getPostStatus() => isRent! ? "Cho thuê" : "Bán";
 }

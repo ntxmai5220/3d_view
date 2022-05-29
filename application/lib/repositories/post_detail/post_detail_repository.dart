@@ -9,4 +9,14 @@ class PostDetailRepository {
 
   Future<ObjectResponse<User>> getUserById({String? id}) =>
       userServices.getUserById(id: id);
+
+  
+  Future<ObjectResponse<bool>> follow({
+    required String postId,
+    required bool isFavorite,
+  }) =>
+      postServices.follow(
+        postId: postId,
+        isFavorite: isFavorite,
+      );
 }

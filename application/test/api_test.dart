@@ -149,7 +149,7 @@ void main() {
     String id = "625bd0768e18145a85211947";
     const body = {"postId": "625bd324fa9050c1dc04feb3", "isFavorite": true};
     PostServices services = PostServices();
-    await services.follow(body: body);
+    // await services.follow(body: body);
   });
 
   test("deletePost", () async {});

@@ -1,7 +1,10 @@
 import 'package:bk_3d_view/models/models.dart';
+import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
+import 'package:bk_3d_view/widgets/post_item/cubit/post_item_cubit.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostItem extends StatelessWidget {
   const PostItem({
@@ -83,7 +86,10 @@ class PostItem extends StatelessWidget {
                                   if (id != null) {
                                     onToggleFavorite?.call(id);
                                   }
-                                  post.isFavorite = true;
+                                  // // post.isFavorite = true;
+                                  // context
+                                  //     .read<PostItemCubit>()
+                                  //     .toggleFavorite(postId: post.id ?? '');
                                 },
                                 child: FollowIcon(
                                   mini: mini,

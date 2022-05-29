@@ -145,7 +145,6 @@ class PostRequest {
   }
 
   static DioRequest follow({
-    required String userId,
     required Map<String, dynamic> body,
   }) {
     Options options = OptionBuilder().jsonContent().authorizeToken().build();

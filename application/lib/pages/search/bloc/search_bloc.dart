@@ -1,4 +1,4 @@
-
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bloc/bloc.dart';
@@ -19,6 +19,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchLoadEvent>(loadData);
     on<SearchLoadMoreEvent>(loadMore);
     on<SearchRefreshEvent>(refresh);
+    on<SearchToggleFavoriteEvent>(toggleFavorite);
   }
 
   loadData(SearchLoadEvent event, Emitter<SearchState> emit) async {
@@ -43,8 +44,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         await _repository.getPostFilter(params: state.params.toFilterParam());
     if (result.list.isEmpty) {
       refreshController.loadNoData();
-    }
-    else{
+    } else {
       refreshController.loadComplete();
       emit(SearchLoaded(
           post: state.post..addAll(result.list), params: state.params));
@@ -57,5 +57,27 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         await _repository.getPostFilter(params: state.params.toFilterParam());
     refreshController.refreshCompleted();
     emit(SearchLoaded(post: result.list, params: state.params));
+  }
+
+  toggleFavorite(
+      SearchToggleFavoriteEvent event, Emitter<SearchState> emit) async {
+    try {
+      if (!event.isFavorite) {
+        HelperSharedPreferences.savedlistFollow.add(event.postId);
+      } else {
+        HelperSharedPreferences.savedlistFollow.remove(event.postId);
+      }
+
+      state.post
+          .where((element) => element.id == event.postId)
+          .first
+          .isFavorite = !event.isFavorite;
+      emit(SearchLoaded(post: state.post, params: state.params));
+      var result = await _repository.follow(
+          postId: event.postId, isFavorite: !event.isFavorite);
+
+      // state.post.removeWhere((element) => element.id == event.postId);
+
+    } catch (e) {}
   }
 }

@@ -88,7 +88,7 @@ class AddImageBS extends StatelessWidget {
   pickImage(BuildContext context, {required ImageSource source}) async {
     try {
       var image = await ImagePicker()
-      .pickMultiImage(imageQuality: 100); //pick multi image
+      .pickMultiImage(); //pick multi image
       // .pickImage(source: source, imageQuality: 100); //pick only one
 
       debugPrint(image.toString());

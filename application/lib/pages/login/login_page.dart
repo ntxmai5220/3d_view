@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/pages/login/bloc/login_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -27,9 +28,10 @@ class LoginPage extends StatelessWidget {
           context, MaterialPageRoute(builder: (_) => const RegisterPage()));
     }
 
-    _toMainPage() {
+    _toMainPage() async {
       debugPrint('to main');
       // Navigator.pushNamed(context, 'main');
+      
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const MainPage()));
     }

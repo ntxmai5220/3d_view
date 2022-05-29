@@ -16,107 +16,98 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> globalKey = GlobalKey();
-    return RepositoryProvider(
-      create: (context) => SearchRepository(),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-              create: (context) => FilterDrawerBloc()
-                ..add(FilterInitEvent(params: FilterParam()))),
-          BlocProvider(
-              create: (context) => SearchBloc(
-                  repository: RepositoryProvider.of<SearchRepository>(context))
-                ..add(SearchLoadEvent(
-                    params: context.read<FilterDrawerBloc>().state.params))),
-        ],
-        child: Scaffold(
-          key: globalKey,
-          // endDrawerEnableOpenDragGesture: ,
-          endDrawerEnableOpenDragGesture: false,
-          endDrawer: BlocBuilder<SearchBloc, SearchState>(
-            builder: (context, state) {
-              return FilterDrawer(
-                onTapFilter: (param) => context
-                    .read<SearchBloc>()
-                    .add(SearchLoadEvent(params: param)),
+    return BlocProvider(
+      create: (context) =>
+          FilterDrawerBloc()..add(FilterInitEvent(params: FilterParam())),
+      child: Scaffold(
+        key: globalKey,
+        // endDrawerEnableOpenDragGesture: ,
+        endDrawerEnableOpenDragGesture: false,
+        endDrawer: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            return FilterDrawer(
+              onTapFilter: (param) => context
+                  .read<SearchBloc>()
+                  .add(SearchLoadEvent(params: param)),
+            );
+          },
+        ),
+        appBar: AppBar(
+          title: Text('Tìm kiếm',
+              style: TextStyles.screenTitle.copyWith(color: AppColors.primary)),
+          actions: [
+            IconActionButton(
+              icon: Icons.filter_list_alt,
+              iconColor: AppColors.darkSecondary,
+              padding: 10,
+              onTap: () => globalKey.currentState?.openEndDrawer(),
+            )
+          ],
+          backgroundColor: Colors.white,
+        ),
+        body: BlocConsumer<SearchBloc, SearchState>(
+          listenWhen: (previous, current) {
+            return (previous is SearchLoading && current is! SearchLoading) ||
+                (previous is! SearchLoading && current is SearchLoading);
+          },
+          listener: (context, state) {
+            if (state is SearchLoading) {
+              ShowMyDialog.show(context, dialog: const LoadingDialog());
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+          builder: (context, state) {
+            if (state is SearchInitial) {
+              return const Center(
+                child: LoadingPlaceHolder(
+                    height: double.maxFinite, width: double.maxFinite),
               );
-            },
-          ),
-          appBar: AppBar(
-            title: Text('Tìm kiếm',
-                style:
-                    TextStyles.screenTitle.copyWith(color: AppColors.primary)),
-            actions: [
-              IconActionButton(
-                icon: Icons.filter_list_alt,
-                iconColor: AppColors.darkSecondary,
-                padding: 10,
-                onTap: () => globalKey.currentState?.openEndDrawer(),
-              )
-            ],
-            backgroundColor: Colors.white,
-          ),
-          body: BlocConsumer<SearchBloc, SearchState>(
-            listenWhen: (previous, current) {
-              return (previous is SearchLoading && current is! SearchLoading) ||
-                  (previous is! SearchLoading && current is SearchLoading);
-            },
-            listener: (context, state) {
-              if (state is SearchLoading) {
-                ShowMyDialog.show(context, dialog: const LoadingDialog());
-              } else {
-                Navigator.of(context).pop();
-              }
-            },
-            builder: (context, state) {
-              if (state is SearchInitial) {
-                return const Center(
-                  child: LoadingPlaceHolder(
-                      height: double.maxFinite, width: double.maxFinite),
-                );
-              } else {
-                return SmartRefresher(
-                  key: key,
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  onRefresh: () =>
-                      context.read<SearchBloc>().add(SearchRefreshEvent()),
-                  onLoading: () {
-                    debugPrint('load');
-                    context.read<SearchBloc>().add(SearchLoadMoreEvent());
-                  },
-                  controller: context.read<SearchBloc>().refreshController,
-                  child: state.post.isEmpty
-                      ? const EmptyImageList()
-                      : SingleChildScrollView(
-                          // controller:
-                          //     context.read<SearchBloc>().scrollController,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal:
-                                    AppConstants.pageMarginHorizontal / 1.5,
-                                vertical:
-                                    AppConstants.pageMarginHorizontal / 1.5),
-                            child: Wrap(
-                                // alignment: WrapAlignment.center,
-                                runSpacing: 15,
-                                spacing: 15,
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: state.post
-                                    .map((post) => PostItem(
-                                          post: post,
-                                          onTapPost: (id) =>
-                                              onClickPost(context, id: id),
-                                          onToggleFavorite: (id) =>
-                                              onToggleFavorite(context, id: id),
-                                        ))
-                                    .toList()),
-                          ),
+            } else {
+              return SmartRefresher(
+                key: key,
+                enablePullDown: true,
+                enablePullUp: true,
+                onRefresh: () =>
+                    context.read<SearchBloc>().add(SearchRefreshEvent()),
+                onLoading: () {
+                  debugPrint('load');
+                  context.read<SearchBloc>().add(SearchLoadMoreEvent());
+                },
+                controller: context.read<SearchBloc>().refreshController,
+                child: state.post.isEmpty
+                    ? const EmptyImageList()
+                    : SingleChildScrollView(
+                        // controller:
+                        //     context.read<SearchBloc>().scrollController,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal:
+                                  AppConstants.pageMarginHorizontal / 1.5,
+                              vertical:
+                                  AppConstants.pageMarginHorizontal / 1.5),
+                          child: Wrap(
+                              // alignment: WrapAlignment.center,
+                              runSpacing: 15,
+                              spacing: 15,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: state.post
+                                  .map((post) => PostItem(
+                                      post: post,
+                                      onTapPost: (id) =>
+                                          onClickPost(context, id: id),
+                                      onToggleFavorite: (id) => context
+                                          .read<SearchBloc>()
+                                          .add(SearchToggleFavoriteEvent(
+                                              postId: id,
+                                              isFavorite:
+                                                  post.isFavorite ?? false))))
+                                  .toList()),
                         ),
-                );
-              }
-            },
-          ),
+                      ),
+              );
+            }
+          },
         ),
       ),
     );

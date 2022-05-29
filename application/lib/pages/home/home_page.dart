@@ -1,4 +1,3 @@
-
 import 'package:bk_3d_view/pages/home/bloc/home_bloc.dart';
 import 'package:bk_3d_view/pages/main_page/bloc/main_page_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
@@ -107,7 +106,10 @@ class HomePage extends StatelessWidget {
                 // backgroundColor: AppColors.darkSecondary,
                 // titleColor: AppColors.lightPrimary,
                 onTapPost: (id) => openPostDetail(context, id: id),
-                onToggleFavorite: (id) => toggleFavorite(context, id: id),
+                onToggleFavorite: (id, isFavorite) => context
+                    .read<HomeBloc>()
+                    .add(HomeToggleFavoriteEvent(
+                        postId: id, isFavorite: isFavorite)),
                 onMoreTap: () =>
                     context.read<MainPageBloc>().add(OnChangePage(1)),
               );
@@ -120,7 +122,10 @@ class HomePage extends StatelessWidget {
                 title: 'Được quan tâm',
                 list: state.hotPost,
                 onTapPost: (id) => openPostDetail(context, id: id),
-                onToggleFavorite: (id) => toggleFavorite(context, id: id),
+                onToggleFavorite: (id, isFavorite) => context
+                    .read<HomeBloc>()
+                    .add(HomeToggleFavoriteEvent(
+                        postId: id, isFavorite: isFavorite)),
                 // onMoreTap: () {},
               );
             },
@@ -128,50 +133,41 @@ class HomePage extends StatelessWidget {
       }
     }
 
-    return RepositoryProvider(
-      create: (context) => HomeRepository(),
-      child: BlocProvider<HomeBloc>(
-        create: (context) =>
-            HomeBloc(repository: RepositoryProvider.of<HomeRepository>(context))
-              ..add(HomeLoadDataEvent()),
-        child: Scaffold(
-            backgroundColor: AppColors.background,
-            appBar: AppBar(
-              title: Text(
-                AppConstants.appName,
-                style:
-                    TextStyles.screenTitle.copyWith(color: AppColors.primary),
+    return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: Text(
+            AppConstants.appName,
+            style: TextStyles.screenTitle.copyWith(color: AppColors.primary),
+          ),
+          actions: const [
+            Padding(
+              padding: EdgeInsets.all(3.0),
+              child: Icon(
+                Icons.more_vert_rounded,
+                size: kToolbarHeight - 30,
+                color: AppColors.darkSecondary,
               ),
-              actions: const [
-                Padding(
-                  padding: EdgeInsets.all(3.0),
-                  child: Icon(
-                    Icons.more_vert_rounded,
-                    size: kToolbarHeight - 30,
-                    color: AppColors.darkSecondary,
-                  ),
-                )
-              ],
-              backgroundColor: Colors.white,
-            ),
-            body: BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                return SmartRefresher(
-                  key: key,
-                  enablePullDown: true,
-                  enablePullUp: false,
-                  controller: context.read<HomeBloc>().controller,
-                  onRefresh: () =>
-                      context.read<HomeBloc>().add(HomeLoadDataEvent()),
-                  child: ListView.builder(
-                    itemBuilder: getHomeSection,
-                    itemCount: section.length,
-                  ),
-                );
-              },
-            )),
-      ),
-    );
+            )
+          ],
+          backgroundColor: Colors.white,
+        ),
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            return SmartRefresher(
+              key: key,
+              enablePullDown: true,
+              enablePullUp: false,
+              controller: context.read<HomeBloc>().controller,
+              onRefresh: () =>
+                  context.read<HomeBloc>().add(HomeLoadDataEvent()),
+              child: ListView.builder(
+                itemBuilder: getHomeSection,
+                itemCount: section.length,
+              ),
+            );
+          },
+        ));
   }
 
   openPostDetail(BuildContext context, {required String id}) {

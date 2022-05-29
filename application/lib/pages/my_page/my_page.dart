@@ -1,7 +1,6 @@
 import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 
-
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +13,8 @@ class MyPage extends StatelessWidget {
     void toProfile() {
       debugPrint('Profile');
       //MyHomePage(title: 'Flutter Demo Home Page')
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => MyProfile(userId: "1312")));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => MyProfile(userId: "1312")));
     }
 
     void toPostManagement() {
@@ -44,64 +43,66 @@ class MyPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.background,
-        body: Column(
-          children: [
-            Container(height: 10, color: Colors.white),
-            Stack(
-              children: [
-                Container(
-                  height: 90,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        colorFilter: ColorFilter.mode(
-                            AppColors.white80, BlendMode.srcOver),
-                        image: AssetImage(AppAssets.background),
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  left: AppConstants.pageMarginHorizontal,
-                  top: 0,
-                  bottom: 0,
-                  child: Row(
+        body: HelperSharedPreferences.savedToken == null
+            ? const LoginRequired()
+            : Column(
+                children: [
+                  Container(height: 10, color: Colors.white),
+                  Stack(
                     children: [
-                      Image.asset(
-                        AppAssets.appLogo,
-                        height: AppConstants.logoSize,
-                        width: AppConstants.logoSize,
+                      Container(
+                        height: 90,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              colorFilter: ColorFilter.mode(
+                                  AppColors.white80, BlendMode.srcOver),
+                              image: AssetImage(AppAssets.background),
+                              fit: BoxFit.cover),
+                        ),
                       ),
-                      const SizedBox(width: 20),
-                      Text(AppConstants.appName,
-                          style: TextStyles.screenTitle
-                              .copyWith(color: AppColors.primary))
+                      Positioned(
+                        left: AppConstants.pageMarginHorizontal,
+                        top: 0,
+                        bottom: 0,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              AppAssets.appLogo,
+                              height: AppConstants.logoSize,
+                              width: AppConstants.logoSize,
+                            ),
+                            const SizedBox(width: 20),
+                            Text(AppConstants.appName,
+                                style: TextStyles.screenTitle
+                                    .copyWith(color: AppColors.primary))
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
-            Expanded(
-              child: ListView.separated(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppConstants.pageMarginHorizontal,
-                      vertical: 15),
-                  itemBuilder: (context, index) {
-                    return ChooseItem(items[index]['label'],
-                        onClick: items[index]['funct']);
-                  },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 8),
-                  itemCount: items.length),
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppConstants.pageMarginHorizontal,
-                    vertical: 15),
-                child: MyButton('Đăng xuất',
-                    bgColor: AppColors.red, onClick: logout))
-          ],
-        ),
+                  Expanded(
+                    child: ListView.separated(
+                        // physics: const NeverScrollableScrollPhysics(),
+                        // shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: AppConstants.pageMarginHorizontal,
+                            vertical: 15),
+                        itemBuilder: (context, index) {
+                          return ChooseItem(items[index]['label'],
+                              onClick: items[index]['funct']);
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 8),
+                        itemCount: items.length),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.pageMarginHorizontal,
+                          vertical: 15),
+                      child: MyButton('Đăng xuất',
+                          bgColor: AppColors.red, onClick: logout))
+                ],
+              ),
       ),
     );
   }

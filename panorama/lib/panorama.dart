@@ -28,7 +28,7 @@ class Panorama extends StatefulWidget {
     this.maxLatitude = 90.0,
     this.minLongitude = -180.0,
     this.maxLongitude = 180.0,
-    this.minZoom = 0.6,
+    this.minZoom = 0.5,
     this.maxZoom = 3.0,
     this.sensitivity = 1.0,
     this.animSpeed = 0.0,

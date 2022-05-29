@@ -229,17 +229,17 @@ class _AddObjectState extends State<AddObject>
     setCurrentColor(currentObj!.light.color);
   }
 
-  void changeCorlorObjectRec(Object obj, Color color, int index) {
+  void changeCorlorObjectRec(Object obj, Color color) {
     obj.light.setColor(color, 1, 2, 2);
     obj.light.position.setFrom(Vector3(0, 0, -10));
     if (obj.children.isEmpty) return;
     for (Object child in obj.children) {
-      changeCorlorObjectRec(child, color, index + 1);
+      changeCorlorObjectRec(child, color);
     }
   }
 
   void changeColor(Color color) {
-    changeCorlorObjectRec(currentObj!, color, 1);
+    changeCorlorObjectRec(currentObj!, color);
     setColorPicker(color);
   }
 
@@ -258,6 +258,7 @@ class _AddObjectState extends State<AddObject>
   }
 
   bool isCanZoom(Vector3 touchPosition, Object object){
+    if (!objectToolVisible) return false;
     Vector3 objectPostion = object.position;
     double distanceDelta = math.sqrt(math.pow(touchPosition.x-objectPostion.x,2)+ math.pow(touchPosition.y-objectPostion.y,2));
     return distanceDelta < 0.5*object.scale.x*(zoom-0.2);

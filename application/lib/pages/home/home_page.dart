@@ -28,10 +28,11 @@ class HomePage extends StatelessWidget {
                     controller: PageController(viewportFraction: 0.9),
                     itemCount: banners.length,
                     itemBuilder: (context, index) => InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (_) => AppWebView(
-                                      url: state.banners[index].webUrl ?? ''))),
+                          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => AppWebView(
+                                  url: index == 0
+                                      ? 'https://www.facebook.com/truongdhbachkhoa/'
+                                      : state.banners[index].webUrl ?? ''))),
                           child: Card(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(

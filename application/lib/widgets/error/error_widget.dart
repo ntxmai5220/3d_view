@@ -28,7 +28,7 @@ class MyErrorWidget extends StatelessWidget {
             child: Icon(
               Icons.warning_amber_rounded,
               color: AppColors.red.withOpacity(0.7),
-              size: size.width / 3,
+              size: size.width / 3.5,
             ),
           ),
           const SizedBox(height: 10),

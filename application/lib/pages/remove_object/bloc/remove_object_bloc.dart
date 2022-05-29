@@ -125,6 +125,7 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
       }
     } on TimeoutException catch (e) {
       debugPrint(e.toString());
+      emit(RemoveObjectError(background: state.background));
     }
   }
 

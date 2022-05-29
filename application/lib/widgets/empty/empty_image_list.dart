@@ -28,7 +28,7 @@ class EmptyImageList extends StatelessWidget {
             ),
             const SizedBox(height: 17),
             Text(
-              content ?? 'Bạn chưa có ảnh',
+              content ?? 'Không có dữ liệu',
               textAlign: TextAlign.center,
               style: TextStyles.buttonText.copyWith(color: AppColors.secondary),
             ),

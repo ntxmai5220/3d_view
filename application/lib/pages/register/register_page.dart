@@ -24,7 +24,7 @@ class RegisterPage extends StatelessWidget {
       debugPrint('to main');
       // Navigator.pushNamed(context, 'main');
       await HelperSharedPreferences.clearAll();
-      Navigator.pushReplacement(
+      Navigator.push(
           context, MaterialPageRoute(builder: (_) => const MainPage()));
     }
 

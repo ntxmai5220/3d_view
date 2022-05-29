@@ -31,8 +31,8 @@ class LoginPage extends StatelessWidget {
     _toMainPage() async {
       debugPrint('to main');
       // Navigator.pushNamed(context, 'main');
-      
-      Navigator.pushReplacement(
+      await HelperSharedPreferences.clearAll();
+      Navigator.push(
           context, MaterialPageRoute(builder: (_) => const MainPage()));
     }
 

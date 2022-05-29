@@ -16,7 +16,7 @@ class MyProfileBloc extends Bloc<MyProfileEvent, MyProfileState> {
 
   loadData(MyProfileInitEvent event, Emitter<MyProfileState> emit) async {
     try{
-      var result = await _repository.getUserInfor();
+      var result = await _repository.getUserInfor(event.userId);
     emit(MyProfileLoaded(user: result.object));
     }catch (e){
       emit(MyProfileError(user: null));

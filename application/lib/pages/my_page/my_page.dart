@@ -13,8 +13,8 @@ class MyPage extends StatelessWidget {
     void toProfile() {
       debugPrint('Profile');
       //MyHomePage(title: 'Flutter Demo Home Page')
-      Navigator.push(context,
-          MaterialPageRoute(builder: (_) => MyProfile(userId: "1312")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const MyProfile()));
     }
 
     void toPostManagement() {

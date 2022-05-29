@@ -1,4 +1,4 @@
-
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -102,24 +102,29 @@ class RemoveObjectBloc extends Bloc<RemoveObjectEvent, RemoveObjectState> {
     final image =
         await state.background!.toByteData(format: ui.ImageByteFormat.png);
     painterController.background = state.background!.backgroundDrawable;
-    if (image != null && mask != null) {
-      Uint8List dataImage = image.buffer.asUint8List();
-      String base64Image = base64Encode(dataImage);
+    try {
+      if (image != null && mask != null) {
+        Uint8List dataImage = image.buffer.asUint8List();
+        String base64Image = base64Encode(dataImage);
 
-      Uint8List dataMask = mask.buffer.asUint8List();
-      String base64Mask = base64Encode(dataMask);
+        Uint8List dataMask = mask.buffer.asUint8List();
+        String base64Mask = base64Encode(dataMask);
 
-      var response = await _repository.sendMask(
-          base64Image: base64Image, base64Mask: base64Mask);
+        var response = await _repository
+            .sendMask(base64Image: base64Image, base64Mask: base64Mask)
+            .timeout(const Duration(minutes: 2));
 
-      if (response.object != null) {
-        emit(RemoveObjectReceivedMask(
-            background: state.background, mask: response.object!));
-      } else {
-        debugPrint('error');
-        emit(RemoveObjectError(background: state.background));
-        // emit(RemoveObjectLoaded(background: state.background!));
+        if (response.object != null) {
+          emit(RemoveObjectReceivedMask(
+              background: state.background, mask: response.object!));
+        } else {
+          debugPrint('error');
+          emit(RemoveObjectError(background: state.background));
+          // emit(RemoveObjectLoaded(background: state.background!));
+        }
       }
+    } on TimeoutException catch (e) {
+      debugPrint(e.toString());
     }
   }
 

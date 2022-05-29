@@ -27,65 +27,72 @@ class HomePage extends StatelessWidget {
                 ? PageView.builder(
                     controller: PageController(viewportFraction: 0.9),
                     itemCount: banners.length,
-                    itemBuilder: (context, index) => Card(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                AppConstants.borderRadius),
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: NetImage(
-                                      imageUrl: banners[index].imgUrl ?? '',
-                                      width: 150,
-                                      height: 150),
-                                ),
-                                // Container(
-                                //   decoration: BoxDecoration(
-                                //     image: DecorationImage(
-                                //         image: NetworkImage(
-                                //             banners[index].imgUrl ?? ''),
-                                //         fit: BoxFit.cover),
-                                //   ),
-                                // ),
-                                Container(
-                                  color: Colors.black54,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 12),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // const SizedBox(height: 7),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 15, top: 5),
-                                          child: Text(
-                                              banners[index].title ?? '',
-                                              style: TextStyles.buttonText
-                                                  .copyWith(fontSize: 32)),
-                                        ),
-                                        Expanded(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                                banners[index].content ?? '',
-                                                style: TextStyles.normalContent
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.white)),
-                                          ),
-                                        )
-                                      ]),
-                                )
-                              ],
-                            ),
-                          ),
-                          shape: RoundedRectangleBorder(
+                    itemBuilder: (context, index) => InkWell(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (_) => AppWebView(
+                                      url: state.banners[index].webUrl ?? ''))),
+                          child: Card(
+                            child: ClipRRect(
                               borderRadius: BorderRadius.circular(
-                                  AppConstants.borderRadius)),
-                          elevation: 2,
+                                  AppConstants.borderRadius),
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: NetImage(
+                                        imageUrl: banners[index].imgUrl ?? '',
+                                        width: 150,
+                                        height: 150),
+                                  ),
+                                  // Container(
+                                  //   decoration: BoxDecoration(
+                                  //     image: DecorationImage(
+                                  //         image: NetworkImage(
+                                  //             banners[index].imgUrl ?? ''),
+                                  //         fit: BoxFit.cover),
+                                  //   ),
+                                  // ),
+                                  Container(
+                                    color: Colors.black54,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 12),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // const SizedBox(height: 7),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15, top: 5),
+                                            child: Text(
+                                                banners[index].title ?? '',
+                                                style: TextStyles.buttonText
+                                                    .copyWith(fontSize: 30)),
+                                          ),
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  banners[index].content ?? '',
+                                                  style: TextStyles
+                                                      .normalContent
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white)),
+                                            ),
+                                          )
+                                        ]),
+                                  )
+                                ],
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    AppConstants.borderRadius)),
+                            elevation: 2,
+                          ),
                         ))
                 : const LoadingPlaceHolder(width: 150, height: 150);
           },

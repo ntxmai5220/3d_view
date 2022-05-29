@@ -185,6 +185,6 @@ class PostDetail extends StatelessWidget {
 
   toUserProfile(BuildContext context, {required String id}) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => OtherProfile(userId: id)));
+        .push(MaterialPageRoute(builder: (_) => MyProfile(userId: id)));
   }
 }

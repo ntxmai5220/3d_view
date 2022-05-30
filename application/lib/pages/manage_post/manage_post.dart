@@ -163,11 +163,7 @@ class ManagePost extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppConstants.borderRadius)),
             margin: const EdgeInsets.only(
                 left: AppConstants.pageMarginHorizontal / 1.5),
-            child: Center(
-                child: IconActionButton(
-              icon: Icons.delete_forever_rounded,
-              iconColor: AppColors.white80,
-              size: 32,
+            child: InkWell(
               onTap: () {
                 context
                     .read<ManagePostBloc>()
@@ -175,7 +171,14 @@ class ManagePost extends StatelessWidget {
                 // await Future.delayed(Duration(seconds: 1));
                 scrollController.jumpTo(0);
               },
-            )),
+              radius: AppConstants.borderRadius,
+              child: const Center(
+                  child: IconActionButton(
+                icon: Icons.delete_forever_rounded,
+                iconColor: AppColors.white80,
+                size: 32,
+              )),
+            ),
           ),
         ],
       ),

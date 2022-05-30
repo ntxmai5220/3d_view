@@ -14,11 +14,11 @@ class RemoveObjectPage extends StatelessWidget {
   const RemoveObjectPage({
     Key? key,
     required this.url,
-    required this.roomId,
+    this.roomId,
   }) : super(key: key);
 
   final String url;
-  final String roomId;
+  final String? roomId;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -65,7 +65,7 @@ class RemoveObjectPage extends StatelessWidget {
                 var result = await showResult(context, img: state.mask);
                 if (result == true) {
                   //call api save
-                  bloc.add(RemoveObjectUploadImageEvent(roomId: roomId));
+                  bloc.add(RemoveObjectUploadImageEvent(roomId: roomId ?? ''));
                 } else {
                   bloc.add(RemoveObjectResetEvent());
                 }
@@ -231,7 +231,8 @@ class RemoveObjectPage extends StatelessWidget {
     context.read<RemoveObjectBloc>().add(RemoveObjectGenMaskEvent());
   }
 
-  Future<dynamic> showResult(BuildContext context, {required String img}) =>
+  Future<dynamic> showResult(BuildContext context,
+          {required String img, String? roomId}) =>
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => Scaffold(
@@ -258,10 +259,11 @@ class RemoveObjectPage extends StatelessWidget {
                             onPressed: () => Navigator.of(context).pop(false),
                             child: const Icon(Icons.close_rounded)),
                         const SizedBox(height: 15),
-                        FloatingActionButton(
-                            heroTag: 'save',
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: const Icon(Icons.save)),
+                        if (roomId != null)
+                          FloatingActionButton(
+                              heroTag: 'save',
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Icon(Icons.save)),
                       ],
                     ),
                   ),

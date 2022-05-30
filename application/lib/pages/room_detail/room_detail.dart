@@ -57,9 +57,31 @@ class RoomDetail extends StatelessWidget {
                         size,
                         url: state.room.removedImg!.imgUrl!,
                         title: 'Ảnh khi xóa một số thành phần',
-                        onTapImg: (url) =>
-                            showImageFullScreen(context, url: url),
+                        onTapImg: (url) => showImageFullScreen(
+                          context,
+                          url: url,
+                          url1: state.room.imgUrl!,
+                        ),
                       ),
+                    const SizedBox(height: AppConstants.pageMarginHorizontal),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppConstants.pageMarginHorizontal,
+                        // vertical: AppConstants.pageMarginHorizontal,
+                      ),
+                      child: MyButton(
+                        'Thử xóa vật thể',
+                        onClick: () async {
+                          await Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) =>
+                                  RemoveObjectPage(url: state.room.imgUrl!)));
+                          SystemChrome.setPreferredOrientations(
+                              [DeviceOrientation.portraitUp]);
+                        },
+                        textColor: AppColors.primary,
+                        bgColor: AppColors.lightPrimary,
+                      ),
+                    ),
                     if (state.room.thumbnails != null &&
                         state.room.thumbnails!.isNotEmpty)
                       listThumbnail(
@@ -122,7 +144,7 @@ class RoomDetail extends StatelessWidget {
           ),
         ),
       );
-      
+
   Widget listThumbnail({
     required List<Img> thumbnails,
     Function(int)? onTapImg,
@@ -194,52 +216,115 @@ class RoomDetail extends StatelessWidget {
     );
   }
 
-  showImageFullScreen(BuildContext context, {required String url}) {
-    debugPrint(url);
+  showImageFullScreen(
+    BuildContext context, {
+    required String url,
+    String? url1,
+  }) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
     ]);
+
+    int index = 0;
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Scaffold(
-          backgroundColor: AppColors.black,
-          body: SafeArea(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  // key: globalKey,
-                  child: Container(
-                    // padding: const EdgeInsets.all(15),
-                    color: Colors.white12,
-                    child: InteractiveViewer(
-                        child: NetImage(
-                      height: double.maxFinite,
-                      width: double.maxFinite,
-                      imageUrl: url,
-                      fit: BoxFit.contain,
-                    )),
-                  ),
+        builder: (context) => DefaultTabController(
+          animationDuration: Duration.zero,
+          length: url1 != null ? 2 : 1,
+          child: Builder(builder: (context) {
+            return Scaffold(
+              backgroundColor: AppColors.black,
+              body: SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      // key: globalKey,
+                      child: Container(
+                        // padding: const EdgeInsets.all(15),
+                        color: Colors.white12,
+                        child: InteractiveViewer(
+                            child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          // index: DefaultTabController.of(context)?.index,
+                          children: [
+                            NetImage(
+                              height: double.maxFinite,
+                              width: double.maxFinite,
+                              imageUrl: url,
+                              fit: BoxFit.contain,
+                            ),
+                            if (url1 != null)
+                              NetImage(
+                                height: double.maxFinite,
+                                width: double.maxFinite,
+                                imageUrl: url1,
+                                fit: BoxFit.contain,
+                              ),
+                          ],
+                        )),
+                      ),
+                    ),
+
+                    // if (url1 != null)
+                    //   Visibility(
+                    //     // visible: isChange,
+                    //     // replacement: const SizedBox(),
+                    //     child: Positioned.fill(
+                    //       // key: globalKey,
+                    //       child: Container(
+                    //         // padding: const EdgeInsets.all(15),
+                    //         color: Colors.white12,
+                    //         child: InteractiveViewer(
+                    //             child: NetImage(
+                    //           height: double.maxFinite,
+                    //           width: double.maxFinite,
+                    //           imageUrl: url1,
+                    //           fit: BoxFit.contain,
+                    //         )),
+                    //       ),
+                    //     ),
+                    //   ),
+                    if (url1 != null)
+                      Positioned(
+                          top: 20,
+                          right: 20,
+                          child: IconActionButton(
+                            background: AppColors.black.withOpacity(0.7),
+                            padding: 4,
+                            size: 23,
+                            icon: Icons.compare_rounded,
+                            onTap: () {
+                              index == 0 ? index = 1 : index = 0;
+                              DefaultTabController.of(context)!
+                                  .animateTo(index, curve: Curves.linear);
+                              // Navigator.of(context).pop();
+                              // SystemChrome.setPreferredOrientations([
+                              // DeviceOrientation.portraitUp,
+                              // ]);
+                            },
+                          )),
+                    Positioned(
+                        bottom: 20,
+                        right: 20,
+                        child: IconActionButton(
+                          background: AppColors.black.withOpacity(0.7),
+                          padding: 2,
+                          size: 28,
+                          icon: Icons.fullscreen_exit_rounded,
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp,
+                            ]);
+                          },
+                        ))
+                  ],
                 ),
-                Positioned(
-                    bottom: 20,
-                    right: 20,
-                    child: IconActionButton(
-                      background: AppColors.black.withOpacity(0.7),
-                      padding: 2,
-                      size: 30,
-                      icon: Icons.fullscreen_exit_rounded,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        SystemChrome.setPreferredOrientations([
-                          DeviceOrientation.portraitUp,
-                        ]);
-                      },
-                    ))
-              ],
-            ),
-          ),
+              ),
+            );
+          }),
         ),
         fullscreenDialog: true,
       ),

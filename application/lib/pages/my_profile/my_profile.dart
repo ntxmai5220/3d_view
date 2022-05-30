@@ -99,10 +99,12 @@ class MyProfile extends StatelessWidget {
                       : tempWidget(),
                   state.user != null
                       ? InkWell(
-                          onTap: () => userId == null
-                              ? Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const ManagePost()))
+                          onTap: userId == null
+                              ? () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => const ManagePost()))
                               : null,
+                          radius: AppConstants.borderRadius,
                           child: Container(
                             // color: AppColors.primary,
                             // height: 50,

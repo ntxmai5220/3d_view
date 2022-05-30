@@ -10,8 +10,8 @@ class InPaintingServices {
         base64Image: base64Image, base64Mask: base64Mask, token: token);
     dynamic data = await InPantingClient.removeWithMask(
         data: request.body, options: request.options);
-    print(data["results"]["output"]);
-    if (data != null) {
+    // print(data["results"]["output"]);
+    if (data != null && data['ok'] == true) {
       return ObjectResponse(object: data["results"]["output"]);
     } else {
       return ObjectResponse(object: null);

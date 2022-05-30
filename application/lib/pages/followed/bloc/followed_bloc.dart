@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/repositories/repositories.dart';
@@ -16,7 +14,7 @@ class FollowedBloc extends Bloc<FollowedEvent, FollowedState> {
   final FollowedRepository _repository;
   FollowedBloc({required FollowedRepository repository})
       : _repository = repository,
-        super(FollowedInitial(post: [], params: FilterParam(limit: 8))) {
+        super(FollowedInitial(post: [], params: FilterParam(limit: 6))) {
     on<FollowedLoadEvent>(loadData);
     on<FollowedLoadMoreEvent>(loadMore);
     on<FollowedRefreshEvent>(refresh);

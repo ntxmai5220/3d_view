@@ -19,7 +19,7 @@ void main() {
     () {
       runApp(const MyApp());
     },
-    // blocObserver: SimpleBlocObserver(),
+    blocObserver: SimpleBlocObserver(),
   );
   // runApp(const MyApp());
 }

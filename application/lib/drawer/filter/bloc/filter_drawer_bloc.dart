@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/filter_param/filter_param.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bloc/bloc.dart';
@@ -11,7 +12,10 @@ class FilterDrawerBloc extends Bloc<FilterDrawerEvent, FilterDrawerState> {
   TextEditingController price2 = TextEditingController();
   TextEditingController area1 = TextEditingController();
   TextEditingController area2 = TextEditingController();
-  FilterDrawerBloc() : super(FilterDrawerInitial(params: FilterParam())) {
+  FilterDrawerBloc()
+      : super(FilterDrawerInitial(
+            params: FilterParam(
+                creatorIdNEQ: HelperSharedPreferences.savedUserId))) {
     on<FilterInitEvent>(init);
     on<FilterChangeTypeEvent>(onChangeType);
     on<FilterSaveEvent>(onSave);

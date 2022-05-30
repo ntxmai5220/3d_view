@@ -122,6 +122,7 @@ class RoomDetail extends StatelessWidget {
           ),
         ),
       );
+      
   Widget listThumbnail({
     required List<Img> thumbnails,
     Function(int)? onTapImg,

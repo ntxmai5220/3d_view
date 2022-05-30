@@ -1,7 +1,9 @@
 import 'package:bk_3d_view/drawer/drawer.dart';
 import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/pages/followed/bloc/followed_bloc.dart';
+import 'package:bk_3d_view/pages/home/bloc/home_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/values/values.dart';
 
@@ -17,8 +19,10 @@ class FollowedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> globalKey = GlobalKey();
     return BlocProvider(
-      create: (context) =>
-          FilterDrawerBloc()..add(FilterInitEvent(params: FilterParam())),
+      create: (context) => FilterDrawerBloc()
+        ..add(FilterInitEvent(
+            params: FilterParam(
+                creatorIdNEQ: HelperSharedPreferences.savedUserId))),
       child: Scaffold(
         key: globalKey,
         // endDrawerEnableOpenDragGesture: ,
@@ -132,9 +136,9 @@ class FollowedPage extends StatelessWidget {
     context
         .read<FollowedBloc>()
         .add(FollowedToggleFavoriteEvent(postId: id, isFavorite: isFavorite));
-    // context
-    //     .read<HomeBloc>()
-    //     .add(HomeToggleFromOther(postId: id, isFavorite: isFavorite));
+    context
+        .read<HomeBloc>()
+        .add(HomeToggleFromOther(postId: id, isFavorite: isFavorite));
     // var home1 = homeState.newPost.indexWhere((element) => element.id == id);
     // var home2 = homeState.hotPost.indexWhere((element) => element.id == id);
     // if (home1 != -1) homeState.newPost[home1].isFavorite = false;

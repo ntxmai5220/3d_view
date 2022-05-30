@@ -144,6 +144,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             AppConstants.appName,
             style: TextStyles.screenTitle.copyWith(color: AppColors.primary),
@@ -169,10 +170,15 @@ class HomePage extends StatelessWidget {
               controller: context.read<HomeBloc>().controller,
               onRefresh: () =>
                   context.read<HomeBloc>().add(HomeLoadDataEvent()),
-              child: ListView.builder(
-                itemBuilder: getHomeSection,
-                itemCount: section.length,
-              ),
+              child: state is! HomeLoadError
+                  ? ListView.builder(
+                      itemBuilder: getHomeSection,
+                      itemCount: section.length,
+                    )
+                  : MyErrorWidget(
+                      onTap: () =>
+                          context.read<HomeBloc>().add(HomeLoadDataEvent()),
+                    ),
             );
           },
         ));

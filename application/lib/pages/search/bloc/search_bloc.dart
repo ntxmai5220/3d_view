@@ -15,7 +15,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository _repository;
   SearchBloc({required SearchRepository repository})
       : _repository = repository,
-        super(SearchInitial(post: [], params: FilterParam(limit: 8))) {
+        super(SearchInitial(post: [], params: FilterParam(limit: 6, creatorIdNEQ: HelperSharedPreferences.savedUserId))) {
     on<SearchLoadEvent>(loadData);
     on<SearchLoadMoreEvent>(loadMore);
     on<SearchRefreshEvent>(refresh);
@@ -28,11 +28,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     if (state is SearchLoaded) {
       emit(SearchLoading(post: state.post, params: event.params));
     }
-    var result =
-        await _repository.getPostFilter(params: event.params.toFilterParam());
-    // scrollController.jumpTo(0);
-    refreshController.refreshCompleted();
-    emit(SearchLoaded(post: result.list, params: event.params));
+    try {
+      var result =
+          await _repository.getPostFilter(params: event.params.toFilterParam());
+      // scrollController.jumpTo(0);
+      refreshController.refreshCompleted();
+      emit(SearchLoaded(post: result.list, params: event.params));
+    } catch (e) {
+      refreshController.refreshCompleted();
+      emit(SearchError(params: state.params));
+    }
   }
 
   loadMore(SearchLoadMoreEvent event, Emitter<SearchState> emit) async {

@@ -1,7 +1,8 @@
 class FilterParam {
   FilterParam({
-    this.limit = 7,
+    this.limit = 6,
     this.creatorIdEQ,
+    this.creatorIdNEQ,
     this.areaGTE = 0,
     this.areaLTE = 999999,
     this.priceGTE = 0,
@@ -14,6 +15,7 @@ class FilterParam {
   int _page;
   int limit;
   String? creatorIdEQ;
+  String? creatorIdNEQ;
   double? areaGTE;
   double? areaLTE;
   double? priceGTE;
@@ -27,6 +29,7 @@ class FilterParam {
 
   FilterParam updateFilter({
     String? creatorIdEQ,
+    String? creatorIdNEQ,
     double? areaGTE,
     double? areaLTE,
     double? priceGTE,
@@ -36,6 +39,7 @@ class FilterParam {
   }) =>
       FilterParam(
         creatorIdEQ: creatorIdEQ ?? this.creatorIdEQ,
+        creatorIdNEQ: creatorIdEQ ?? this.creatorIdNEQ,
         areaGTE: areaGTE ?? this.areaGTE,
         areaLTE: areaLTE ?? this.areaLTE,
         priceGTE: priceGTE ?? this.priceGTE,
@@ -45,16 +49,20 @@ class FilterParam {
       );
 
   Map<String, dynamic> toHomeParam({bool sortByFavorite = false}) {
-    return sortByFavorite
-        ? {
-            'page': _page,
-            'limit': limit,
-            'sort': '-favoriteCount',
-          }
-        : {
-            'page': _page,
-            'limit': limit,
-          };
+    Map<String, dynamic> json = {};
+    Map<String, dynamic> tmp = {
+      'page': _page,
+      'limit': limit,
+      'creatorId[ne]': creatorIdNEQ,
+      'sort': sortByFavorite ? '-favoriteCount' : null,
+    };
+
+    tmp.forEach((key, value) {
+      if (value != null) {
+        json[key] = value;
+      }
+    });
+    return json;
   }
 
   Map<String, dynamic> toUserParam() {
@@ -95,6 +103,7 @@ class FilterParam {
       'page': _page,
       'limit': limit,
       'creatorId[eq]': creatorIdEQ,
+      'creatorId[ne]': creatorIdNEQ,
       'area[gte]': areaGTE,
       'area[lte]': areaLTE,
       'price[gte]': priceGTE,

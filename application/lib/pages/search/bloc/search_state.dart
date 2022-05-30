@@ -29,3 +29,10 @@ class SearchLoaded extends SearchState {
     required FilterParam params,
   }) : super(post: post, params: params);
 }
+
+class SearchError extends SearchState {
+  SearchError({
+    List<Post> post = const [],
+    required FilterParam params,
+  }) : super(post: post, params: params);
+}

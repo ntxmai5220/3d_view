@@ -1,3 +1,4 @@
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/filter_param/filter_param.dart';
 import 'package:bk_3d_view/pages/followed/bloc/followed_bloc.dart';
 import 'package:bk_3d_view/pages/home/bloc/home_bloc.dart';
@@ -73,7 +74,9 @@ class _MainPageState extends State<MainPage>
           BlocProvider(
             create: (context) => FollowedBloc(
                 repository: RepositoryProvider.of<FollowedRepository>(context))
-              ..add(FollowedLoadEvent(params: FilterParam())),
+              ..add(FollowedLoadEvent(
+                  params: FilterParam(
+                      creatorIdNEQ: HelperSharedPreferences.savedUserId))),
           ),
           BlocProvider(
             create: (context) => HomeBloc(
@@ -84,7 +87,9 @@ class _MainPageState extends State<MainPage>
           BlocProvider(
             create: (context) => SearchBloc(
                 repository: RepositoryProvider.of<SearchRepository>(context))
-              ..add(SearchLoadEvent(params: FilterParam())),
+              ..add(SearchLoadEvent(
+                  params: FilterParam(
+                      creatorIdNEQ: HelperSharedPreferences.savedUserId))),
           ),
         ],
         child: Scaffold(

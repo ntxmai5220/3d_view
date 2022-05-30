@@ -1,4 +1,3 @@
-
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/button/icon_action_button.dart';
@@ -85,7 +84,8 @@ class HorizontalListMiniPost2 extends StatelessWidget {
                             mini: true,
                             post: list[index],
                             onTapPost: onTapPost,
-                            onToggleFavorite:(id) =>onToggleFavorite?.call(id, list[index].isFavorite??false),
+                            onToggleFavorite: (id) => onToggleFavorite?.call(
+                                id, list[index].isFavorite ?? false),
                           )),
                 )
               : Center(

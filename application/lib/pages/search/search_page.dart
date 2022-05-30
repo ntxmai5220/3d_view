@@ -1,9 +1,10 @@
 import 'package:bk_3d_view/drawer/drawer.dart';
 import 'package:bk_3d_view/drawer/filter/bloc/filter_drawer_bloc.dart';
+import 'package:bk_3d_view/helpers/shared_references.dart';
 import 'package:bk_3d_view/models/filter_param/filter_param.dart';
+import 'package:bk_3d_view/pages/home/bloc/home_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';
 import 'package:bk_3d_view/pages/search/bloc/search_bloc.dart';
-import 'package:bk_3d_view/repositories/repositories.dart';
 import 'package:bk_3d_view/values/values.dart';
 import 'package:bk_3d_view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class SearchPage extends StatelessWidget {
     final GlobalKey<ScaffoldState> globalKey = GlobalKey();
     return BlocProvider(
       create: (context) =>
-          FilterDrawerBloc()..add(FilterInitEvent(params: FilterParam())),
+          FilterDrawerBloc()..add(FilterInitEvent(params: FilterParam(creatorIdNEQ: HelperSharedPreferences.savedUserId))),
       child: Scaffold(
         key: globalKey,
         // endDrawerEnableOpenDragGesture: ,
@@ -96,12 +97,10 @@ class SearchPage extends StatelessWidget {
                                       post: post,
                                       onTapPost: (id) =>
                                           onClickPost(context, id: id),
-                                      onToggleFavorite: (id) => context
-                                          .read<SearchBloc>()
-                                          .add(SearchToggleFavoriteEvent(
-                                              postId: id,
+                                      onToggleFavorite: (id) =>
+                                          onToggleFavorite(context, id,
                                               isFavorite:
-                                                  post.isFavorite ?? false))))
+                                                  post.isFavorite ?? false)))
                                   .toList()),
                         ),
                       ),
@@ -119,7 +118,18 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  onToggleFavorite(BuildContext context, {required String id}) {
-    debugPrint('favor $id');
+  onToggleFavorite(BuildContext context, String id,
+      {required bool isFavorite}) {
+    //  con
+    context
+        .read<SearchBloc>()
+        .add(SearchToggleFavoriteEvent(postId: id, isFavorite: isFavorite));
+    context
+        .read<HomeBloc>()
+        .add(HomeToggleFromOther(postId: id, isFavorite: isFavorite));
+    // var home1 = homeState.newPost.indexWhere((element) => element.id == id);
+    // var home2 = homeState.hotPost.indexWhere((element) => element.id == id);
+    // if (home1 != -1) homeState.newPost[home1].isFavorite = false;
+    // homeState.hotPost[home2].isFavorite = false;
   }
 }

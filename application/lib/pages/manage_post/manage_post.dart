@@ -1,6 +1,4 @@
-import 'package:bk_3d_view/data/mock.dart';
 import 'package:bk_3d_view/helpers/shared_references.dart';
-import 'package:bk_3d_view/models/filter_param/filter_param.dart';
 import 'package:bk_3d_view/models/models.dart';
 import 'package:bk_3d_view/pages/manage_post/bloc/manage_post_bloc.dart';
 import 'package:bk_3d_view/pages/pages.dart';

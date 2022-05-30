@@ -44,6 +44,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             debugPrint(a);
           } else {
             emit(RegisterFail());
+            return;
           }
 
           emit(RegisterSuccess());

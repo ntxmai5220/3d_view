@@ -1,4 +1,5 @@
 import 'package:bk_3d_view/values/values.dart';
+
 class AppConstants {
   static const pageMarginHorizontal = 25.0;
 
@@ -27,5 +28,17 @@ class AppConstants {
     NewPostStep.image,
     NewPostStep.data,
     NewPostStep.image
+  ];
+
+  static const List<String> manual = [
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900260/Thesis/HDSD/manual-1_yxwb44.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-2_qi5kqh.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-3_zwbq9f.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-4_gicyp0.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-5_p7lmrz.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-6_wpm0ap.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900261/Thesis/HDSD/manual-7_qj61ij.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-8_czy2kq.jpg',
+    'https://res.cloudinary.com/dtnam302/image/upload/v1653900262/Thesis/HDSD/manual-9_evdgcs.jpg'
   ];
 }

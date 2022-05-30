@@ -11,8 +11,10 @@ class AddressService {
 
     APIResponse response = await apiExecute.execute(request: request);
 
-    List<Province> list =
-        response.toListAddress().map((e) => Province.fromJson(e)).toList();
+    List<Province> list = response
+        .toListAddress()
+        .map((e) => Province.fromJson(e))
+        .toList();
     return ListResponse(list: list);
   }
 

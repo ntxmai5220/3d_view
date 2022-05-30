@@ -140,7 +140,7 @@ class PostDetail extends StatelessWidget {
                           horizontal: AppConstants.pageMarginHorizontal,
                           vertical: 10),
                       child: MyButton(
-                        "Xem ở chế độ panaroma",
+                        "Xem ở chế độ panorama",
                         onClick: () =>
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => ViewPanorama(

@@ -70,7 +70,7 @@ class DataViewBloc extends Bloc<DataViewEvent, DataViewState> {
       DataViewLoadEvent<Province> event, Emitter<DataViewState> emit) async {
     try {
       var result = await _repository.getProvince();
-      emit(DataViewInitial(provinces: result.list));
+      emit(DataViewInitial(provinces: result.list.reversed.toList()));
       // return result.list;
     } catch (e) {
       emit(DataViewInitial(provinces: []));

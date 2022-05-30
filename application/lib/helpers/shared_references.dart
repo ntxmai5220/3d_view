@@ -10,6 +10,7 @@ class HelperSharedPreferences {
 
   static String? savedToken;
   static String? savedUserId;
+  static bool savedIsAdmin = false;
   static List<String> savedlistFollow = [];
 
   ////////////////////---SET---////////////////////
@@ -34,7 +35,7 @@ class HelperSharedPreferences {
 
   static Future<bool> saveAdmin(bool isUserAdmin) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-
+    savedIsAdmin = isUserAdmin;
     return await preferences.setBool(isAdmin, isUserAdmin);
   }
 
@@ -73,8 +74,8 @@ class HelperSharedPreferences {
     await preferences.remove(token);
     await preferences.remove(isLogin);
     await preferences.remove(isAdmin);
-    savedToken= null;
-    savedUserId= null;
+    savedToken = null;
+    savedUserId = null;
     savedlistFollow = [];
   }
 }

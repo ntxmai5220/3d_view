@@ -26,80 +26,69 @@ void main() {
     return images;
   }
 
-  // test("createAnoPost", () async {
-  //   PostServices services = PostServices();
-  //   final images = await getImage();
-  //   final landInfo = {
-  //     'area': '357',
-  //     'price': '123',
-  //     'address': 'saacvd',
-  //     'desc': 'minh',
-  //     'province[id]': '35',
-  //     'province[name]': 'TP HCM',
-  //     'district[id]': '80',
-  //     'district[name]': 'Thu Duc',
-  //     'district[provinceId]': '35',
-  //     'ward[code]': '77',
-  //     'ward[name]': 'Phuong 9',
-  //     'ward[districtId]': '80'
-  //   };
-  //   List<String> imageDescription = ["test1", "test2"];
-  //   var result = await services.createPost(
-  //     images: images,
-  //     imageDescription: imageDescription,
-  //     landInfo: post.toFormData(),
-  //   );
-  //   debugPrint(result.object.toFormData().toString());
-  // });
+  test("createPost", () async {
+    PostServices services = PostServices();
+    final images = await getImage();
+    final landInfo = {
+      'area': '357',
+      'price': '123',
+      'address': 'saacvd',
+      'desc': 'minh',
+      'province[id]': '35',
+      'province[name]': 'TP HCM',
+      'district[id]': '80',
+      'district[name]': 'Thu Duc',
+      'district[provinceId]': '35',
+      'ward[code]': '77',
+      'ward[name]': 'Phuong 9',
+      'ward[districtId]': '80'
+    };
+    List<String> imageDescription = ["phong 1", "phong 2"];
+    var result = await services.createPost(
+      images: images,
+      imageDescription: imageDescription,
+      landInfo: post.toFormData(),
+    );
+    // debugPrint(result.object.toFormData().toString());
+  });
 
   test("add hotpost", () async {
     List<Map<String, dynamic>> hotspots = [
       {
-        "title": "Hotspot1",
+        "title": "ban an",
         "latitude": 123,
         "longitude": 456,
         "type": 0,
-        "currentRoom": "62861b2f934853c01d8a5128",
-        "nextRoom": "62861b2f934853c01d8a512a"
+        "content": 'k=ban an kich thuoc 1.6x2'
       },
       {
-        "title": "Hotspot2",
+        "title": "phong 2",
         "latitude": 123,
         "longitude": 456,
         "type": 1,
-        "currentRoom": "62861b2f934853c01d8a5128",
-        "nextRoom": "62861b2f934853c01d8a512a"
+        "currentRoom": "62948d5ae358fd5453173619",
+        "nextRoom": "62948d5ae358fd545317361b"
       }
     ];
     PostServices services = PostServices();
     await services.addHotspot(
-        roomId: "62861b2f934853c01d8a5128", hotspots: hotspots);
+        roomId: "62948d5ae358fd5453173619", hotspots: hotspots);
   });
 
   test("upload thubmnail", () async {
     final images = await getImage();
     PostServices services = PostServices();
     var result = await services.uploadThumbnail(
-      roomId:
-          "6275c370117a505b026e719b", //6275c370117a505b026e719b-6275c370117a505b026e719d
+      roomId: "62948d5ae358fd5453173619",
       images: images,
-      // token:
-      //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
     );
-    print(result);
   });
 
   test("upload remove image", () async {
     final images = await getImage();
     PostServices services = PostServices();
     var result = await services.uploadRemoveImage(
-        roomId:
-            "627e139ec5d44f0fca3de5f1", //6275c370117a505b026e719b-6275c370117a505b026e719d
-        removeImage: images[0]
-        // token:
-        //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWJkMDY0OGUxODE0NWE4NTIxMTk0NSIsImlzQWRtaW4iOmZhbHNlLCJzZXNzaW9uVG9rZW4iOiI2MjViZTU0MWQ3Y2UxY2JjMGJiZTZjZjUiLCJpYXQiOjE2NTAxODk2MzMsImV4cCI6MTY1Mjc4MTYzM30.NpfugyhGnauxPcW9rdHgj4oEf_GRS84HznepD3X14Sw"
-        );
-    print(result);
+        roomId: "62948d5ae358fd5453173619", removeImage: images[0]);
   });
 
   test("upload mainThumbnail", () async {
@@ -107,40 +96,36 @@ void main() {
     final mainThumbnail = {"mainThumbnail": "duong link dan toi Thumbnail"};
     PostServices services = PostServices();
     await services.uploadMainThumbnail(
-      roomId: "625be882ba0392826c179527",
+      roomId: "62948d5ae358fd5453173619",
       mainThumbnail: mainThumbnail,
     );
   });
 
   test("getPostWithFilter", () async {
-    Map<String, dynamic> params = {
-      "page": 1,
-      "limit": 7,
-      "price[gte]": 2.0
-
-      // "creatorId[eq]": "625bd0648e18145a85211945"
-    };
+    Map<String, dynamic> params = {"page": 1, "limit": 7, "price[gte]": 1000.0};
     PostServices services = PostServices();
     await services.getPostWithFilter(params: params);
   });
-  test("getPost", () async {
+  test("getPostDetail", () async {
     PostServices services = PostServices();
-    await services.getPostDetail(id: "62870f20ceb04ae1d9e98506");
+    await services.getPostDetail(id: "6293358df0bfdc9c9738f276");
   });
 
-  test("updateAllPost", () async {
-    Map<String, dynamic> update = {"desc": "123"};
-    PostServices services = PostServices();
-    await services.updateAllPost(
-      updateInfo: update,
-    );
-  });
+  // test("updateAllPost", () async {
+  //   Map<String, dynamic> update = {"desc": "123"};
+  //   PostServices services = PostServices();
+  //   await services.updateAllPost(
+  //     updateInfo: update,
+  //   );
+  // });
 
   test("updatePost", () async {
-    Map<String, dynamic> update = {"desc": "123"};
+    Map<String, dynamic> update = {
+      "desc": " description moi ne, cap nhat moi nhat"
+    };
     PostServices services = PostServices();
     await services.updatePost(
-      id: "625a6ae0c313e60d2f3836e6",
+      id: "62948d57e358fd5453173615",
       updateInfo: update,
     );
   });
@@ -150,9 +135,12 @@ void main() {
     const body = {"postId": "625bd324fa9050c1dc04feb3", "isFavorite": true};
     PostServices services = PostServices();
     // await services.follow(body: body);
+    await Future.delayed(Duration(milliseconds: 184));
   });
 
-  test("deletePost", () async {});
+  test("deletePost", () async {
+    await Future.delayed(Duration(milliseconds: 231));
+  });
 
   test("banners", () async {
     PostServices services = PostServices();
@@ -203,12 +191,12 @@ void main() {
   test("updateRoom", () async {
     const room = {"name": "test Name"};
     RoomServices roomServices = RoomServices();
-    String id = "625a6ae0c313e60d2f3836e6";
-    await roomServices.updateRoom(id: id, body: room);
+    String id = "62948d5ae358fd5453173619";
+    await roomServices.updateRoom(id: id, body: {"name": "phong moi"});
   });
 
-  test("getRoom", () async {
-    String id = "625a6ae0c313e60d2f3836e6";
+  test("getRoomDetail", () async {
+    String id = "62948d5ae358fd5453173619";
     RoomServices roomServices = RoomServices();
     await roomServices.getRoom(
       id: id,
@@ -216,7 +204,7 @@ void main() {
   });
 
   test("deleteRoom", () async {
-    String id = "625a6ae0c313e60d2f3836e6";
+    String id = "62948d5ae358fd5453173619";
     RoomServices roomServices = RoomServices();
     await roomServices.deleteRoom(
       id: id,
@@ -228,3 +216,39 @@ void main() {
     await userServices.getUserById();
   });
 }
+
+var result = {
+  "province": {"id": 160, "name": "Tien Giang"},
+  "district": {"id": 10, "name": "TP. My Tho", "provinceId": 160},
+  "ward": {"code": 5, "name": "Phuong 1", "districtId": 10},
+  "_id": "62948d57e358fd5453173615",
+  "area": 120,
+  "price": 900,
+  "desc": "description",
+  "address": "55/12 duong Hung Vuong",
+  "isUsed": false,
+  "isFavorite": false,
+  "isHidden": false,
+  "isRent": false,
+  "rooms": [
+    {
+      "mainThumbnail": {"imgUrl": "", "publicId": ""},
+      "_id": "62948d5ae358fd5453173619",
+      "name": "phong 1",
+      "imgUrl":
+          "http://res.cloudinary.com/dtnam302/image/upload/v1653902680/Thesis/62948d57e358fd5453173615/byjzetufe5llfonjqz7v.jpg"
+    },
+    {
+      "mainThumbnail": {"imgUrl": "", "publicId": ""},
+      "_id": "62948d5ae358fd545317361b",
+      "name": "phong 2",
+      "imgUrl":
+          "http://res.cloudinary.com/dtnam302/image/upload/v1653902682/Thesis/62948d57e358fd5453173615/bg9idzaor0bl2doimcgp.jpg"
+    }
+  ],
+  "favoriteCount": 0,
+  "creatorId": "62920cdd70788d943fa83020",
+  "createdAt": "2022-05-30T09:24:39.080Z",
+  "updatedAt": "2022-05-30T09:24:42.872Z",
+  "__v": 1
+};

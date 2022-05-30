@@ -26,3 +26,5 @@ export './manage_post/manage_post_repository.dart';
 export './my_profile/my_profile_repository.dart';
 
 export './post/post_repository.dart';
+
+export './list_user/list_user_repository.dart';

@@ -62,7 +62,8 @@ class RemoveObjectPage extends StatelessWidget {
             } else {
               Navigator.pop(context);
               if (state is RemoveObjectReceivedMask) {
-                var result = await showResult(context, img: state.mask);
+                var result =
+                    await showResult(context, img: state.mask, roomId: roomId);
                 if (result == true) {
                   //call api save
                   bloc.add(RemoveObjectUploadImageEvent(roomId: roomId ?? ''));

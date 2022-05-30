@@ -28,6 +28,11 @@ class MyPage extends StatelessWidget {
           context, MaterialPageRoute(builder: (_) => const NewPostPage()));
     }
 
+    void toListUser() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const ListUser()));
+    }
+
     void logout() async {
       await HelperSharedPreferences.clearAll();
       Navigator.of(context).pushAndRemoveUntil(
@@ -39,6 +44,8 @@ class MyPage extends StatelessWidget {
       {'label': 'Thông tin cá nhân', 'funct': toProfile},
       {'label': 'Quản lý bài đăng', 'funct': toPostManagement},
       {'label': 'Tạo bài viết', 'funct': toCreatePost},
+      if (HelperSharedPreferences.savedIsAdmin)
+        {'label': 'Quản lý người dùng', 'funct': toListUser},
     ];
     return SafeArea(
       child: Scaffold(

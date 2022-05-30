@@ -90,10 +90,16 @@ class MyProfile extends StatelessWidget {
                   ),
                   state.user != null
                       ? buildDataInfo("Tên: ", state.user!.username)
-                      : tempWidget(),
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: tempWidget(),
+                        ),
                   state.user != null
                       ? buildDataInfo("Số điện thoại: ", state.user!.phone)
-                      : tempWidget(),
+                      : Padding(
+                          padding: const EdgeInsets.only(right: 70),
+                          child: tempWidget(),
+                        ),
                   state.user != null
                       ? buildDataInfo("Email: ", state.user!.email)
                       : tempWidget(),
@@ -126,7 +132,10 @@ class MyProfile extends StatelessWidget {
                             ),
                           ),
                         )
-                      : tempWidget(),
+                      : SizedBox(
+                          height: 50,
+                          child: tempWidget(),
+                        ),
                 ],
               );
             },

@@ -14,10 +14,22 @@ class UserServices {
     return ObjectResponse(object: user);
   }
 
+  Future<ListResponse<User>> getAllUser() async {
+    DioRequest request = UserRequest.getAllUser();
+    APIResponse response = await DioClient.get(
+      path: request.path,
+      options: request.options,
+    );
+
+    List<User> list =
+        response.toList().map((item) => User.fromJson(item)).toList();
+
+    return ListResponse(list: list);
+  }
+
   Future<ListResponse<Post>> getListFollowed(
       {required Map<String, dynamic> params}) async {
-    DioRequest request = UserRequest.getListFollowed(
-   params: params);
+    DioRequest request = UserRequest.getListFollowed(params: params);
     APIResponse response = await DioClient.get(
       path: request.path,
       options: request.options,

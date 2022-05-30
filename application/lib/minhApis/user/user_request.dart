@@ -14,6 +14,14 @@ class UserRequest {
     );
   }
 
+  static DioRequest getAllUser() {
+    Options options = OptionBuilder().authorizeToken().build();
+    return DioRequest(
+      path: "user/",
+      options: options,
+    );
+  }
+
   static DioRequest getListFollowed({
     required Map<String, dynamic> params,
   }) {

@@ -79,7 +79,7 @@ class RoomDetail extends StatelessWidget {
                               [DeviceOrientation.portraitUp]);
                         },
                         textColor: AppColors.primary,
-                        bgColor: AppColors.lightPrimary,
+                        bgColor: AppColors.lightSecondary,
                       ),
                     ),
                     if (state.room.thumbnails != null &&
